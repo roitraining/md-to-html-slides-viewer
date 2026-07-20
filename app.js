@@ -1,19 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const slideCard = document.getElementById('slide-card');
-    const slideCounter = document.getElementById('slide-counter');
+    const slideBody = document.getElementById('slide-body');
+    const footerSlideNumber = document.getElementById('footer-slide-number');
+    const footerCourseTitle = document.getElementById('footer-course-title');
     const progressBar = document.getElementById('progress-bar');
     const courseTitle = document.getElementById('course-title');
     
     // Stage Arrow Buttons
     const stagePrevBtn = document.getElementById('stage-prev-btn');
     const stageNextBtn = document.getElementById('stage-next-btn');
-    
-    // Footer Navigation Buttons
-    const firstSlideBtn = document.getElementById('first-slide-btn');
-    const prevSlideBtn = document.getElementById('prev-slide-btn');
-    const nextSlideBtn = document.getElementById('next-slide-btn');
-    const lastSlideBtn = document.getElementById('last-slide-btn');
     
     // Side Menu Drawer Elements
     const menuToggle = document.getElementById('menu-toggle');
@@ -57,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.fontSize = `${currentFontSize}%`;
     });
     
-    // Fullscreen Mode Toggle
+    // Fullscreen Mode Toggle & Sync
     fullscreenToggle.addEventListener('click', toggleFullscreen);
     
     function toggleFullscreen() {
@@ -71,6 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+    
+    document.addEventListener('fullscreenchange', () => {
+        const isFS = !!document.fullscreenElement;
+        document.body.classList.toggle('is-fullscreen', isFS);
+    });
     
     // Side Menu Drawer interactions
     menuToggle.addEventListener('click', () => sideMenu.classList.add('open'));
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .filter(slide => slide.length > 0);
             
             if (slides.length === 0) {
-                slideCard.innerHTML = '<div class="error">No slides found in the specified Markdown file.</div>';
+                slideBody.innerHTML = '<div class="error">No slides found in the specified Markdown file.</div>';
                 return;
             }
             
@@ -147,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('Error loading course:', error);
-            slideCard.innerHTML = `<div class="error">
+            slideBody.innerHTML = `<div class="error">
                 <strong>Failed to load course slides from URL:</strong><br>
                 <code>${courseUrl}</code><br><br>
                 <strong>Error:</strong> ${error.message}
@@ -170,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // Update course title toolbar with Chapter title from first slide heading
+            // Update course title toolbar with main course/chapter heading
             if (index === 0 && title !== `Slide 1`) {
                 courseTitle.textContent = title;
             }
@@ -212,13 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Navigation Button Event Listeners
+    // Navigation Arrow Event Listeners
     stagePrevBtn.addEventListener('click', prevSlide);
     stageNextBtn.addEventListener('click', nextSlide);
-    prevSlideBtn.addEventListener('click', prevSlide);
-    nextSlideBtn.addEventListener('click', nextSlide);
-    firstSlideBtn.addEventListener('click', () => goToSlide(0));
-    lastSlideBtn.addEventListener('click', () => goToSlide(slides.length - 1));
 
     // Render Slide Content
     function renderSlide(index) {
@@ -230,28 +227,30 @@ document.addEventListener('DOMContentLoaded', () => {
         void slideCard.offsetWidth; // Trigger reflow
         slideCard.classList.add('slide-card');
         
-        slideCard.innerHTML = html;
+        slideBody.innerHTML = html;
         
         // Process GitHub Callout Alerts
-        processGitHubAlerts(slideCard);
+        processGitHubAlerts(slideBody);
         
         // Resolve relative image URLs
-        processRelativeImages(slideCard);
+        processRelativeImages(slideBody);
         
         // Setup code block copy buttons
-        processCodeCopyButtons(slideCard);
+        processCodeCopyButtons(slideBody);
         
         // Ensure links open in a new tab
-        processExternalLinks(slideCard);
+        processExternalLinks(slideBody);
         
-        // Update Slide Counter & Progress Bar
-        slideCounter.textContent = `Slide ${index + 1} of ${slides.length}`;
+        // Update ROI Slide Footer Counter (e.g. 1-1, 1-2, 1-3 matching ROI Training format)
+        footerSlideNumber.textContent = `1-${index + 1}`;
+        
+        // Update Progress Bar
         const progressPercent = ((index + 1) / slides.length) * 100;
         progressBar.style.width = `${progressPercent}%`;
         
-        // Update Nav Button Enabled / Disabled States
-        stagePrevBtn.disabled = prevSlideBtn.disabled = firstSlideBtn.disabled = (index === 0);
-        stageNextBtn.disabled = nextSlideBtn.disabled = lastSlideBtn.disabled = (index === slides.length - 1);
+        // Update Nav Arrow Enabled / Disabled States
+        stagePrevBtn.disabled = (index === 0);
+        stageNextBtn.disabled = (index === slides.length - 1);
         
         // Update Active Item in Side Drawer
         const drawerLinks = slideList.querySelectorAll('a');
@@ -354,7 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
-        // Ignore key events if focused on input elements
         if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
             return;
         }

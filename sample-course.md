@@ -1,86 +1,76 @@
-# Chapter 1: Introduction to Web Development
+# Chapter Objectives
 
-Welcome to **Web Development 101**!
+In this chapter, you will:
 
-This presentation viewer dynamically renders Markdown files into slides.
-
-- Lightweight & Fast
-- GitHub Pages Compatible
-- Keyboard & Touch Navigation
+- Learn how Terraform is used to provide Infrastructure as Code (IaC)
+- Install and configure Terraform for use with AWS, Azure, and Google Cloud
 
 ---
 
-# Course Agenda
+# What is Infrastructure as Code?
 
-In this chapter, we will cover:
+Infrastructure as Code (IaC) allows developers and ops teams to manage cloud resources using declarative configuration files.
 
-1. **HTML5** Structure & Semantics
-2. **CSS3** Modern Styling & Layouts
-3. **JavaScript** Interactive Logic & APIs
-4. Deploying applications to **GitHub Pages**
+### Key Benefits:
+- **Consistency**: Eliminates configuration drift across environments
+- **Automation**: Provision compute, storage, and networking programmatically
+- **Version Control**: Track infrastructure changes in Git repositories
 
 > [!NOTE]
-> Use the **Left/Right Arrow keys** or **Next/Prev buttons** below to navigate through the slides.
+> IaC configuration files serve as living documentation for your cloud architecture.
 
 ---
 
-# Key Concept: The Web Stack
+# Terraform Configuration Syntax
 
-| Layer | Technology | Primary Purpose |
-| :--- | :--- | :--- |
-| **Content & Structure** | HTML | Defines document elements and semantic layout |
-| **Presentation & Style** | CSS | Controls colors, fonts, responsive grids, and animation |
-| **Behavior & Logic** | JavaScript | Manages interactivity, network requests, and DOM updates |
+Terraform uses HashiCorp Configuration Language (HCL) to define resources:
 
-> [!TIP]
-> Always separate content (HTML) from presentation (CSS) for maximum code maintainability!
+```hcl
+provider "google" {
+  project = "roi-training-demo"
+  region  = "us-central1"
+}
 
----
+resource "google_compute_instance" "default" {
+  name         = "terraform-instance"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
 
-# Hands-on Code Example
-
-Here is how we fetch and process data in modern JavaScript:
-
-```javascript
-async function loadCourseContent(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Network response failed');
-        const markdown = await response.text();
-        return markdown.split(/\n---\n/);
-    } catch (error) {
-        console.error('Failed to load slides:', error);
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
     }
+  }
+
+  network_interface {
+    network = "default"
+  }
 }
 ```
 
+> [!TIP]
+> Use `terraform fmt` to automatically format HCL files according to standard conventions.
+
+---
+
+# Cloud Provider Ecosystem
+
+Terraform supports all major cloud platforms through Provider plugins:
+
+| Cloud Provider | Primary Use Case | Popular Resources |
+| :--- | :--- | :--- |
+| **Google Cloud** | Compute Engine, GKE, BigQuery | `google_compute_instance`, `google_container_cluster` |
+| **AWS** | EC2, S3, EKS, Lambda | `aws_instance`, `aws_s3_bucket` |
+| **Microsoft Azure** | Virtual Machines, AKS, Blob Storage | `azurerm_virtual_machine`, `azurerm_storage_account` |
+
+---
+
+# Summary & Hands-On Lab
+
+### What We Covered:
+1. Core concepts of Infrastructure as Code
+2. HCL syntax and resource declaration
+3. Multi-cloud provider integration
+
 > [!IMPORTANT]
-> Click the **Copy** button on the top right of any code snippet to copy the code directly to your clipboard!
-
----
-
-# Responsive Design Principles
-
-> Responsive Web Design makes your web page look good on all devices.
-
-> [!WARNING]
-> Mobile-first design is no longer optional—over 60% of web traffic comes from mobile devices!
-
-### Best Practices:
-* Use **fluid grid layouts** and relative units (`rem`, `%`, `vh`).
-* Implement **CSS Container Queries** and **Media Queries**.
-* Test tap targets for touch accessibility (minimum `48px` size).
-
----
-
-# Chapter Summary & Next Steps
-
-### What we learned today:
-- How HTML, CSS, and JavaScript work together.
-- Structuring presentations cleanly using Markdown.
-- Delivering slide decks directly from GitHub repositories.
-
-> [!CAUTION]
-> Don't forget to push your code changes to Git before deploying to production!
-
-**Thank you for participating!** Proceed to Chapter 2 for hands-on exercises.
+> Next, switch to **Lab 1: Installing and Configuring Terraform** in your lab manual to complete the hands-on exercises!
