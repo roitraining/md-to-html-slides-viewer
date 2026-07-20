@@ -333,6 +333,54 @@ body.dark-theme .slide-body h1 {
     margin: 20px auto;
 }
 
+/* 2-Column Split Slide Layout (Bullets Left, Image Right) */
+.split-layout, .two-column, .grid-2col {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 36px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.split-left,
+.split-layout > div:first-child,
+.two-column > div:first-child,
+.grid-2col > div:first-child {
+    flex: 1.25;
+    min-width: 0;
+}
+
+.split-right,
+.split-layout > div:last-child,
+.two-column > div:last-child,
+.grid-2col > div:last-child {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+}
+
+.split-right img,
+.split-layout img,
+.two-column img,
+.grid-2col img {
+    max-width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .split-layout, .two-column, .grid-2col {
+        flex-direction: column;
+    }
+}
+
 /* Integrated ROI Training Corporate Footer */
 .roi-slide-footer {
     height: 48px;

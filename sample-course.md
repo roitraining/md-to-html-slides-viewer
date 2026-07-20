@@ -1,4 +1,4 @@
-# My Sample Course
+# 815: Hands-On Terraform
 
 ### Chapter 1: Infrastructure as Code & Multi-Cloud Provisioning
 
@@ -12,20 +12,27 @@ In this chapter, you will:
 
 - Learn how Terraform is used to provide Infrastructure as Code (IaC)
 - Install and configure Terraform for use with AWS, Azure, and Google Cloud
+- Understand state management, plan validation, and provider architecture
 
 ---
 
-# What is Infrastructure as Code?
+# Infrastructure Architecture Diagram
 
-Infrastructure as Code (IaC) allows developers and ops teams to manage cloud resources using declarative configuration files.
+- **Declarative Configuration**: Define target cloud resources in HCL files
+- **State Management**: Track deployed resources in local or remote state backends
+- **Execution Plan**: Preview resource additions, modifications, and deletions before applying
 
-### Key Benefits:
-- **Consistency**: Eliminates configuration drift across environments
-- **Automation**: Provision compute, storage, and networking programmatically
-- **Version Control**: Track infrastructure changes in Git repositories
+![Terraform Architecture Diagram](images/sample-diagram.png)
 
-> [!NOTE]
-> IaC configuration files serve as living documentation for your cloud architecture.
+---
+
+# Collaborative Infrastructure Teams
+
+- **Team Coordination**: Enable multiple engineers to work on infrastructure safely
+- **Code Review**: PR-based workflow for infrastructure changes
+- **Automated Testing**: Validate syntax and security policies in CI/CD pipelines
+
+![Engineering Team Collaboration](images/sample-team-of-programmers.png)
 
 ---
 

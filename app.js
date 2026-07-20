@@ -238,6 +238,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Resolve relative image URLs
         processRelativeImages(slideBody);
         
+        // Auto-format 2-column layout (bullets left, image right)
+        processSplitLayouts(slideBody);
+        
         // Setup code block copy buttons
         processCodeCopyButtons(slideBody);
         
@@ -315,6 +318,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 img.src = courseBaseUrl + cleanSrc;
             }
         });
+    }
+
+    // Automatically format slides with bullets on left and graphic on right
+    function processSplitLayouts(container) {
+        if (container.querySelector('.split-layout, .two-column, .grid-2col')) {
+            return;
+        }
+
+        const imgs = container.querySelectorAll('img');
+        const lists = container.querySelectorAll('ul, ol');
+
+        if (imgs.length >= 1 && lists.length >= 1) {
+            const img = imgs[0];
+            const list = lists[0];
+            const imgTarget = (img.parentElement && img.parentElement.tagName === 'P') ? img.parentElement : img;
+
+            const splitWrapper = document.createElement('div');
+            splitWrapper.className = 'split-layout';
+
+            const leftCol = document.createElement('div');
+            leftCol.className = 'split-left';
+
+            const rightCol = document.createElement('div');
+            rightCol.className = 'split-right';
+
+            list.parentNode.insertBefore(splitWrapper, list);
+            leftCol.appendChild(list);
+            rightCol.appendChild(imgTarget);
+
+            splitWrapper.appendChild(leftCol);
+            splitWrapper.appendChild(rightCol);
+        }
     }
 
     // Add Code Block Copy Buttons
