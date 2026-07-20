@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Slide Viewer</title>
+    <!-- Slide Viewer Styling -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Highlight.js CSS for Code Blocks -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
+</head>
+<body>
+    <!-- Top Progress Bar -->
+    <div id="progress-bar-container" class="progress-bar-container">
+        <div id="progress-bar" class="progress-bar"></div>
+    </div>
+
+    <!-- Header Toolbar -->
+    <header class="toolbar">
+        <button id="menu-toggle" class="hamburger" aria-label="Open Slide List" title="Slide Drawer">&#9776;</button>
+        <div id="course-title" class="toolbar-title">Course Presentation</div>
+        
+        <div class="toolbar-controls">
+            <button id="fullscreen-toggle" class="icon-btn" aria-label="Toggle Fullscreen" title="Toggle Fullscreen (F)">⛶</button>
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme" title="Toggle Theme (Light/Dark)">🌙</button>
+            <div class="font-controls">
+                <button id="font-decrease" class="font-btn" aria-label="Decrease Font Size" title="Decrease Font Size">A-</button>
+                <button id="font-increase" class="font-btn" aria-label="Increase Font Size" title="Increase Font Size">A+</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Slide Presentation Stage -->
+    <main id="presentation-stage" class="presentation-stage">
+        <button id="stage-prev-btn" class="nav-arrow prev-arrow" aria-label="Previous Slide" title="Previous Slide (← / PageUp)">&#10094;</button>
+        
+        <div id="slide-card" class="slide-card">
+            <div class="slide-loading">Loading course slides...</div>
+        </div>
+
+        <button id="stage-next-btn" class="nav-arrow next-arrow" aria-label="Next Slide" title="Next Slide (→ / Space / PageDown)">&#10095;</button>
+    </main>
+
+    <!-- Footer Navigation & Status -->
+    <footer class="footer-nav">
+        <div class="nav-buttons">
+            <button id="first-slide-btn" class="nav-btn" title="First Slide (Home)">« First</button>
+            <button id="prev-slide-btn" class="nav-btn" title="Previous Slide (←)">‹ Prev</button>
+        </div>
+        
+        <div id="slide-counter" class="slide-counter">Slide 0 of 0</div>
+        
+        <div class="nav-buttons">
+            <button id="next-slide-btn" class="nav-btn" title="Next Slide (→)">Next ›</button>
+            <button id="last-slide-btn" class="nav-btn" title="Last Slide (End)">Last »</button>
+        </div>
+    </footer>
+
+    <!-- Slide Drawer / Table of Contents -->
+    <nav id="side-menu" class="side-menu">
+        <div class="menu-header">
+            <h2>Course Slides</h2>
+            <button id="close-menu" class="close-btn" aria-label="Close Slide List">&times;</button>
+        </div>
+        <ul id="slide-list"></ul>
+    </nav>
+
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Highlight.js for Code Syntax Highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- Slide Viewer App Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
