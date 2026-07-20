@@ -1,3 +1,11 @@
+# My Sample Course
+
+### Chapter 1: Infrastructure as Code & Multi-Cloud Provisioning
+
+**ROI Training** — Authoritative Technical Training
+
+---
+
 # Chapter Objectives
 
 In this chapter, you will:

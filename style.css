@@ -383,14 +383,11 @@ body.dark-theme .slide-body h1 {
     padding: 0 12px;
 }
 
-body.dark-theme .roi-logo-svg text {
-    fill: #ffffff !important;
-}
-
-body.dark-theme .roi-logo-svg circle,
-body.dark-theme .roi-logo-svg line,
-body.dark-theme .roi-logo-svg ellipse {
-    stroke: #60a5fa !important;
+.roi-logo-img {
+    max-height: 28px;
+    width: auto;
+    object-fit: contain;
+    display: block;
 }
 
 .footer-number {

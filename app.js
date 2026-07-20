@@ -171,9 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // Update course title toolbar with main course/chapter heading
+            // Update course title toolbar & footer with main course/chapter title from Slide 1
             if (index === 0 && title !== `Slide 1`) {
                 courseTitle.textContent = title;
+                if (footerCourseTitle) {
+                    footerCourseTitle.textContent = title;
+                }
             }
             
             const li = document.createElement('li');
