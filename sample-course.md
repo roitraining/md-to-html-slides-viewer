@@ -1,9 +1,32 @@
+<!-- course-title: 815: Hands-On Terraform -->
 <!-- layout: title -->
-# 815: Hands-On Terraform
+![ROI Logo](images/roi-logo-with-name.png)
 
-### Chapter 1: Infrastructure as Code & Multi-Cloud Provisioning
 
-**ROI Training** — Authoritative Technical Training
+# Course 815:
+# Hands-On Terraform
+
+---
+
+# Course Objectives
+
+In this course, you will:
+
+- Automate the creation, management, and destruction of computing infrastructure and resources using Terraform
+- Create infrastructure as code with HashiCorp Configuration Language (HCL)
+- Provision AWS, Azure, and Google Cloud resources using Terraform
+- Build complex, reusable deployments using Terraform modules
+- Leverage Terraform to deploy Kubernetes applications
+- Simplify using Terraform in teams using Terraform Cloud
+
+---
+
+<!-- layout: title -->
+![ROI Logo](images/roi-logo-with-name.png)
+
+815: Hands-On Terraform
+
+# Chapter 1: Infrastructure as Code & Multi-Cloud Provisioning
 
 ---
 
@@ -115,12 +138,17 @@ Terraform supports all major cloud platforms through Provider plugins:
 
 ---
 
-# Summary & Hands-On Lab
+# Hands-On Lab
+
+> [!IMPORTANT]
+> Next, switch to **Lab 1: Installing and Configuring Terraform** in your lab manual to complete the hands-on exercises!
+
+---
+
+# Summary
 
 ### What We Covered:
 1. Core concepts of Infrastructure as Code
 2. HCL syntax and resource declaration
 3. Multi-cloud provider integration
 
-> [!IMPORTANT]
-> Next, switch to **Lab 1: Installing and Configuring Terraform** in your lab manual to complete the hands-on exercises!

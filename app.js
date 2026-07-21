@@ -42,15 +42,27 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('slides-viewer-theme', isDark ? 'dark' : 'light');
     });
     
-    // Font Scaling
+    // Font Scaling Initialization & Logic
+    const savedFontSize = localStorage.getItem('slides-viewer-font-size');
+    if (savedFontSize) {
+        currentFontSize = parseInt(savedFontSize, 10);
+        updateFontSize();
+    }
+
+    function updateFontSize() {
+        if (slideCard) slideCard.style.fontSize = `${currentFontSize}%`;
+        document.body.style.fontSize = `${currentFontSize}%`;
+        localStorage.setItem('slides-viewer-font-size', currentFontSize);
+    }
+    
     fontDecrease.addEventListener('click', () => {
         currentFontSize = Math.max(70, currentFontSize - 10);
-        document.body.style.fontSize = `${currentFontSize}%`;
+        updateFontSize();
     });
     
     fontIncrease.addEventListener('click', () => {
         currentFontSize = Math.min(200, currentFontSize + 10);
-        document.body.style.fontSize = `${currentFontSize}%`;
+        updateFontSize();
     });
     
     // Fullscreen Mode Toggle & Sync
@@ -130,8 +142,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
+            // Extract explicit course title comment if present (e.g. <!-- course-title: 815: Hands-On Terraform -->)
+            const commentMatch = markdownText.match(/<!--\s*(?:course-title|course_title|course|footer-title|footer_title):\s*(.*?)\s*-->/i);
+            const customCourseTitle = commentMatch ? commentMatch[1].trim() : '';
+            
+            if (customCourseTitle) {
+                if (footerCourseTitle) footerCourseTitle.textContent = customCourseTitle;
+                if (courseTitle) courseTitle.textContent = customCourseTitle;
+            }
+            
             // Build Slide Drawer / TOC
-            buildSlideDrawer();
+            buildSlideDrawer(customCourseTitle);
             
             // Check initial URL hash for slide index (e.g. #slide-3 or #3)
             const hash = window.location.hash;
@@ -156,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     // Slide Drawer Generator
-    function buildSlideDrawer() {
+    function buildSlideDrawer(customCourseTitle) {
         slideList.innerHTML = '';
         slides.forEach((slideMarkdown, index) => {
             // Extract the first heading line if available
@@ -171,8 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // Update course title toolbar & footer with main course/chapter title from Slide 1
-            if (index === 0 && title !== `Slide 1`) {
+            // If no explicit course-title comment was provided, fallback to Slide 1 heading
+            if (!customCourseTitle && index === 0 && title !== `Slide 1`) {
                 courseTitle.textContent = title;
                 if (footerCourseTitle) {
                     footerCourseTitle.textContent = title;
@@ -236,6 +257,9 @@ document.addEventListener('DOMContentLoaded', () => {
         slideCard.classList.add('slide-card');
         
         slideBody.innerHTML = html;
+        
+        // Apply current font scaling
+        updateFontSize();
         
         // Process layout specific styling
         if (layoutType === 'navigation' || layoutType === 'section') {
@@ -467,6 +491,110 @@ document.addEventListener('DOMContentLoaded', () => {
                     goToSlide(index);
                 }
             }
+        }
+    });
+
+    // PDF Export Functionality (Native Print PDF)
+    const exportPdfBtn = document.getElementById('export-pdf-btn');
+    const printStage = document.getElementById('print-stage');
+
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener('click', prepareAndPrintPdf);
+    }
+
+    async function prepareAndPrintPdf() {
+        if (!printStage || slides.length === 0) return;
+
+        if (exportPdfBtn) exportPdfBtn.textContent = '⏳';
+
+        // Clear previous print content
+        printStage.innerHTML = '';
+
+        // Render each slide sequentially into printStage
+        slides.forEach((slideMarkdown, index) => {
+            const layoutType = extractLayoutDirective(slideMarkdown, index);
+            const html = marked.parse(slideMarkdown);
+
+            const card = document.createElement('div');
+            card.className = `slide-card print-slide-card layout-${layoutType}`;
+
+            const topBar = document.createElement('div');
+            topBar.className = 'slide-top-bar';
+
+            const body = document.createElement('div');
+            body.className = 'slide-body';
+            body.innerHTML = html;
+
+            // Apply post-processing
+            processGitHubAlerts(body);
+            processRelativeImages(body);
+            processSplitLayouts(body);
+            processCodeCopyButtons(body);
+            processExternalLinks(body);
+
+            if (layoutType === 'navigation' || layoutType === 'section') {
+                processNavigationLayout(body);
+            }
+
+            // Convert all img src in body to absolute URLs so browser print engine loads them 100% reliably
+            const bodyImgs = body.querySelectorAll('img');
+            bodyImgs.forEach(img => {
+                const src = img.getAttribute('src');
+                if (src) {
+                    try {
+                        img.src = new URL(src, window.location.href).href;
+                    } catch (e) {
+                        // Keep current src if resolution fails
+                    }
+                }
+            });
+
+            // Create slide footer
+            const footer = document.createElement('footer');
+            footer.className = 'roi-slide-footer';
+            
+            const currentTitle = (footerCourseTitle && footerCourseTitle.textContent) ? footerCourseTitle.textContent : 'ROI Training';
+            
+            footer.innerHTML = `
+                <div class="footer-cell footer-course">${currentTitle}</div>
+                <div class="footer-cell footer-copyright">
+                    © 2026 Copyright ROI Training, Inc.<br>
+                    All rights reserved. Not to be reproduced without prior written consent.
+                </div>
+                <div class="footer-cell footer-logo">
+                    <img src="images/roi-logo.png" alt="ROI Training" class="roi-logo-img">
+                </div>
+                <div class="footer-cell footer-number">1-${index + 1}</div>
+            `;
+
+            card.appendChild(topBar);
+            card.appendChild(body);
+            card.appendChild(footer);
+            printStage.appendChild(card);
+        });
+
+        // Wait for all images in printStage to complete loading before invoking window.print()
+        const images = Array.from(printStage.querySelectorAll('img'));
+        const imagePromises = images.map(img => {
+            if (img.complete && img.naturalHeight !== 0) return Promise.resolve();
+            return new Promise(resolve => {
+                img.onload = resolve;
+                img.onerror = resolve;
+            });
+        });
+
+        await Promise.all(imagePromises);
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        if (exportPdfBtn) exportPdfBtn.textContent = '🖨️';
+
+        // Trigger native print / PDF export dialog
+        window.print();
+    }
+
+    window.addEventListener('afterprint', () => {
+        if (printStage) {
+            printStage.innerHTML = '';
         }
     });
 });

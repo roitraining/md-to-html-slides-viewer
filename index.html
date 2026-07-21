@@ -21,6 +21,7 @@
         <div id="course-title" class="toolbar-title">ROI Training Presentation</div>
         
         <div class="toolbar-controls">
+            <button id="export-pdf-btn" class="icon-btn" aria-label="Print / Export to PDF" title="Print / Export to PDF">🖨️</button>
             <button id="fullscreen-toggle" class="icon-btn" aria-label="Toggle Fullscreen" title="Toggle Fullscreen (F)">⛶</button>
             <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme" title="Toggle Theme (Light/Dark)">🌙</button>
             <div class="font-controls">
@@ -54,6 +55,7 @@
                 
                 <div class="footer-cell footer-logo">
                     <img src="images/roi-logo.png" alt="ROI Training" class="roi-logo-img">
+                    ROI Training, Inc.
                 </div>
                 
                 <div id="footer-slide-number" class="footer-cell footer-number">1-1</div>
@@ -72,10 +74,15 @@
         <ul id="slide-list"></ul>
     </nav>
 
+    <!-- Hidden Container for PDF Export Printing -->
+    <div id="print-stage" class="print-stage"></div>
+
     <!-- Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Highlight.js for Code Syntax Highlighting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- html2pdf.js for Direct PDF File Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- Slide Viewer App Logic -->
     <script src="app.js"></script>
 </body>

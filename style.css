@@ -284,7 +284,7 @@ body.dark-theme .slide-top-bar {
 
 /* Slide Typography & Content (Matching ROI Training Layout) */
 .slide-body h1 {
-    font-size: 2.5rem;
+    font-size: 2.2em;
     font-weight: 700;
     text-align: center;
     color: #000000;
@@ -298,20 +298,20 @@ body.dark-theme .slide-body h1 {
 }
 
 .slide-body h2 {
-    font-size: 1.8rem;
+    font-size: 1.6em;
     margin-top: 24px;
     margin-bottom: 16px;
     color: var(--text-color);
 }
 
 .slide-body h3 {
-    font-size: 1.4rem;
+    font-size: 1.3em;
     margin-top: 20px;
     margin-bottom: 12px;
 }
 
 .slide-body p, .slide-body li {
-    font-size: 1.25rem;
+    font-size: 1.15em;
     line-height: 1.7;
     color: var(--text-color);
 }
@@ -333,48 +333,75 @@ body.dark-theme .slide-body h1 {
     margin: 20px auto;
 }
 
-/* Title Slide Layout */
+/* Title Slide Layout (Matching ROI Training Title Template) */
 .layout-title .slide-body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    align-items: flex-start;
+    justify-content: flex-end;
+    text-align: left;
+    padding-top: 60px;
+    padding-bottom: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: relative;
+    height: 100%;
+}
+
+.layout-title .slide-body img {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    max-height: 60px;
+    width: auto;
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.layout-title .slide-body p,
+.layout-title .slide-body h2,
+.layout-title .slide-body h3 {
+    font-size: 1.45em;
+    font-weight: 700;
+    color: #888d96;
+    margin-top: 0;
+    margin-bottom: 14px;
 }
 
 .layout-title .slide-body h1 {
-    font-size: 2.8rem;
+    font-size: 2.5em;
     font-weight: 800;
-    color: var(--roi-blue);
-    margin-bottom: 20px;
+    color: #000000;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.25;
 }
 
 body.dark-theme .layout-title .slide-body h1 {
-    color: #60a5fa;
+    color: #ffffff;
 }
 
-.layout-title .slide-body h3 {
-    font-size: 1.45rem;
-    color: var(--text-muted);
-    font-weight: 400;
-    margin-bottom: 24px;
+body.dark-theme .layout-title .slide-body p,
+body.dark-theme .layout-title .slide-body h2,
+body.dark-theme .layout-title .slide-body h3 {
+    color: #94a3b8;
 }
 
-/* Navigation / Agenda Slide Layout (Matching Screenshot) */
+/* Navigation / Agenda Slide Layout (Right-aligned text matching Screenshot) */
 .layout-navigation .slide-body,
 .layout-section .slide-body {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .layout-navigation .slide-body h1,
 .layout-section .slide-body h1 {
-    font-size: 2.6rem;
+    font-size: 2.3em;
     font-weight: 700;
-    margin-bottom: 32px;
+    text-align: center;
+    margin-bottom: 36px;
 }
 
 .layout-navigation .slide-body ul,
@@ -383,20 +410,20 @@ body.dark-theme .layout-title .slide-body h1 {
 .layout-section .slide-body ol {
     list-style: none;
     padding: 0;
-    margin: 0 auto;
+    margin: 0 40px 0 auto; /* Move container to the right side */
     width: 100%;
-    max-width: 520px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .layout-navigation .slide-body li,
 .layout-section .slide-body li {
     width: 100%;
-    text-align: center;
+    text-align: left; /* Right-justify text */
     padding: 12px 0;
-    font-size: 1.65rem;
+    font-size: 1.45em;
     margin-bottom: 0;
     border-bottom: 1px solid var(--border-color);
 }
@@ -420,7 +447,7 @@ body.dark-theme .layout-section .nav-item-inactive {
 .layout-section .nav-item-active strong {
     color: #000000;
     font-weight: 700;
-    font-size: 1.8rem;
+    font-size: 1.55em;
 }
 
 body.dark-theme .layout-navigation .nav-item-active,
@@ -765,4 +792,108 @@ body.dark-theme #slide-list li a.active {
 body.dark-theme .error {
     background-color: #3c1e1e;
     color: #ff8182;
+}
+
+/* PDF Print Styles */
+.print-stage {
+    display: none;
+}
+
+@media print {
+    @page {
+        size: landscape;
+        margin: 0;
+    }
+
+    html, body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .toolbar,
+    .progress-bar-container,
+    .presentation-stage,
+    .side-menu,
+    .nav-arrow {
+        display: none !important;
+    }
+
+    .print-stage {
+        display: block !important;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .print-slide-card {
+        width: 100vw;
+        height: 100vh;
+        page-break-after: always;
+        break-after: page;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        box-sizing: border-box;
+        padding: 40px 50px 0 50px;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        overflow: hidden;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .print-slide-card .slide-top-bar {
+        background-color: #003865 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .print-slide-card .footer-number {
+        background-color: #888d96 !important;
+        color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .print-slide-card img {
+        max-width: 100% !important;
+        max-height: 340px !important;
+        object-fit: contain !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .print-slide-card .split-layout,
+    .print-slide-card .two-column,
+    .print-slide-card .grid-2col {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 30px !important;
+    }
+
+    .print-slide-card .split-left {
+        flex: 1.25 !important;
+    }
+
+    .print-slide-card .split-right {
+        flex: 1 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .print-slide-card .slide-body {
+        flex: 1 !important;
+        overflow: hidden !important;
+    }
 }
