@@ -281,12 +281,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ensure links open in a new tab
         processExternalLinks(slideBody);
         
-        // Update ROI Slide Footer Counter (e.g. 1-1, 1-2, 1-3 matching ROI Training format)
-        footerSlideNumber.textContent = `1-${index + 1}`;
+        // Update ROI Slide Footer Counter (e.g. 1 of 12)
+        footerSlideNumber.textContent = `${index + 1} of ${slides.length}`;
         
         // Update Progress Bar
         const progressPercent = ((index + 1) / slides.length) * 100;
         progressBar.style.width = `${progressPercent}%`;
+        
+        // Redraw persistent annotations for the current slide
+        if (typeof redrawCurrentSlideAnnotations === 'function') {
+            setTimeout(redrawCurrentSlideAnnotations, 50);
+        }
         
         // Update Nav Arrow Enabled / Disabled States
         stagePrevBtn.disabled = (index === 0);
@@ -356,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Extract layout directive from slide markdown (e.g. <!-- layout: navigation -->)
     function extractLayoutDirective(slideMarkdown, index) {
-        const match = slideMarkdown.match(/^<!--\s*layout:\s*([a-z0-9_-]+)\s*-->/i);
+        const match = slideMarkdown.match(/<!--\s*layout:\s*([a-z0-9_-]+)\s*-->/i);
         if (match) {
             return match[1].toLowerCase();
         }
@@ -477,6 +482,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 toggleFullscreen();
                 break;
+            case 'p':
+            case 'P':
+                e.preventDefault();
+                setAnnotationTool(currentTool === 'pen' ? 'none' : 'pen');
+                break;
+            case 'h':
+            case 'H':
+                e.preventDefault();
+                setAnnotationTool(currentTool === 'highlighter' ? 'none' : 'highlighter');
+                break;
+            case 'c':
+            case 'C':
+                e.preventDefault();
+                slideAnnotations[currentIndex] = [];
+                saveAnnotationsToStorage();
+                clearCanvas();
+                break;
         }
     });
 
@@ -564,7 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="footer-cell footer-logo">
                     <img src="images/roi-logo.png" alt="ROI Training" class="roi-logo-img">
                 </div>
-                <div class="footer-cell footer-number">1-${index + 1}</div>
+                <div class="footer-cell footer-number">${index + 1} of ${slides.length}</div>
             `;
 
             card.appendChild(topBar);
@@ -597,4 +619,212 @@ document.addEventListener('DOMContentLoaded', () => {
             printStage.innerHTML = '';
         }
     });
+
+    // ==========================================
+    // Slide Annotation System (Pen & Highlighter)
+    // ==========================================
+    const canvas = document.getElementById('annotation-canvas');
+    const ctx = canvas ? canvas.getContext('2d') : null;
+    const penBtn = document.getElementById('pen-tool-btn');
+    const highlighterBtn = document.getElementById('highlighter-tool-btn');
+    const clearBtn = document.getElementById('clear-canvas-btn');
+
+    let currentTool = 'none'; // 'none' | 'pen' | 'highlighter'
+    let isDrawing = false;
+    let currentStroke = null;
+
+    // Persistent storage of strokes per slide index
+    let slideAnnotations = {};
+    const storageKey = `slides-annotations-${courseUrl}`;
+    const savedAnnotations = localStorage.getItem(storageKey);
+    if (savedAnnotations) {
+        try {
+            slideAnnotations = JSON.parse(savedAnnotations);
+        } catch (e) {
+            slideAnnotations = {};
+        }
+    }
+
+    function saveAnnotationsToStorage() {
+        localStorage.setItem(storageKey, JSON.stringify(slideAnnotations));
+    }
+
+    function resizeCanvas() {
+        if (!canvas || !slideCard) return;
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+        
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        
+        if (ctx) {
+            if (ctx.resetTransform) {
+                ctx.resetTransform();
+            } else {
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+            }
+            ctx.scale(dpr, dpr);
+        }
+        redrawCurrentSlideAnnotations();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('fullscreenchange', () => {
+        setTimeout(resizeCanvas, 50);
+        setTimeout(resizeCanvas, 250);
+    });
+    document.addEventListener('webkitfullscreenchange', () => {
+        setTimeout(resizeCanvas, 50);
+        setTimeout(resizeCanvas, 250);
+    });
+
+    if (window.ResizeObserver && slideCard) {
+        const slideObserver = new ResizeObserver(() => {
+            resizeCanvas();
+        });
+        slideObserver.observe(slideCard);
+    }
+
+    setTimeout(resizeCanvas, 200);
+
+    if (penBtn) {
+        penBtn.addEventListener('click', () => {
+            setAnnotationTool(currentTool === 'pen' ? 'none' : 'pen');
+        });
+    }
+
+    if (highlighterBtn) {
+        highlighterBtn.addEventListener('click', () => {
+            setAnnotationTool(currentTool === 'highlighter' ? 'none' : 'highlighter');
+        });
+    }
+
+    const deleteAllBtn = document.getElementById('delete-all-canvas-btn');
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            slideAnnotations[currentIndex] = [];
+            saveAnnotationsToStorage();
+            clearCanvas();
+        });
+    }
+
+    if (deleteAllBtn) {
+        deleteAllBtn.addEventListener('click', () => {
+            slideAnnotations = {};
+            localStorage.removeItem(storageKey);
+            clearCanvas();
+        });
+    }
+
+    function setAnnotationTool(tool) {
+        currentTool = tool;
+        if (penBtn) penBtn.classList.toggle('active', tool === 'pen');
+        if (highlighterBtn) highlighterBtn.classList.toggle('active', tool === 'highlighter');
+
+        if (canvas) {
+            if (tool !== 'none') {
+                canvas.classList.add('active-tool');
+            } else {
+                canvas.classList.remove('active-tool');
+            }
+        }
+    }
+
+    function clearCanvas() {
+        if (!canvas || !ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function getCanvasCoords(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+            x: Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)),
+            y: Math.max(0, Math.min(1, (clientY - rect.top) / rect.height))
+        };
+    }
+
+    if (canvas) {
+        const startDraw = (e) => {
+            if (currentTool === 'none') return;
+            e.preventDefault();
+            isDrawing = true;
+            const pt = getCanvasCoords(e);
+            
+            currentStroke = {
+                tool: currentTool,
+                color: currentTool === 'pen' ? '#003865' : '#ffeb3b',
+                lineWidth: currentTool === 'pen' ? 3 : 20,
+                points: [pt]
+            };
+        };
+
+        const drawMove = (e) => {
+            if (!isDrawing || !currentStroke) return;
+            e.preventDefault();
+            const pt = getCanvasCoords(e);
+            currentStroke.points.push(pt);
+            renderStroke(currentStroke);
+        };
+
+        const stopDraw = (e) => {
+            if (!isDrawing || !currentStroke) return;
+            isDrawing = false;
+            
+            if (!slideAnnotations[currentIndex]) {
+                slideAnnotations[currentIndex] = [];
+            }
+            slideAnnotations[currentIndex].push(currentStroke);
+            currentStroke = null;
+            saveAnnotationsToStorage();
+        };
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', drawMove);
+        window.addEventListener('mouseup', stopDraw);
+
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', drawMove, { passive: false });
+        canvas.addEventListener('touchend', stopDraw);
+    }
+
+    function renderStroke(stroke) {
+        if (!canvas || !ctx || !stroke.points || stroke.points.length === 0) return;
+        const rect = canvas.getBoundingClientRect();
+
+        ctx.save();
+        ctx.beginPath();
+        
+        let strokeColor = stroke.color;
+        if (stroke.tool === 'highlighter') {
+            strokeColor = '#ffeb3b';
+        } else if (stroke.tool === 'pen' && (strokeColor === '#ff3b30' || !strokeColor)) {
+            strokeColor = '#003865';
+        }
+
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = stroke.lineWidth;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.globalCompositeOperation = 'source-over';
+
+        const pts = stroke.points;
+        ctx.moveTo(pts[0].x * rect.width, pts[0].y * rect.height);
+        for (let i = 1; i < pts.length; i++) {
+            ctx.lineTo(pts[i].x * rect.width, pts[i].y * rect.height);
+        }
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function redrawCurrentSlideAnnotations() {
+        clearCanvas();
+        const strokes = slideAnnotations[currentIndex];
+        if (strokes && Array.isArray(strokes)) {
+            strokes.forEach(stroke => renderStroke(stroke));
+        }
+    }
 });

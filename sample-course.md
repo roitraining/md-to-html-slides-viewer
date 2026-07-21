@@ -1,4 +1,7 @@
+<!-- The comment element below (course-title) is used to set the title in the footer of the slides. -->
 <!-- course-title: 815: Hands-On Terraform -->
+
+<!-- This is the Course Title Slide -->
 <!-- layout: title -->
 ![ROI Logo](images/roi-logo-with-name.png)
 
@@ -7,7 +10,7 @@
 # Hands-On Terraform
 
 ---
-
+<!-- If no layout is specified, it uses a default layout -->
 # Course Objectives
 
 In this course, you will:
@@ -20,7 +23,7 @@ In this course, you will:
 - Simplify using Terraform in teams using Terraform Cloud
 
 ---
-
+<!-- This is the Chapter Title Slide -->
 <!-- layout: title -->
 ![ROI Logo](images/roi-logo-with-name.png)
 
@@ -29,7 +32,7 @@ In this course, you will:
 # Chapter 1: Infrastructure as Code & Multi-Cloud Provisioning
 
 ---
-
+<!-- Example of a Navigation Slide. Use the navigation layout to denote chapter sections. -->
 <!-- layout: navigation -->
 # Chapter Concepts
 
@@ -63,12 +66,12 @@ Infrastructure as Code (IaC) allows developers and ops teams to manage cloud res
 > IaC configuration files serve as living documentation for your cloud architecture.
 
 ---
-
+<!-- A Slide with an Image Automatically uses a 2-column layout. -->
 # Infrastructure Architecture Diagram
 
 - **Declarative Configuration**: Define target cloud resources in HCL files
 - **State Management**: Track deployed resources in local or remote state backends
-- **Execution Plan**: Preview resource additions, modifications, and deletions before applying
+- **Execution Plan**: Preview resource additons, modifications, and deletions before applying
 
 ![Terraform Architecture Diagram](images/sample-diagram.png)
 
@@ -136,12 +139,19 @@ Terraform supports all major cloud platforms through Provider plugins:
 | **AWS** | EC2, S3, EKS, Lambda | `aws_instance`, `aws_s3_bucket` |
 | **Microsoft Azure** | Virtual Machines, AKS, Blob Storage | `azurerm_virtual_machine`, `azurerm_storage_account` |
 
+> [!IMPORTANT]
+> Refer to the [Terraform Provider Documentation](https://registry.terraform.io/providers/hashicorp/google/latest/docs) for detailed information on available resources and their configuration options.
+
 ---
 
 # Hands-On Lab
+20 minutes
 
-> [!IMPORTANT]
-> Next, switch to **Lab 1: Installing and Configuring Terraform** in your lab manual to complete the hands-on exercises!
+
+### Click the link below to do the Hands-on Lab for Chapter 1.
+
+ - [Sample Lab](https://roitraining.github.io/md-to-html-lab-viewer/?lab=https://github.com/GoogleCloudPlatform/specialized-training-content/blob/main/courses/explore-ai-for-activation/1-gemini-for-image-video-and-audio-analysis/1-ice-breaker/image-ice-breaker.md)
+
 
 ---
 

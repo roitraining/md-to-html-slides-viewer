@@ -239,6 +239,105 @@ body.is-fullscreen .slide-card {
     height: calc(100vh - 60px);
     max-height: 900px;
     border-radius: 16px;
+    position: relative;
+}
+
+/* Annotation Canvas Overlay */
+.annotation-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+    pointer-events: none;
+    border-radius: 12px;
+    mix-blend-mode: multiply;
+}
+
+body.dark-theme .annotation-canvas {
+    mix-blend-mode: screen;
+}
+
+.annotation-canvas.active-tool {
+    pointer-events: auto;
+    cursor: crosshair;
+}
+
+/* Floating Right-Side Annotation Dock (Visible in Fullscreen & Normal Mode) */
+.annotation-dock {
+    position: fixed;
+    right: 20px;
+    top: 72px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f1f5f9 !important;
+    padding: 10px 8px;
+    border-radius: 30px;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.annotation-dock .tool-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    color: #1e293b !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.annotation-dock .tool-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 52px;
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+}
+
+.annotation-dock .tool-btn:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.annotation-dock .tool-btn svg {
+    fill: #1e293b !important;
+}
+
+.annotation-dock .tool-btn:hover {
+    background-color: #e2e8f0;
+}
+
+.annotation-dock .tool-btn.active {
+    background-color: #003865 !important;
+    color: #ffffff !important;
+    border-color: #003865 !important;
+    box-shadow: 0 2px 8px rgba(0, 56, 101, 0.4);
+}
+
+.annotation-dock .tool-btn.active svg {
+    fill: #ffffff !important;
 }
 
 @keyframes slideFadeIn {
@@ -394,14 +493,16 @@ body.dark-theme .layout-title .slide-body h3 {
 .layout-section .slide-body {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .layout-navigation .slide-body h1,
 .layout-section .slide-body h1 {
-    font-size: 2.3em;
+    font-size: 2.1em;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 36px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .layout-navigation .slide-body ul,
@@ -410,9 +511,9 @@ body.dark-theme .layout-title .slide-body h3 {
 .layout-section .slide-body ol {
     list-style: none;
     padding: 0;
-    margin: 0 40px 0 auto; /* Move container to the right side */
+    margin: auto 40px auto auto; /* Center ONLY the list of sections vertically */
     width: 100%;
-    max-width: 500px;
+    max-width: 480px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -421,9 +522,9 @@ body.dark-theme .layout-title .slide-body h3 {
 .layout-navigation .slide-body li,
 .layout-section .slide-body li {
     width: 100%;
-    text-align: left; /* Right-justify text */
-    padding: 12px 0;
-    font-size: 1.45em;
+    text-align: left;
+    padding: 8px 0;
+    font-size: 1.25em;
     margin-bottom: 0;
     border-bottom: 1px solid var(--border-color);
 }
@@ -447,7 +548,7 @@ body.dark-theme .layout-section .nav-item-inactive {
 .layout-section .nav-item-active strong {
     color: #000000;
     font-weight: 700;
-    font-size: 1.55em;
+    font-size: 1.38em;
 }
 
 body.dark-theme .layout-navigation .nav-item-active,
@@ -563,7 +664,9 @@ body.dark-theme .layout-section .nav-item-active strong {
 }
 
 .footer-number {
-    width: 75px;
+    min-width: 80px;
+    width: auto;
+    padding: 0 12px;
     flex-shrink: 0;
     border-right: none;
     background-color: var(--roi-num-bg);
@@ -571,6 +674,7 @@ body.dark-theme .layout-section .nav-item-active strong {
     font-weight: 700;
     font-size: 0.95rem;
     justify-content: center;
+    white-space: nowrap;
 }
 
 /* Code Blocks */
@@ -816,7 +920,8 @@ body.dark-theme .error {
     .progress-bar-container,
     .presentation-stage,
     .side-menu,
-    .nav-arrow {
+    .nav-arrow,
+    .annotation-dock {
         display: none !important;
     }
 
