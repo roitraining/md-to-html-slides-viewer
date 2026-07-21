@@ -1,8 +1,19 @@
+<!-- layout: title -->
 # 815: Hands-On Terraform
 
 ### Chapter 1: Infrastructure as Code & Multi-Cloud Provisioning
 
 **ROI Training** — Authoritative Technical Training
+
+---
+
+<!-- layout: navigation -->
+# Chapter Concepts
+
+- **Providers**
+- Folder Structure
+- Workflow
+- Managing State
 
 ---
 
@@ -16,6 +27,20 @@ In this chapter, you will:
 
 ---
 
+# What is Infrastructure as Code?
+
+Infrastructure as Code (IaC) allows developers and ops teams to manage cloud resources using declarative configuration files.
+
+### Key Benefits:
+- **Consistency**: Eliminates configuration drift across environments
+- **Automation**: Provision compute, storage, and networking programmatically
+- **Version Control**: Track infrastructure changes in Git repositories
+
+> [!NOTE]
+> IaC configuration files serve as living documentation for your cloud architecture.
+
+---
+
 # Infrastructure Architecture Diagram
 
 - **Declarative Configuration**: Define target cloud resources in HCL files
@@ -23,6 +48,16 @@ In this chapter, you will:
 - **Execution Plan**: Preview resource additions, modifications, and deletions before applying
 
 ![Terraform Architecture Diagram](images/sample-diagram.png)
+
+---
+
+<!-- layout: navigation -->
+# Chapter Concepts
+
+- Providers
+- **Folder Structure**
+- Workflow
+- Managing State
 
 ---
 

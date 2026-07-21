@@ -333,6 +333,103 @@ body.dark-theme .slide-body h1 {
     margin: 20px auto;
 }
 
+/* Title Slide Layout */
+.layout-title .slide-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.layout-title .slide-body h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--roi-blue);
+    margin-bottom: 20px;
+}
+
+body.dark-theme .layout-title .slide-body h1 {
+    color: #60a5fa;
+}
+
+.layout-title .slide-body h3 {
+    font-size: 1.45rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 24px;
+}
+
+/* Navigation / Agenda Slide Layout (Matching Screenshot) */
+.layout-navigation .slide-body,
+.layout-section .slide-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.layout-navigation .slide-body h1,
+.layout-section .slide-body h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+}
+
+.layout-navigation .slide-body ul,
+.layout-navigation .slide-body ol,
+.layout-section .slide-body ul,
+.layout-section .slide-body ol {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.layout-navigation .slide-body li,
+.layout-section .slide-body li {
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 1.65rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Inactive Navigation Topics (Muted Light Grey) */
+.layout-navigation .nav-item-inactive,
+.layout-section .nav-item-inactive {
+    color: #a3aab5;
+    font-weight: 400;
+}
+
+body.dark-theme .layout-navigation .nav-item-inactive,
+body.dark-theme .layout-section .nav-item-inactive {
+    color: #64748b;
+}
+
+/* Active Navigation Topic (Bold Black Text) */
+.layout-navigation .nav-item-active,
+.layout-section .nav-item-active,
+.layout-navigation .nav-item-active strong,
+.layout-section .nav-item-active strong {
+    color: #000000;
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+body.dark-theme .layout-navigation .nav-item-active,
+body.dark-theme .layout-section .nav-item-active,
+body.dark-theme .layout-navigation .nav-item-active strong,
+body.dark-theme .layout-section .nav-item-active strong {
+    color: #ffffff;
+}
+
 /* 2-Column Split Slide Layout (Bullets Left, Image Right) */
 .split-layout, .two-column, .grid-2col {
     display: flex;

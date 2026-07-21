@@ -223,7 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Slide Content
     function renderSlide(index) {
         const slideMarkdown = slides[index];
+        const layoutType = extractLayoutDirective(slideMarkdown, index);
         const html = marked.parse(slideMarkdown);
+        
+        // Remove existing layout classes and add new layout class
+        slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content');
+        slideCard.classList.add(`layout-${layoutType}`);
         
         // Re-trigger fade animation
         slideCard.classList.remove('slide-card');
@@ -231,6 +236,11 @@ document.addEventListener('DOMContentLoaded', () => {
         slideCard.classList.add('slide-card');
         
         slideBody.innerHTML = html;
+        
+        // Process layout specific styling
+        if (layoutType === 'navigation' || layoutType === 'section') {
+            processNavigationLayout(slideBody);
+        }
         
         // Process GitHub Callout Alerts
         processGitHubAlerts(slideBody);
@@ -316,6 +326,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     cleanSrc = cleanSrc.substring(1);
                 }
                 img.src = courseBaseUrl + cleanSrc;
+            }
+        });
+    }
+
+    // Extract layout directive from slide markdown (e.g. <!-- layout: navigation -->)
+    function extractLayoutDirective(slideMarkdown, index) {
+        const match = slideMarkdown.match(/^<!--\s*layout:\s*([a-z0-9_-]+)\s*-->/i);
+        if (match) {
+            return match[1].toLowerCase();
+        }
+        if (index === 0) return 'title';
+        return 'content';
+    }
+
+    // Process Navigation Agenda Slide styling
+    function processNavigationLayout(container) {
+        const items = container.querySelectorAll('li, p');
+        items.forEach(item => {
+            const hasBold = item.querySelector('strong, b') || /^(\*\*|__)/.test(item.textContent.trim());
+            if (hasBold) {
+                item.classList.add('nav-item-active');
+            } else {
+                item.classList.add('nav-item-inactive');
             }
         });
     }
