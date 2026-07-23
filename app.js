@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const html = marked.parse(slideMarkdown);
         
         // Remove existing layout classes and add new layout class
-        slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content');
+        slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-two-column');
         slideCard.classList.add(`layout-${layoutType}`);
         
         // Re-trigger fade animation
@@ -264,6 +264,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Process layout specific styling
         if (layoutType === 'navigation' || layoutType === 'section') {
             processNavigationLayout(slideBody);
+        } else if (layoutType === 'three-column') {
+            processThreeColumnLayout(slideBody);
+        } else if (layoutType === 'two-column') {
+            processTwoColumnLayout(slideBody);
         }
         
         // Process GitHub Callout Alerts
@@ -363,7 +367,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function extractLayoutDirective(slideMarkdown, index) {
         const match = slideMarkdown.match(/<!--\s*layout:\s*([a-z0-9_-]+)\s*-->/i);
         if (match) {
-            return match[1].toLowerCase();
+            let layout = match[1].toLowerCase();
+            if (layout === '3-column') layout = 'three-column';
+            if (layout === '2-column') layout = 'two-column';
+            return layout;
         }
         if (index === 0) return 'title';
         return 'content';
@@ -411,6 +418,100 @@ document.addEventListener('DOMContentLoaded', () => {
 
             splitWrapper.appendChild(leftCol);
             splitWrapper.appendChild(rightCol);
+        }
+    }
+
+    // Automatically format slides with three columns
+    function processThreeColumnLayout(container) {
+        if (container.querySelector('.three-column-wrapper')) {
+            return;
+        }
+
+        // Find header elements that can act as column markers.
+        // Look for h3 first, fallback to h2 then h4.
+        let headers = Array.from(container.querySelectorAll('h3'));
+        if (headers.length === 0) {
+            headers = Array.from(container.querySelectorAll('h2'));
+        }
+        if (headers.length === 0) {
+            headers = Array.from(container.querySelectorAll('h4'));
+        }
+
+        if (headers.length < 2) return;
+
+        const children = Array.from(container.children);
+        const firstHeaderIndex = children.indexOf(headers[0]);
+        const insertReference = children[firstHeaderIndex];
+        const originalParent = insertReference ? insertReference.parentNode : null;
+        
+        if (!originalParent) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'three-column-wrapper';
+
+        // Insert wrapper before the first header element's original position
+        originalParent.insertBefore(wrapper, insertReference);
+
+        let currentColumn = null;
+        for (let i = firstHeaderIndex; i < children.length; i++) {
+            const child = children[i];
+            
+            if (headers.includes(child)) {
+                currentColumn = document.createElement('div');
+                currentColumn.className = 'column';
+                wrapper.appendChild(currentColumn);
+            }
+            
+            if (currentColumn) {
+                currentColumn.appendChild(child);
+            }
+        }
+    }
+
+    // Automatically format slides with two custom columns (headers and lists)
+    function processTwoColumnLayout(container) {
+        if (container.querySelector('.two-column-wrapper')) {
+            return;
+        }
+
+        // Find header elements that can act as column markers.
+        // Look for h3 first, fallback to h2 then h4.
+        let headers = Array.from(container.querySelectorAll('h3'));
+        if (headers.length === 0) {
+            headers = Array.from(container.querySelectorAll('h2'));
+        }
+        if (headers.length === 0) {
+            headers = Array.from(container.querySelectorAll('h4'));
+        }
+
+        if (headers.length < 2) return;
+
+        const children = Array.from(container.children);
+        const firstHeaderIndex = children.indexOf(headers[0]);
+        const insertReference = children[firstHeaderIndex];
+        const originalParent = insertReference ? insertReference.parentNode : null;
+        
+        if (!originalParent) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'two-column-wrapper';
+
+        // Insert wrapper before the first header element's original position
+        originalParent.insertBefore(wrapper, insertReference);
+
+        let currentColumn = null;
+        for (let i = firstHeaderIndex; i < children.length; i++) {
+            const child = children[i];
+            
+            if (headers.includes(child)) {
+                currentColumn = document.createElement('div');
+                currentColumn.className = 'column';
+                wrapper.appendChild(currentColumn);
+            }
+            
+            if (currentColumn) {
+                currentColumn.appendChild(child);
+            }
         }
     }
 
@@ -556,6 +657,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (layoutType === 'navigation' || layoutType === 'section') {
                 processNavigationLayout(body);
+            } else if (layoutType === 'three-column') {
+                processThreeColumnLayout(body);
+            } else if (layoutType === 'two-column') {
+                processTwoColumnLayout(body);
             }
 
             // Convert all img src in body to absolute URLs so browser print engine loads them 100% reliably

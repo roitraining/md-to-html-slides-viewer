@@ -1,0 +1,4 @@
+# Slide Deck Generation Rules
+When generating, outlining, editing, or validating slide decks in this project, you must read and strictly follow the layout directives, heuristics, and formatting rules defined in:
+- [.agents/skills/course-generator/SKILL.md](.agents/skills/course-generator/SKILL.md)
+- [.agents/skills/course-generator/examples/layout-templates.md](.agents/skills/course-generator/examples/layout-templates.md)
