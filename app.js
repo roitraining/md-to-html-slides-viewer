@@ -53,7 +53,49 @@ document.addEventListener('DOMContentLoaded', () => {
         if (slideCard) slideCard.style.fontSize = `${currentFontSize}%`;
         document.body.style.fontSize = `${currentFontSize}%`;
         localStorage.setItem('slides-viewer-font-size', currentFontSize);
+        fitFooterCourseTitle();
     }
+
+    /**
+     * Shrink (or restore) footer course title font so the full string fits
+     * in the allotted footer cell — long titles scale down, short ones use the CSS max.
+     */
+    function fitTextToWidth(el, { minPx = 9 } = {}) {
+        if (!el || !el.clientWidth) return;
+
+        el.style.fontSize = '';
+        const maxPx = parseFloat(getComputedStyle(el).fontSize);
+        if (!maxPx || Number.isNaN(maxPx)) return;
+
+        el.style.fontSize = `${maxPx}px`;
+        if (el.scrollWidth <= el.clientWidth) {
+            el.style.fontSize = '';
+            return;
+        }
+
+        let low = minPx;
+        let high = maxPx;
+        for (let i = 0; i < 14; i++) {
+            const mid = (low + high) / 2;
+            el.style.fontSize = `${mid}px`;
+            if (el.scrollWidth > el.clientWidth) {
+                high = mid;
+            } else {
+                low = mid;
+            }
+        }
+        el.style.fontSize = `${low}px`;
+    }
+
+    function fitFooterCourseTitle() {
+        fitTextToWidth(footerCourseTitle);
+    }
+
+    if (footerCourseTitle && typeof ResizeObserver !== 'undefined') {
+        const footerTitleObserver = new ResizeObserver(() => fitFooterCourseTitle());
+        footerTitleObserver.observe(footerCourseTitle);
+    }
+    window.addEventListener('resize', fitFooterCourseTitle);
     
     fontDecrease.addEventListener('click', () => {
         currentFontSize = Math.max(70, currentFontSize - 10);
@@ -149,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (customCourseTitle) {
                 if (footerCourseTitle) footerCourseTitle.textContent = customCourseTitle;
                 if (courseTitle) courseTitle.textContent = customCourseTitle;
+                requestAnimationFrame(() => fitFooterCourseTitle());
             }
             
             // Build Slide Drawer / TOC
@@ -197,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 courseTitle.textContent = title;
                 if (footerCourseTitle) {
                     footerCourseTitle.textContent = title;
+                    requestAnimationFrame(() => fitFooterCourseTitle());
                 }
             }
             
@@ -683,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentTitle = (footerCourseTitle && footerCourseTitle.textContent) ? footerCourseTitle.textContent : 'ROI Training';
             
             footer.innerHTML = `
-                <div class="footer-cell footer-course">${currentTitle}</div>
+                <div class="footer-cell footer-course"></div>
                 <div class="footer-cell footer-copyright">
                     © 2026 Copyright ROI Training, Inc.<br>
                     All rights reserved. Not to be reproduced without prior written consent.
@@ -693,6 +737,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="footer-cell footer-number">${index + 1} of ${slides.length}</div>
             `;
+            const printCourseEl = footer.querySelector('.footer-course');
+            if (printCourseEl) {
+                printCourseEl.textContent = currentTitle;
+                // Mirror live footer fit size (print-stage is display:none until print)
+                if (footerCourseTitle && footerCourseTitle.style.fontSize) {
+                    printCourseEl.style.fontSize = footerCourseTitle.style.fontSize;
+                }
+            }
 
             card.appendChild(topBar);
             card.appendChild(body);

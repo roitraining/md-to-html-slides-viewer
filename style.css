@@ -787,15 +787,15 @@ body.dark-theme .layout-title-image .slide-body img {
 
 .footer-course {
     flex: 1.2;
+    min-width: 0; /* allow flex item to shrink so fit-to-width can measure */
     padding: 0 16px;
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* max size; JS may shrink to fit long titles */
     font-weight: 600;
     color: var(--text-color);
     justify-content: center;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .footer-copyright {
