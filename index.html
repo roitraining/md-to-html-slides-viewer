@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROI Training Course Slide Viewer</title>
     <!-- Slide Viewer Styling -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=4">
     <!-- Highlight.js CSS for Code Blocks -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
 </head>
@@ -79,10 +79,17 @@
     </main>
 
     <!-- Slide Drawer / Table of Contents -->
-    <nav id="side-menu" class="side-menu">
+    <nav id="side-menu" class="side-menu" aria-label="Slide list">
         <div class="menu-header">
             <h2>Course Slides</h2>
-            <button id="close-menu" class="close-btn" aria-label="Close Slide List">&times;</button>
+            <div class="menu-header-actions">
+                <button id="pin-menu" class="pin-btn" aria-label="Pin slide list open" aria-pressed="false" title="Pin drawer open">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor">
+                        <path d="M14 4v5.28c0 .67.34 1.26.88 1.61L16 12v2H8v-2l1.12-1.11c.54-.35.88-.94.88-1.61V4h4m1-2H9c-.55 0-1 .45-1 1v1H6c-.55 0-1 .45-1 1s.45 1 1 1h1v5.28c0 1.06.55 2.03 1.45 2.56L9 15v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3l1.55-1.16c.9-.53 1.45-1.5 1.45-2.56V6h1c.55 0 1-.45 1-1s-.45-1-1-1h-2V3c0-.55-.45-1-1-1z"/>
+                    </svg>
+                </button>
+                <button id="close-menu" class="close-btn" aria-label="Close Slide List" title="Close drawer">&times;</button>
+            </div>
         </div>
         <ul id="slide-list"></ul>
     </nav>
@@ -97,6 +104,6 @@
     <!-- html2pdf.js for Direct PDF File Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- Slide Viewer App Logic -->
-    <script src="app.js?v=3"></script>
+    <script src="app.js?v=4"></script>
 </body>
 </html>

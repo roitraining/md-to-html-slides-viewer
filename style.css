@@ -14,6 +14,7 @@
     --shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --slide-max-width: 1040px;
     --slide-min-height: 580px;
+    --drawer-width: 300px;
 }
 
 body.dark-theme {
@@ -811,7 +812,13 @@ body.dark-theme .layout-title-image .slide-body img {
 .footer-logo {
     flex: 1.4;
     justify-content: center;
+    gap: 8px;
     padding: 0 12px;
+    /* rem keeps this immune to A+/A− (which scales the slide card via %) */
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-color);
+    white-space: nowrap;
 }
 
 .roi-logo-img {
@@ -966,51 +973,129 @@ body.dark-theme .markdown-alert-caution .markdown-alert-title { color: #f85149; 
 .side-menu {
     position: fixed;
     top: 0;
-    left: -320px;
-    width: 300px;
+    left: calc(-1 * var(--drawer-width) - 20px);
+    width: var(--drawer-width);
     height: 100%;
     background-color: var(--card-bg);
     border-right: 1px solid var(--border-color);
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
-    transition: left 0.3s ease;
+    transition: left 0.3s ease, box-shadow 0.3s ease;
     overflow-y: auto;
     z-index: 1100;
+    display: flex;
+    flex-direction: column;
 }
 
-.side-menu.open {
+.side-menu.open,
+body.drawer-pinned .side-menu {
     left: 0;
+}
+
+/* Docked filmstrip: push main chrome aside (PowerPoint / Google Slides style) */
+body.drawer-pinned {
+    padding-left: var(--drawer-width);
+    transition: padding-left 0.3s ease;
+}
+
+body.drawer-pinned .side-menu {
+    box-shadow: none;
+}
+
+/* Hide drawer while presenting; restore dock padding when leaving fullscreen */
+:fullscreen .side-menu,
+body.is-fullscreen .side-menu {
+    display: none !important;
+}
+
+:fullscreen body.drawer-pinned,
+html:fullscreen body.drawer-pinned,
+body.is-fullscreen.drawer-pinned {
+    padding-left: 0;
 }
 
 .menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
+    padding: 16px 16px 16px 20px;
     border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+    gap: 8px;
 }
 
 .menu-header h2 {
     margin: 0;
     font-size: 18px;
     color: var(--roi-blue);
+    flex: 1;
+    min-width: 0;
 }
 
 body.dark-theme .menu-header h2 {
     color: #60a5fa;
 }
 
+.menu-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.pin-btn,
 .close-btn {
     background: none;
     border: none;
-    font-size: 24px;
     cursor: pointer;
     color: var(--text-muted);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.pin-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+}
+
+.pin-btn:hover,
+.close-btn:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    color: var(--text-color);
+}
+
+body.dark-theme .pin-btn:hover,
+body.dark-theme .close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.pin-btn[aria-pressed="true"] {
+    color: var(--roi-blue);
+    background-color: rgba(0, 56, 101, 0.1);
+}
+
+body.dark-theme .pin-btn[aria-pressed="true"] {
+    color: #60a5fa;
+    background-color: rgba(96, 165, 250, 0.15);
+}
+
+.close-btn {
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+    line-height: 1;
+    padding: 0;
 }
 
 #slide-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    overflow-y: auto;
+    flex: 1;
 }
 
 #slide-list li a {

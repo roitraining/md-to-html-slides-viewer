@@ -127,10 +127,77 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('is-fullscreen', isFS);
     });
     
-    // Side Menu Drawer interactions
-    menuToggle.addEventListener('click', () => sideMenu.classList.add('open'));
-    closeMenu.addEventListener('click', () => sideMenu.classList.remove('open'));
-    
+    // Side Menu Drawer interactions (open / pin / close)
+    const pinMenuBtn = document.getElementById('pin-menu');
+    const DRAWER_PIN_KEY = 'slides-viewer-drawer-pinned';
+    let drawerPinned = localStorage.getItem(DRAWER_PIN_KEY) === 'true';
+
+    function syncDrawerPinUi() {
+        document.body.classList.toggle('drawer-pinned', drawerPinned);
+        if (drawerPinned) {
+            sideMenu.classList.add('open');
+        }
+        if (pinMenuBtn) {
+            pinMenuBtn.setAttribute('aria-pressed', drawerPinned ? 'true' : 'false');
+            pinMenuBtn.title = drawerPinned ? 'Unpin drawer' : 'Pin drawer open';
+            pinMenuBtn.setAttribute(
+                'aria-label',
+                drawerPinned ? 'Unpin slide list' : 'Pin slide list open'
+            );
+        }
+        // Stage width changes when docking — refresh annotation canvas if present
+        if (typeof resizeCanvas === 'function') {
+            setTimeout(resizeCanvas, 320);
+        }
+    }
+
+    function setDrawerPinned(pinned) {
+        drawerPinned = !!pinned;
+        localStorage.setItem(DRAWER_PIN_KEY, drawerPinned ? 'true' : 'false');
+        syncDrawerPinUi();
+    }
+
+    function openDrawer() {
+        sideMenu.classList.add('open');
+    }
+
+    function closeDrawer() {
+        if (drawerPinned) {
+            setDrawerPinned(false);
+        }
+        sideMenu.classList.remove('open');
+    }
+
+    menuToggle.addEventListener('click', () => {
+        if (drawerPinned) {
+            // Already docked; treat hamburger as unpin + close
+            closeDrawer();
+            return;
+        }
+        if (sideMenu.classList.contains('open')) {
+            closeDrawer();
+        } else {
+            openDrawer();
+        }
+    });
+
+    closeMenu.addEventListener('click', closeDrawer);
+
+    if (pinMenuBtn) {
+        pinMenuBtn.addEventListener('click', () => {
+            if (!drawerPinned) {
+                openDrawer();
+                setDrawerPinned(true);
+            } else {
+                setDrawerPinned(false);
+            }
+        });
+    }
+
+    // Restore pinned drawer on load
+    if (drawerPinned) {
+        syncDrawerPinUi();
+    }    
     // Marked syntax highlight options
     marked.setOptions({
         highlight: function(code, lang) {
@@ -252,7 +319,9 @@ document.addEventListener('DOMContentLoaded', () => {
             a.addEventListener('click', (e) => {
                 e.preventDefault();
                 goToSlide(index);
-                sideMenu.classList.remove('open');
+                if (!drawerPinned) {
+                    sideMenu.classList.remove('open');
+                }
             });
             
             li.appendChild(a);
@@ -350,6 +419,10 @@ document.addEventListener('DOMContentLoaded', () => {
         drawerLinks.forEach((link, idx) => {
             if (idx === index) {
                 link.classList.add('active');
+                // Keep the active slide visible when the drawer is docked
+                if (drawerPinned || sideMenu.classList.contains('open')) {
+                    link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                }
             } else {
                 link.classList.remove('active');
             }
