@@ -4,24 +4,50 @@ A lightweight, modern, responsive presentation viewer that renders structured Ma
 
 ---
 
-## Getting Started
+## How to View the Slides
 
-### 1. Structure Your Markdown
-Slides are written in Markdown. Use a triple-dash (`---`) on its own line to separate slides. Customize slide properties using HTML comments:
-*   Set course footer title (at top of file): `<!-- course-title: My Slide Course -->`
-*   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, or `<!-- layout: title-image -->`.
+### GitHub Pages (recommended)
 
-### 2. Run the Viewer Locally
-Because the viewer dynamically fetches the course Markdown file, you must run it from a local web server (to bypass browser CORS restrictions).
+The viewer is published at:
 
-Run the built-in Python HTTP server from the project directory:
+**[https://roitraining.github.io/md-to-html-slides-viewer/](https://roitraining.github.io/md-to-html-slides-viewer/)**
+
+Open that link and it will load the built-in sample course (`sample-course.md`) by default.
+
+### Open a course from another GitHub repo
+
+Pass a Markdown file URL with the `course` query parameter. Use the **raw** GitHub URL (not the normal `github.com/.../blob/...` page).
+
+Example — LangChain slide course:
+
+```
+https://roitraining.github.io/md-to-html-slides-viewer/?course=https://raw.githubusercontent.com/roitraining/markdown-slide-authoring-course/main/course-langchain.md
+```
+
+You can also paste a standard GitHub file URL; the viewer will rewrite it to the raw form when possible.
+
+### Run the Viewer Locally
+
+Because the viewer fetches the course Markdown file over HTTP, run it from a local web server (browsers block `file://` fetches).
+
+From the project directory:
 ```bash
 python3 -m http.server 8000
 ```
-Then open your browser and navigate to:
+Then open:
 ```
 http://localhost:8000/index.html?course=sample-course.md
 ```
+Or point `course=` at any reachable Markdown URL, same as on GitHub Pages.
+
+---
+
+## Getting Started
+
+### Structure Your Markdown
+Slides are written in Markdown. Use a triple-dash (`---`) on its own line to separate slides. Customize slide properties using HTML comments:
+*   Set course footer title (at top of file): `<!-- course-title: My Slide Course -->`
+*   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, or `<!-- layout: title-image -->`.
 
 ---
 
