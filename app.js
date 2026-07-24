@@ -7,10 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBar = document.getElementById('progress-bar');
     const courseTitle = document.getElementById('course-title');
     
-    // Stage Arrow Buttons
-    const stagePrevBtn = document.getElementById('stage-prev-btn');
-    const stageNextBtn = document.getElementById('stage-next-btn');
-    
     // Side Menu Drawer Elements
     const menuToggle = document.getElementById('menu-toggle');
     const closeMenu = document.getElementById('close-menu');
@@ -19,8 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Controls
     const themeToggle = document.getElementById('theme-toggle');
-    const fontDecrease = document.getElementById('font-decrease');
-    const fontIncrease = document.getElementById('font-increase');
+    const fontSizeSlider = document.getElementById('font-size-slider');
     const fullscreenToggle = document.getElementById('fullscreen-toggle');
     
     // Application State
@@ -42,18 +37,46 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('slides-viewer-theme', isDark ? 'dark' : 'light');
     });
     
-    // Font Scaling Initialization & Logic
-    const savedFontSize = localStorage.getItem('slides-viewer-font-size');
-    if (savedFontSize) {
-        currentFontSize = parseInt(savedFontSize, 10);
-        updateFontSize();
+    // Font Scaling: 50%–200% in 25% steps (slider starts at 100% / middle)
+    const FONT_SIZE_MIN = 50;
+    const FONT_SIZE_MAX = 200;
+    const FONT_SIZE_STEP = 25;
+
+    function snapFontSize(value) {
+        const n = parseInt(value, 10);
+        if (Number.isNaN(n)) return 100;
+        const snapped = Math.round(n / FONT_SIZE_STEP) * FONT_SIZE_STEP;
+        return Math.min(FONT_SIZE_MAX, Math.max(FONT_SIZE_MIN, snapped));
+    }
+
+    function syncFontSlider() {
+        if (!fontSizeSlider) return;
+        fontSizeSlider.value = String(currentFontSize);
+        fontSizeSlider.setAttribute('aria-valuenow', String(currentFontSize));
+        fontSizeSlider.setAttribute('aria-valuetext', `${currentFontSize} percent`);
+        fontSizeSlider.title = `Text size: ${currentFontSize}%`;
     }
 
     function updateFontSize() {
+        currentFontSize = snapFontSize(currentFontSize);
         if (slideCard) slideCard.style.fontSize = `${currentFontSize}%`;
         document.body.style.fontSize = `${currentFontSize}%`;
         localStorage.setItem('slides-viewer-font-size', currentFontSize);
+        syncFontSlider();
         fitFooterCourseTitle();
+    }
+
+    const savedFontSize = localStorage.getItem('slides-viewer-font-size');
+    if (savedFontSize) {
+        currentFontSize = snapFontSize(savedFontSize);
+    }
+    updateFontSize();
+
+    if (fontSizeSlider) {
+        fontSizeSlider.addEventListener('input', () => {
+            currentFontSize = snapFontSize(fontSizeSlider.value);
+            updateFontSize();
+        });
     }
 
     /**
@@ -97,16 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.addEventListener('resize', fitFooterCourseTitle);
     
-    fontDecrease.addEventListener('click', () => {
-        currentFontSize = Math.max(70, currentFontSize - 10);
-        updateFontSize();
-    });
-    
-    fontIncrease.addEventListener('click', () => {
-        currentFontSize = Math.min(200, currentFontSize + 10);
-        updateFontSize();
-    });
-    
     // Fullscreen Mode Toggle & Sync
     fullscreenToggle.addEventListener('click', toggleFullscreen);
     
@@ -149,6 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof resizeCanvas === 'function') {
             setTimeout(resizeCanvas, 320);
         }
+        if (typeof scaleAllThumbnails === 'function') {
+            setTimeout(scaleAllThumbnails, 320);
+        }
     }
 
     function setDrawerPinned(pinned) {
@@ -159,6 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openDrawer() {
         sideMenu.classList.add('open');
+        if (typeof scaleAllThumbnails === 'function') {
+            setTimeout(scaleAllThumbnails, 50);
+            setTimeout(scaleAllThumbnails, 320);
+        }
     }
 
     function closeDrawer() {
@@ -197,7 +217,129 @@ document.addEventListener('DOMContentLoaded', () => {
     // Restore pinned drawer on load
     if (drawerPinned) {
         syncDrawerPinUi();
-    }    
+    }
+
+    // Drawer list vs thumbnail view
+    const drawerViewToggle = document.getElementById('drawer-view-toggle');
+    const DRAWER_VIEW_KEY = 'slides-viewer-drawer-view';
+    let drawerViewMode = localStorage.getItem(DRAWER_VIEW_KEY) === 'thumbs' ? 'thumbs' : 'list';
+    let thumbObserver = null;
+
+    function syncDrawerViewUi() {
+        const isThumbs = drawerViewMode === 'thumbs';
+        sideMenu.classList.toggle('view-thumbnails', isThumbs);
+        if (drawerViewToggle) {
+            drawerViewToggle.setAttribute('aria-pressed', isThumbs ? 'true' : 'false');
+            drawerViewToggle.title = isThumbs ? 'Show titles' : 'Show thumbnails';
+            drawerViewToggle.setAttribute(
+                'aria-label',
+                isThumbs ? 'Show slide titles' : 'Show slide thumbnails'
+            );
+        }
+        if (isThumbs) {
+            ensureThumbObserver();
+            observeThumbnails();
+            scaleAllThumbnails();
+        }
+    }
+
+    function setDrawerViewMode(mode) {
+        drawerViewMode = mode === 'thumbs' ? 'thumbs' : 'list';
+        localStorage.setItem(DRAWER_VIEW_KEY, drawerViewMode);
+        syncDrawerViewUi();
+    }
+
+    const THUMB_BASE_WIDTH = 960;
+
+    function scaleThumbViewport(viewport) {
+        const canvas = viewport.querySelector('.slide-thumb-canvas');
+        if (!canvas) return;
+        const width = viewport.clientWidth;
+        if (!width) return;
+        const scale = width / THUMB_BASE_WIDTH;
+        canvas.style.transform = `scale(${scale})`;
+    }
+
+    function scaleAllThumbnails() {
+        requestAnimationFrame(() => {
+            slideList.querySelectorAll('.slide-thumb-viewport').forEach(scaleThumbViewport);
+        });
+    }
+
+    function renderSlideThumbnail(index, canvasEl) {
+        if (!canvasEl || canvasEl.dataset.rendered === 'true' || !slides[index]) return;
+
+        const slideMarkdown = slides[index];
+        const layoutType = extractLayoutDirective(slideMarkdown, index);
+        const body = canvasEl.querySelector('.slide-body');
+        if (!body) return;
+
+        canvasEl.classList.add(`layout-${layoutType}`);
+        body.innerHTML = marked.parse(slideMarkdown);
+
+        if (layoutType === 'navigation' || layoutType === 'section') {
+            processNavigationLayout(body);
+        } else if (layoutType === 'three-column') {
+            processThreeColumnLayout(body);
+        } else if (layoutType === 'two-column') {
+            processTwoColumnLayout(body);
+        }
+
+        processGitHubAlerts(body);
+        processRelativeImages(body);
+        processSplitLayouts(body);
+        processExternalLinks(body);
+
+        const placeholder = canvasEl.parentElement && canvasEl.parentElement.querySelector('.slide-thumb-placeholder');
+        if (placeholder) placeholder.remove();
+
+        canvasEl.dataset.rendered = 'true';
+
+        const viewport = canvasEl.closest('.slide-thumb-viewport');
+        if (viewport) scaleThumbViewport(viewport);
+    }
+
+    function ensureThumbObserver() {
+        if (thumbObserver || typeof IntersectionObserver === 'undefined') return;
+        thumbObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const viewport = entry.target;
+                const index = parseInt(viewport.dataset.slideIndex, 10);
+                const canvas = viewport.querySelector('.slide-thumb-canvas');
+                renderSlideThumbnail(index, canvas);
+                thumbObserver.unobserve(viewport);
+            });
+        }, {
+            root: sideMenu,
+            rootMargin: '120px 0px',
+            threshold: 0.01
+        });
+    }
+
+    function observeThumbnails() {
+        if (!thumbObserver) return;
+        slideList.querySelectorAll('.slide-thumb-viewport').forEach((viewport) => {
+            const canvas = viewport.querySelector('.slide-thumb-canvas');
+            if (canvas && canvas.dataset.rendered === 'true') return;
+            thumbObserver.observe(viewport);
+        });
+    }
+
+    if (drawerViewToggle) {
+        drawerViewToggle.addEventListener('click', () => {
+            setDrawerViewMode(drawerViewMode === 'thumbs' ? 'list' : 'thumbs');
+        });
+    }
+
+    if (typeof ResizeObserver !== 'undefined') {
+        const thumbScaleObserver = new ResizeObserver(() => {
+            if (drawerViewMode === 'thumbs') scaleAllThumbnails();
+        });
+        thumbScaleObserver.observe(sideMenu);
+    }
+
+    syncDrawerViewUi();
     // Marked syntax highlight options
     marked.setOptions({
         highlight: function(code, lang) {
@@ -288,6 +430,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Slide Drawer Generator
     function buildSlideDrawer(customCourseTitle) {
+        if (thumbObserver) {
+            thumbObserver.disconnect();
+        }
         slideList.innerHTML = '';
         slides.forEach((slideMarkdown, index) => {
             // Extract the first heading line if available
@@ -314,7 +459,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = `#slide-${index + 1}`;
-            a.innerHTML = `<strong>${index + 1}.</strong> ${title}`;
+            a.className = 'slide-nav-link';
+
+            const thumb = document.createElement('div');
+            thumb.className = 'slide-thumb';
+            thumb.setAttribute('aria-hidden', 'true');
+
+            const viewport = document.createElement('div');
+            viewport.className = 'slide-thumb-viewport';
+            viewport.dataset.slideIndex = String(index);
+
+            const placeholder = document.createElement('div');
+            placeholder.className = 'slide-thumb-placeholder';
+            placeholder.textContent = 'Preview';
+
+            const canvas = document.createElement('div');
+            canvas.className = 'slide-thumb-canvas slide-card';
+            canvas.innerHTML = '<div class="slide-top-bar"></div><div class="slide-body"></div>';
+
+            viewport.appendChild(placeholder);
+            viewport.appendChild(canvas);
+            thumb.appendChild(viewport);
+
+            const label = document.createElement('span');
+            label.className = 'slide-nav-label';
+            label.innerHTML = `<strong>${index + 1}.</strong> ${title}`;
+
+            a.appendChild(thumb);
+            a.appendChild(label);
             
             a.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -327,6 +499,12 @@ document.addEventListener('DOMContentLoaded', () => {
             li.appendChild(a);
             slideList.appendChild(li);
         });
+
+        if (drawerViewMode === 'thumbs') {
+            ensureThumbObserver();
+            observeThumbnails();
+            scaleAllThumbnails();
+        }
     }
 
     // Go to specific slide
@@ -349,10 +527,6 @@ document.addEventListener('DOMContentLoaded', () => {
             goToSlide(currentIndex + 1);
         }
     }
-
-    // Navigation Arrow Event Listeners
-    stagePrevBtn.addEventListener('click', prevSlide);
-    stageNextBtn.addEventListener('click', nextSlide);
 
     // Render Slide Content
     function renderSlide(index) {
@@ -409,10 +583,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof redrawCurrentSlideAnnotations === 'function') {
             setTimeout(redrawCurrentSlideAnnotations, 50);
         }
-        
-        // Update Nav Arrow Enabled / Disabled States
-        stagePrevBtn.disabled = (index === 0);
-        stageNextBtn.disabled = (index === slides.length - 1);
+        // Pointer is ephemeral — only one target at a time, cleared on slide change
+        if (typeof clearSlidePointer === 'function') {
+            clearSlidePointer();
+        }
         
         // Update Active Item in Side Drawer
         const drawerLinks = slideList.querySelectorAll('a');
@@ -710,12 +884,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 setAnnotationTool(currentTool === 'highlighter' ? 'none' : 'highlighter');
                 break;
+            case 'o':
+            case 'O':
+                e.preventDefault();
+                setAnnotationTool(currentTool === 'pointer' ? 'none' : 'pointer');
+                break;
             case 'c':
             case 'C':
                 e.preventDefault();
                 slideAnnotations[currentIndex] = [];
                 saveAnnotationsToStorage();
                 clearCanvas();
+                clearSlidePointer();
                 break;
         }
     });
@@ -791,6 +971,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Keep current src if resolution fails
                     }
                 }
+                img.loading = 'eager';
+                img.decoding = 'sync';
+                // Prefer intrinsic aspect ratio; print CSS caps size without stretching
+                img.style.width = 'auto';
+                img.style.height = 'auto';
+                img.style.maxWidth = '100%';
+                img.style.objectFit = 'contain';
             });
 
             // Create slide footer
@@ -807,6 +994,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="footer-cell footer-logo">
                     <img src="images/roi-logo.png" alt="ROI Training" class="roi-logo-img">
+                    ROI Training, Inc.
                 </div>
                 <div class="footer-cell footer-number">${index + 1} of ${slides.length}</div>
             `;
@@ -825,6 +1013,10 @@ document.addEventListener('DOMContentLoaded', () => {
             printStage.appendChild(card);
         });
 
+        // Load images off-screen (do not use visibility:hidden — that prints blank)
+        printStage.classList.add('is-preparing');
+        printStage.removeAttribute('style');
+
         // Wait for all images in printStage to complete loading before invoking window.print()
         const images = Array.from(printStage.querySelectorAll('img'));
         const imagePromises = images.map(img => {
@@ -836,30 +1028,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         await Promise.all(imagePromises);
-        await new Promise(resolve => setTimeout(resolve, 300));
+        await new Promise(resolve => setTimeout(resolve, 200));
 
         if (exportPdfBtn) exportPdfBtn.textContent = '🖨️';
 
-        // Trigger native print / PDF export dialog
+        // Leave preparing class on so content stays in DOM; @media print overrides it to on-page
         window.print();
     }
 
     window.addEventListener('afterprint', () => {
         if (printStage) {
             printStage.innerHTML = '';
+            printStage.classList.remove('is-preparing');
+            printStage.removeAttribute('style');
         }
     });
 
     // ==========================================
-    // Slide Annotation System (Pen & Highlighter)
+    // Slide Annotation System (Pen, Highlighter & Pointer)
     // ==========================================
     const canvas = document.getElementById('annotation-canvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
     const penBtn = document.getElementById('pen-tool-btn');
     const highlighterBtn = document.getElementById('highlighter-tool-btn');
+    const pointerBtn = document.getElementById('pointer-tool-btn');
     const clearBtn = document.getElementById('clear-canvas-btn');
+    const slidePointer = document.getElementById('slide-pointer');
 
-    let currentTool = 'none'; // 'none' | 'pen' | 'highlighter'
+    let currentTool = 'none'; // 'none' | 'pen' | 'highlighter' | 'pointer'
     let isDrawing = false;
     let currentStroke = null;
 
@@ -877,6 +1073,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveAnnotationsToStorage() {
         localStorage.setItem(storageKey, JSON.stringify(slideAnnotations));
+    }
+
+    function placeSlidePointer(xNorm, yNorm) {
+        if (!slidePointer) return;
+        slidePointer.hidden = false;
+        slidePointer.setAttribute('aria-hidden', 'false');
+        slidePointer.style.left = `${xNorm * 100}%`;
+        slidePointer.style.top = `${yNorm * 100}%`;
+    }
+
+    function clearSlidePointer() {
+        if (!slidePointer) return;
+        slidePointer.hidden = true;
+        slidePointer.setAttribute('aria-hidden', 'true');
     }
 
     function resizeCanvas() {
@@ -930,6 +1140,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (pointerBtn) {
+        pointerBtn.addEventListener('click', () => {
+            setAnnotationTool(currentTool === 'pointer' ? 'none' : 'pointer');
+        });
+    }
+
     const deleteAllBtn = document.getElementById('delete-all-canvas-btn');
 
     if (clearBtn) {
@@ -937,6 +1153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             slideAnnotations[currentIndex] = [];
             saveAnnotationsToStorage();
             clearCanvas();
+            clearSlidePointer();
         });
     }
 
@@ -945,6 +1162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             slideAnnotations = {};
             localStorage.removeItem(storageKey);
             clearCanvas();
+            clearSlidePointer();
         });
     }
 
@@ -952,13 +1170,16 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTool = tool;
         if (penBtn) penBtn.classList.toggle('active', tool === 'pen');
         if (highlighterBtn) highlighterBtn.classList.toggle('active', tool === 'highlighter');
+        if (pointerBtn) pointerBtn.classList.toggle('active', tool === 'pointer');
 
         if (canvas) {
-            if (tool !== 'none') {
-                canvas.classList.add('active-tool');
-            } else {
-                canvas.classList.remove('active-tool');
-            }
+            canvas.classList.toggle('active-tool', tool !== 'none');
+            canvas.classList.toggle('pointer-mode', tool === 'pointer');
+        }
+
+        // Pointer is only visible while the pointer tool is active
+        if (tool !== 'pointer') {
+            clearSlidePointer();
         }
     }
 
@@ -979,11 +1200,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (canvas) {
         const startDraw = (e) => {
-            if (currentTool === 'none') return;
+            if (currentTool === 'none' || currentTool === 'pointer') return;
             e.preventDefault();
-            isDrawing = true;
             const pt = getCanvasCoords(e);
-            
+
+            isDrawing = true;
             currentStroke = {
                 tool: currentTool,
                 color: currentTool === 'pen' ? '#003865' : '#ffeb3b',
@@ -1019,6 +1240,21 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.addEventListener('touchstart', startDraw, { passive: false });
         canvas.addEventListener('touchmove', drawMove, { passive: false });
         canvas.addEventListener('touchend', stopDraw);
+    }
+
+    // Place/move pointer on slide click without blocking scroll (canvas is pointer-events: none in pointer mode)
+    if (slideCard) {
+        slideCard.addEventListener('click', (e) => {
+            if (currentTool !== 'pointer') return;
+            // Ignore clicks on the annotation dock tools if they somehow bubble here
+            if (e.target.closest && e.target.closest('.annotation-dock')) return;
+
+            const rect = slideCard.getBoundingClientRect();
+            if (!rect.width || !rect.height) return;
+            const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+            const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
+            placeSlidePointer(x, y);
+        });
     }
 
     function renderStroke(stroke) {
