@@ -107,11 +107,19 @@ body.dark-theme .hamburger:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.toolbar-title-group {
+    flex: 1;
+    min-width: 0;
+    margin-left: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .toolbar-title {
     font-size: 18px;
     font-weight: 700;
-    flex: 1;
-    margin-left: 12px;
+    min-width: 0;
     color: var(--roi-blue);
     white-space: nowrap;
     overflow: hidden;
@@ -122,10 +130,359 @@ body.dark-theme .toolbar-title {
     color: #60a5fa;
 }
 
+.chapter-select-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    max-width: 42%;
+}
+
+.chapter-select-wrap[hidden] {
+    display: none !important;
+}
+
+.chapter-select-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.chapter-select {
+    max-width: 220px;
+    padding: 5px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 13px;
+    cursor: pointer;
+}
+
 .toolbar-controls {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+/* Open Course Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.modal-overlay[hidden] {
+    display: none !important;
+}
+
+.modal-dialog {
+    width: min(640px, 100%);
+    max-height: min(84vh, 720px);
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--roi-blue);
+}
+
+body.dark-theme .modal-header h2 {
+    color: #60a5fa;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+.modal-close:hover {
+    color: var(--text-color);
+}
+
+.modal-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 12px 20px 0;
+}
+
+.modal-tab {
+    flex: 1;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    border-radius: 8px 8px 0 0;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-tab.active {
+    color: var(--roi-blue);
+    border-bottom-color: var(--card-bg);
+    background: var(--card-bg);
+    box-shadow: inset 0 -2px 0 var(--roi-blue);
+}
+
+body.dark-theme .modal-tab.active {
+    color: #60a5fa;
+    box-shadow: inset 0 -2px 0 #3b82f6;
+}
+
+.modal-body {
+    padding: 16px 20px 8px;
+    overflow: auto;
+    flex: 1;
+}
+
+.modal-panel[hidden] {
+    display: none !important;
+}
+
+.modal-help {
+    margin: 0 0 14px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+}
+
+.modal-help code {
+    font-size: 0.85em;
+    background: rgba(0, 56, 101, 0.08);
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+body.dark-theme .modal-help code {
+    background: rgba(147, 197, 253, 0.12);
+}
+
+.modal-actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.modal-github-row {
+    flex-wrap: nowrap;
+}
+
+.modal-text-input {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.modal-text-input:focus {
+    outline: 2px solid rgba(0, 56, 101, 0.35);
+    border-color: var(--roi-blue);
+}
+
+.btn-primary,
+.btn-secondary {
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--roi-blue);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--roi-blue-hover);
+}
+
+.btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+    border-color: var(--roi-blue);
+    background: rgba(0, 56, 101, 0.06);
+}
+
+body.dark-theme .btn-secondary:hover {
+    border-color: #3b82f6;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.modal-status {
+    min-height: 1.25em;
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.modal-status.is-error {
+    color: #b91c1c;
+}
+
+body.dark-theme .modal-status.is-error {
+    color: #fca5a5;
+}
+
+.github-recents {
+    margin-top: 14px;
+}
+
+.github-recents-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.github-recents ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.github-recents button {
+    width: 100%;
+    text-align: left;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: var(--text-color);
+    font-size: 13px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.github-recents button:hover {
+    border-color: var(--roi-blue);
+}
+
+.course-browser {
+    margin-top: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.course-browser[hidden] {
+    display: none !important;
+}
+
+.course-browser-heading {
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    background: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.course-browser-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 240px;
+    overflow: auto;
+}
+
+.course-browser-list li button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 11px 14px;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.course-browser-list li:last-child button {
+    border-bottom: none;
+}
+
+.course-browser-list li button:hover,
+.course-browser-list li button.is-active {
+    background: rgba(0, 56, 101, 0.08);
+}
+
+body.dark-theme .course-browser-list li button:hover,
+body.dark-theme .course-browser-list li button.is-active {
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.course-browser-item-title {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.course-browser-item-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 20px 16px;
+    border-top: 1px solid var(--border-color);
 }
 
 .icon-btn {

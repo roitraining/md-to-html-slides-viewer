@@ -22,7 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let slides = [];
     let currentIndex = 0;
     let currentFontSize = 100;
+    let courseUrl = '';
     let courseBaseUrl = '';
+    let localAssetMap = null; // Map of relative path -> object URL
+    let courseChapters = [];
+    let currentChapterId = null;
+    let currentShareUrl = null; // GitHub URL suitable for ?course=
+    let openModalOpen = false;
+    let slideAnnotations = {};
     
     // Theme initialization & toggle logic
     const savedTheme = localStorage.getItem('slides-viewer-theme');
@@ -349,84 +356,966 @@ document.addEventListener('DOMContentLoaded', () => {
         langPrefix: 'hljs language-'
     });
     
-    // Get Course URL from URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    let courseUrl = urlParams.get('course') || urlParams.get('lab') || urlParams.get('url');
-    
-    // Default to local sample course if no URL provided
-    if (!courseUrl) {
-        courseUrl = './sample-course.md';
-    } else {
-        // Automatically convert standard GitHub web URLs to raw URLs
-        if (courseUrl.startsWith('https://github.com/')) {
-            courseUrl = courseUrl.replace('https://github.com/', 'https://raw.githubusercontent.com/');
-            courseUrl = courseUrl.replace('/blob/', '/').replace('/tree/', '/');
-            
-            if (!courseUrl.match(/\.md$/i) && !courseUrl.match(/\.markdown$/i)) {
-                if (!courseUrl.endsWith('/')) {
-                    courseUrl += '/';
-                }
-                courseUrl += 'README.md';
+    // ─── Course loading ───────────────────────────────────────────────
+    const IGNORED_DIR_NAMES = new Set([
+        'images', 'image', 'img', 'assets', 'static', 'css', 'js', 'scripts',
+        'node_modules', '.git', '.github', '.agents', '.vscode', 'fonts'
+    ]);
+    const RECENT_GITHUB_KEY = 'slides-viewer-recent-github';
+    const chapterSelectWrap = document.getElementById('chapter-select-wrap');
+    const chapterSelect = document.getElementById('chapter-select');
+    const openCourseModal = document.getElementById('open-course-modal');
+    const openCourseStatus = document.getElementById('open-course-status');
+    const openCourseBrowser = document.getElementById('open-course-browser');
+    const copyShareLinkBtn = document.getElementById('copy-share-link');
+    const githubUrlInput = document.getElementById('github-url-input');
+
+    function revokeLocalAssets() {
+        if (localAssetMap) {
+            localAssetMap.forEach((url) => {
+                try { URL.revokeObjectURL(url); } catch (_) { /* ignore */ }
+            });
+        }
+        localAssetMap = null;
+    }
+
+    function isMarkdownName(name) {
+        return /\.(md|markdown)$/i.test(name || '');
+    }
+
+    function chapterLabelFromName(name) {
+        return String(name || '')
+            .replace(/\.(md|markdown)$/i, '')
+            .replace(/[-_]+/g, ' ')
+            .trim();
+    }
+
+    function sortChapterNames(names) {
+        return [...names].sort((a, b) =>
+            a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+        );
+    }
+
+    function looksLikeNumberedChapterSet(names) {
+        const list = names || [];
+        if (list.length <= 1) return true;
+        const numbered = list.filter((n) => /^\d{2}[-_]/.test(n));
+        // e.g. 00-intro.md … 08-security.md
+        return numbered.length >= Math.max(2, Math.ceil(list.length * 0.6));
+    }
+
+    function filterCourseMarkdownFiles(items) {
+        return (items || []).filter(
+            (item) =>
+                item.type === 'file' &&
+                isMarkdownName(item.name) &&
+                !/^readme\.(md|markdown)$/i.test(item.name)
+        );
+    }
+
+    function pickDefaultChapter(names) {
+        const sorted = sortChapterNames(names);
+        const intro = sorted.find((n) => /introduction|intro|overview|00[-_]/i.test(n));
+        return intro || sorted[0] || null;
+    }
+
+    function setOpenStatus(message, isError = false) {
+        if (!openCourseStatus) return;
+        openCourseStatus.textContent = message || '';
+        openCourseStatus.classList.toggle('is-error', !!isError);
+    }
+
+    function clearOpenBrowser() {
+        if (!openCourseBrowser) return;
+        openCourseBrowser.hidden = true;
+        openCourseBrowser.innerHTML = '';
+    }
+
+    function renderBrowserList(heading, items) {
+        if (!openCourseBrowser) return;
+        clearOpenBrowser();
+        if (!items || !items.length) return;
+
+        const headingEl = document.createElement('div');
+        headingEl.className = 'course-browser-heading';
+        headingEl.textContent = heading;
+
+        const ul = document.createElement('ul');
+        ul.className = 'course-browser-list';
+
+        items.forEach((item) => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            if (item.active) btn.classList.add('is-active');
+            btn.innerHTML =
+                `<span class="course-browser-item-title">${item.title}</span>` +
+                (item.meta ? `<span class="course-browser-item-meta">${item.meta}</span>` : '');
+            btn.addEventListener('click', () => item.onSelect());
+            li.appendChild(btn);
+            ul.appendChild(li);
+        });
+
+        openCourseBrowser.appendChild(headingEl);
+        openCourseBrowser.appendChild(ul);
+        openCourseBrowser.hidden = false;
+    }
+
+    function syncShareLinkButton() {
+        if (!copyShareLinkBtn) return;
+        copyShareLinkBtn.hidden = !currentShareUrl;
+    }
+
+    function updateBrowserCourseQuery(shareUrl) {
+        const url = new URL(window.location.href);
+        if (shareUrl) {
+            url.searchParams.set('course', shareUrl);
+        } else {
+            url.searchParams.delete('course');
+            url.searchParams.delete('lab');
+            url.searchParams.delete('url');
+        }
+        const hash = window.location.hash || '';
+        history.replaceState(null, '', `${url.pathname}${url.search}${hash}`);
+    }
+
+    function reloadAnnotationsForCourse() {
+        slideAnnotations = {};
+        const key = `slides-annotations-${courseUrl || 'default'}`;
+        const saved = localStorage.getItem(key);
+        if (saved) {
+            try {
+                slideAnnotations = JSON.parse(saved);
+            } catch (_) {
+                slideAnnotations = {};
             }
         }
+        if (typeof clearCanvas === 'function') clearCanvas();
+        if (typeof clearSlidePointer === 'function') clearSlidePointer();
     }
-    
-    courseBaseUrl = courseUrl.substring(0, courseUrl.lastIndexOf('/') + 1);
-    
-    // Fetch and parse presentation Markdown
-    fetch(courseUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+
+    function saveAnnotationsToStorage() {
+        const key = `slides-annotations-${courseUrl || 'default'}`;
+        localStorage.setItem(key, JSON.stringify(slideAnnotations));
+    }
+
+    function updateChapterSelector() {
+        if (!chapterSelect || !chapterSelectWrap) return;
+        chapterSelect.innerHTML = '';
+
+        if (!courseChapters || courseChapters.length <= 1) {
+            chapterSelectWrap.hidden = true;
+            return;
+        }
+
+        courseChapters.forEach((ch) => {
+            const opt = document.createElement('option');
+            opt.value = ch.id;
+            opt.textContent = ch.label;
+            if (ch.id === currentChapterId) opt.selected = true;
+            chapterSelect.appendChild(opt);
+        });
+        chapterSelectWrap.hidden = false;
+    }
+
+    function applyCourseMarkdown(markdownText, options = {}) {
+        const {
+            sourceKey,
+            baseUrl = '',
+            assetMap = null,
+            shareUrl = null,
+            chapters = null,
+            chapterId = null
+        } = options;
+
+        revokeLocalAssets();
+        localAssetMap = assetMap;
+        courseUrl = sourceKey || 'course';
+        courseBaseUrl = baseUrl || '';
+        currentShareUrl = shareUrl || null;
+
+        if (chapters) {
+            courseChapters = chapters;
+            currentChapterId = chapterId || (chapters[0] && chapters[0].id) || null;
+        }
+
+        slides = markdownText
+            .split(/\r?\n---\r?\n/)
+            .map((slide) => slide.trim())
+            .filter((slide) => slide.length > 0);
+
+        if (slides.length === 0) {
+            slideBody.innerHTML = '<div class="error">No slides found in the specified Markdown file.</div>';
+            updateChapterSelector();
+            syncShareLinkButton();
+            return;
+        }
+
+        const commentMatch = markdownText.match(
+            /<!--\s*(?:course-title|course_title|course|footer-title|footer_title):\s*(.*?)\s*-->/i
+        );
+        const customCourseTitle = commentMatch ? commentMatch[1].trim() : '';
+
+        if (customCourseTitle) {
+            if (footerCourseTitle) footerCourseTitle.textContent = customCourseTitle;
+            if (courseTitle) courseTitle.textContent = customCourseTitle;
+            requestAnimationFrame(() => fitFooterCourseTitle());
+        }
+
+        reloadAnnotationsForCourse();
+        buildSlideDrawer(customCourseTitle);
+        updateChapterSelector();
+        syncShareLinkButton();
+        updateBrowserCourseQuery(currentShareUrl);
+
+        const hash = window.location.hash;
+        let initialIndex = 0;
+        if (hash) {
+            const match = hash.match(/#(?:slide-)?(\d+)/i);
+            if (match) {
+                initialIndex = parseInt(match[1], 10) - 1;
             }
-            return response.text();
-        })
-        .then(markdownText => {
-            // Split markdown into individual slides using horizontal rules (---)
-            slides = markdownText
-                .split(/\r?\n---\r?\n/)
-                .map(slide => slide.trim())
-                .filter(slide => slide.length > 0);
-            
-            if (slides.length === 0) {
-                slideBody.innerHTML = '<div class="error">No slides found in the specified Markdown file.</div>';
+        }
+        goToSlide(initialIndex);
+    }
+
+    async function fetchText(url) {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} loading ${url}`);
+        }
+        return response.text();
+    }
+
+    function githubRawUrl(owner, repo, ref, filePath) {
+        const clean = String(filePath || '').replace(/^\/+/, '');
+        return `https://raw.githubusercontent.com/${owner}/${repo}/${ref}/${clean}`;
+    }
+
+    function githubBlobUrl(owner, repo, ref, filePath) {
+        const clean = String(filePath || '').replace(/^\/+/, '');
+        return `https://github.com/${owner}/${repo}/blob/${ref}/${clean}`;
+    }
+
+    function githubTreeUrl(owner, repo, ref, dirPath) {
+        const clean = String(dirPath || '').replace(/^\/+|\/+$/g, '');
+        return clean
+            ? `https://github.com/${owner}/${repo}/tree/${ref}/${clean}`
+            : `https://github.com/${owner}/${repo}/tree/${ref}`;
+    }
+
+    function parseGitHubUrl(input) {
+        const trimmed = String(input || '').trim();
+        if (!trimmed) return null;
+
+        let m = trimmed.match(
+            /^https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.*)$/i
+        );
+        if (m) {
+            const path = m[4].replace(/\/+$/, '');
+            return {
+                owner: m[1],
+                repo: m[2],
+                ref: m[3],
+                path,
+                isFile: isMarkdownName(path)
+            };
+        }
+
+        m = trimmed.match(
+            /^https?:\/\/github\.com\/([^/]+)\/([^/]+)(?:\/(tree|blob)\/([^/?#]+)(?:\/(.*))?)?\/?(?:[?#].*)?$/i
+        );
+        if (m) {
+            const owner = m[1];
+            const repo = m[2];
+            const kind = m[3] || null;
+            const ref = m[4] || null;
+            const path = (m[5] || '').replace(/\/+$/, '');
+            const isFile = kind === 'blob' || isMarkdownName(path);
+            return { owner, repo, ref, path, isFile };
+        }
+
+        // Shorthand: owner/repo or owner/repo/path (not relative folder/file.md)
+        m = trimmed.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/(.+))?$/);
+        if (m && !trimmed.includes('://') && !trimmed.startsWith('.') && !isMarkdownName(m[2])) {
+            const path = (m[3] || '').replace(/\/+$/, '');
+            return {
+                owner: m[1],
+                repo: m[2],
+                ref: null,
+                path,
+                isFile: isMarkdownName(path)
+            };
+        }
+
+        return null;
+    }
+
+    async function githubApiFetch(apiPath) {
+        const response = await fetch(`https://api.github.com${apiPath}`, {
+            headers: { Accept: 'application/vnd.github+json' }
+        });
+        if (!response.ok) {
+            let detail = `GitHub API ${response.status}`;
+            try {
+                const body = await response.json();
+                if (body && body.message) detail = body.message;
+            } catch (_) { /* ignore */ }
+            const err = new Error(detail);
+            err.status = response.status;
+            throw err;
+        }
+        return response.json();
+    }
+
+    async function resolveGitHubRef(owner, repo, preferredRef) {
+        if (preferredRef) return preferredRef;
+        const info = await githubApiFetch(`/repos/${owner}/${repo}`);
+        return info.default_branch || 'main';
+    }
+
+    async function listGitHubContents(owner, repo, path, ref) {
+        const cleanPath = String(path || '').replace(/^\/+|\/+$/g, '');
+        const encodedPath = cleanPath
+            .split('/')
+            .filter(Boolean)
+            .map(encodeURIComponent)
+            .join('/');
+        const q = `?ref=${encodeURIComponent(ref)}`;
+        const apiPath = encodedPath
+            ? `/repos/${owner}/${repo}/contents/${encodedPath}${q}`
+            : `/repos/${owner}/${repo}/contents${q}`;
+        return githubApiFetch(apiPath);
+    }
+
+    function getRecentGitHubUrls() {
+        try {
+            const raw = localStorage.getItem(RECENT_GITHUB_KEY);
+            const list = raw ? JSON.parse(raw) : [];
+            return Array.isArray(list) ? list.filter((u) => typeof u === 'string') : [];
+        } catch (_) {
+            return [];
+        }
+    }
+
+    function rememberGitHubUrl(url) {
+        if (!url) return;
+        const next = [url, ...getRecentGitHubUrls().filter((u) => u !== url)].slice(0, 8);
+        localStorage.setItem(RECENT_GITHUB_KEY, JSON.stringify(next));
+        renderGitHubRecents();
+    }
+
+    function renderGitHubRecents() {
+        const wrap = document.getElementById('github-recents');
+        const list = document.getElementById('github-recents-list');
+        if (!wrap || !list) return;
+        const recents = getRecentGitHubUrls();
+        list.innerHTML = '';
+        if (!recents.length) {
+            wrap.hidden = true;
+            return;
+        }
+        recents.forEach((url) => {
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = url;
+            btn.title = url;
+            btn.addEventListener('click', () => {
+                if (githubUrlInput) githubUrlInput.value = url;
+                browseGitHubUrl(url);
+            });
+            li.appendChild(btn);
+            list.appendChild(li);
+        });
+        wrap.hidden = false;
+    }
+
+    async function loadRemoteMarkdown(rawUrl, shareUrl, chapterState = null) {
+        setOpenStatus('Loading slides…');
+        const markdownText = await fetchText(rawUrl);
+        const baseUrl = rawUrl.substring(0, rawUrl.lastIndexOf('/') + 1);
+        applyCourseMarkdown(markdownText, {
+            sourceKey: rawUrl,
+            baseUrl,
+            shareUrl: shareUrl || rawUrl,
+            chapters: chapterState ? chapterState.chapters : courseChapters,
+            chapterId: chapterState ? chapterState.chapterId : currentChapterId
+        });
+        setOpenStatus('Course loaded.');
+        closeOpenModal();
+    }
+
+    function buildGitHubChapters(owner, repo, ref, dirPath, mdFiles) {
+        const sorted = sortChapterNames(mdFiles.map((f) => f.name));
+        return sorted.map((name) => {
+            const filePath = dirPath ? `${dirPath.replace(/\/+$/, '')}/${name}` : name;
+            return {
+                id: name,
+                label: chapterLabelFromName(name),
+                kind: 'github',
+                rawUrl: githubRawUrl(owner, repo, ref, filePath),
+                shareUrl: githubBlobUrl(owner, repo, ref, filePath)
+            };
+        });
+    }
+
+    async function openGitHubCourseFolder(owner, repo, ref, dirPath, mdFiles) {
+        const chapters = buildGitHubChapters(owner, repo, ref, dirPath, mdFiles);
+        courseChapters = chapters;
+        const defaultName = pickDefaultChapter(chapters.map((c) => c.id));
+        const chapter = chapters.find((c) => c.id === defaultName) || chapters[0];
+
+        renderBrowserList(
+            'Chapters',
+            chapters.map((ch) => ({
+                title: ch.label,
+                meta: ch.id,
+                active: ch.id === chapter.id,
+                onSelect: () => loadGitHubChapter(ch)
+            }))
+        );
+
+        rememberGitHubUrl(githubTreeUrl(owner, repo, ref, dirPath));
+        await loadGitHubChapter(chapter);
+    }
+
+    async function loadGitHubChapter(chapter) {
+        currentChapterId = chapter.id;
+        await loadRemoteMarkdown(chapter.rawUrl, chapter.shareUrl, {
+            chapters: courseChapters,
+            chapterId: chapter.id
+        });
+        updateChapterSelector();
+    }
+
+    async function inspectGitHubDirectory(owner, repo, ref, dirPath) {
+        setOpenStatus(`Browsing ${dirPath || 'repository root'}…`);
+        const listing = await listGitHubContents(owner, repo, dirPath, ref);
+        if (!Array.isArray(listing)) {
+            if (listing && listing.type === 'file' && isMarkdownName(listing.name)) {
+                const shareUrl = githubBlobUrl(owner, repo, ref, listing.path || listing.name);
+                const rawUrl = listing.download_url || githubRawUrl(owner, repo, ref, listing.path || listing.name);
+                courseChapters = [];
+                currentChapterId = null;
+                rememberGitHubUrl(shareUrl);
+                await loadRemoteMarkdown(rawUrl, shareUrl, { chapters: [], chapterId: null });
                 return;
             }
-            
-            // Extract explicit course title comment if present (e.g. <!-- course-title: 815: Hands-On Terraform -->)
-            const commentMatch = markdownText.match(/<!--\s*(?:course-title|course_title|course|footer-title|footer_title):\s*(.*?)\s*-->/i);
-            const customCourseTitle = commentMatch ? commentMatch[1].trim() : '';
-            
-            if (customCourseTitle) {
-                if (footerCourseTitle) footerCourseTitle.textContent = customCourseTitle;
-                if (courseTitle) courseTitle.textContent = customCourseTitle;
-                requestAnimationFrame(() => fitFooterCourseTitle());
+            throw new Error('Unexpected GitHub response for that path.');
+        }
+
+        const mdFiles = filterCourseMarkdownFiles(listing);
+        const dirs = listing.filter(
+            (item) => item.type === 'dir' && !IGNORED_DIR_NAMES.has(item.name.toLowerCase())
+        );
+
+        if (mdFiles.length > 0) {
+            const names = mdFiles.map((f) => f.name);
+            if (mdFiles.length > 1 && !looksLikeNumberedChapterSet(names)) {
+                // Independent course files in one folder (e.g. course-a.md, course-b.md)
+                setOpenStatus(`Found ${mdFiles.length} course files. Pick one.`);
+                rememberGitHubUrl(githubTreeUrl(owner, repo, ref, dirPath));
+                renderBrowserList(
+                    'Courses',
+                    mdFiles.map((file) => ({
+                        title: chapterLabelFromName(file.name),
+                        meta: file.name,
+                        onSelect: async () => {
+                            try {
+                                const filePath = dirPath
+                                    ? `${dirPath.replace(/\/+$/, '')}/${file.name}`
+                                    : file.name;
+                                const rawUrl = githubRawUrl(owner, repo, ref, filePath);
+                                const shareUrl = githubBlobUrl(owner, repo, ref, filePath);
+                                courseChapters = [];
+                                currentChapterId = null;
+                                rememberGitHubUrl(shareUrl);
+                                await loadRemoteMarkdown(rawUrl, shareUrl, {
+                                    chapters: [],
+                                    chapterId: null
+                                });
+                            } catch (err) {
+                                setOpenStatus(err.message || String(err), true);
+                            }
+                        }
+                    }))
+                );
+                return;
             }
-            
-            // Build Slide Drawer / TOC
-            buildSlideDrawer(customCourseTitle);
-            
-            // Check initial URL hash for slide index (e.g. #slide-3 or #3)
-            const hash = window.location.hash;
-            let initialIndex = 0;
-            if (hash) {
-                const match = hash.match(/#(?:slide-)?(\d+)/i);
-                if (match) {
-                    initialIndex = parseInt(match[1], 10) - 1;
+
+            await openGitHubCourseFolder(owner, repo, ref, dirPath, mdFiles);
+            return;
+        }
+
+        if (dirs.length === 0) {
+            throw new Error('No Markdown course files or course folders found at that path.');
+        }
+
+        // Multi-course repo / parent folder: list directories for the user to pick
+        setOpenStatus(
+            dirs.length === 1
+                ? 'Found one folder. Opening it…'
+                : `Found ${dirs.length} folders. Pick a course folder.`
+        );
+
+        if (dirs.length === 1) {
+            const only = dirs[0];
+            const nextPath = dirPath ? `${dirPath.replace(/\/+$/, '')}/${only.name}` : only.name;
+            await inspectGitHubDirectory(owner, repo, ref, nextPath);
+            return;
+        }
+
+        rememberGitHubUrl(githubTreeUrl(owner, repo, ref, dirPath));
+        renderBrowserList(
+            'Course folders',
+            dirs.map((dir) => ({
+                title: dir.name,
+                meta: 'Open folder',
+                onSelect: async () => {
+                    try {
+                        const nextPath = dirPath ? `${dirPath.replace(/\/+$/, '')}/${dir.name}` : dir.name;
+                        await inspectGitHubDirectory(owner, repo, ref, nextPath);
+                    } catch (err) {
+                        setOpenStatus(err.message || String(err), true);
+                    }
                 }
+            }))
+        );
+    }
+
+    async function browseGitHubUrl(inputUrl) {
+        clearOpenBrowser();
+        setOpenStatus('');
+        const parsed = parseGitHubUrl(inputUrl);
+        if (!parsed) {
+            setOpenStatus('Enter a valid GitHub URL (repo, folder, or .md file).', true);
+            return;
+        }
+
+        try {
+            const ref = await resolveGitHubRef(parsed.owner, parsed.repo, parsed.ref);
+            if (parsed.isFile && parsed.path) {
+                setOpenStatus('Loading Markdown file…');
+                const rawUrl = githubRawUrl(parsed.owner, parsed.repo, ref, parsed.path);
+                const shareUrl = githubBlobUrl(parsed.owner, parsed.repo, ref, parsed.path);
+                courseChapters = [];
+                currentChapterId = null;
+                rememberGitHubUrl(shareUrl);
+                await loadRemoteMarkdown(rawUrl, shareUrl, { chapters: [], chapterId: null });
+                return;
             }
-            
-            // Render initial slide
-            goToSlide(initialIndex);
-        })
-        .catch(error => {
+            await inspectGitHubDirectory(parsed.owner, parsed.repo, ref, parsed.path || '');
+        } catch (err) {
+            console.error(err);
+            setOpenStatus(err.message || String(err), true);
+        }
+    }
+
+    // ─── Local file / folder ──────────────────────────────────────────
+    function normalizeRelPath(path) {
+        return String(path || '').replace(/\\/g, '/').replace(/^\.\//, '');
+    }
+
+    function analyzeLocalFiles(fileList) {
+        const files = Array.from(fileList || []).map((file) => ({
+            file,
+            path: normalizeRelPath(file.webkitRelativePath || file.name)
+        }));
+
+        const mdFiles = files.filter((f) => isMarkdownName(f.path));
+        if (!mdFiles.length) {
+            throw new Error('No Markdown (.md) files found in the selection.');
+        }
+
+        // Group markdown files by their parent directory
+        const byDir = new Map();
+        mdFiles.forEach((f) => {
+            const parts = f.path.split('/');
+            const dir = parts.length > 1 ? parts.slice(0, -1).join('/') : '';
+            if (!byDir.has(dir)) byDir.set(dir, []);
+            byDir.get(dir).push(f);
+        });
+
+        // Prefer deepest common course dirs (ignore nested ones that are only images parents)
+        const courses = [...byDir.entries()].map(([dir, mds]) => ({
+            id: dir || '(root)',
+            dir,
+            label: dir ? dir.split('/').filter(Boolean).pop() : 'Selected files',
+            mdFiles: mds,
+            files
+        }));
+
+        // If multiple nested dirs, prefer those that look like courses (have numbered chapters or several md files)
+        courses.sort((a, b) => a.dir.localeCompare(b.dir));
+        return { files, courses };
+    }
+
+    function buildLocalAssetMap(courseDir, allFiles) {
+        const map = new Map();
+        const prefix = courseDir ? `${courseDir.replace(/\/+$/, '')}/` : '';
+        allFiles.forEach(({ file, path }) => {
+            if (prefix && !path.startsWith(prefix)) return;
+            if (!prefix && path.includes('/')) {
+                // Single-file open from a flat picker: only map same-folder assets if any
+            }
+            const rel = prefix ? path.slice(prefix.length) : path.split('/').pop();
+            if (!rel || isMarkdownName(rel)) return;
+            map.set(rel, URL.createObjectURL(file));
+        });
+        return map;
+    }
+
+    async function loadLocalChapter(chapter, allFiles, courseDir, chapters) {
+        const text = await chapter.file.text();
+        const assetMap = buildLocalAssetMap(courseDir, allFiles);
+        currentChapterId = chapter.id;
+        applyCourseMarkdown(text, {
+            sourceKey: `local:${courseDir || ''}/${chapter.id}`,
+            baseUrl: '',
+            assetMap,
+            shareUrl: null,
+            chapters,
+            chapterId: chapter.id
+        });
+        setOpenStatus('Local course loaded. (Share links are only available for GitHub courses.)');
+        closeOpenModal();
+    }
+
+    async function openLocalCourse(course) {
+        const names = sortChapterNames(course.mdFiles.map((f) => f.path.split('/').pop()));
+        const chapters = names.map((name) => {
+            const entry = course.mdFiles.find((f) => f.path.endsWith('/' + name) || f.path === name);
+            return {
+                id: name,
+                label: chapterLabelFromName(name),
+                kind: 'local',
+                file: entry.file,
+                courseDir: course.dir,
+                allFiles: course.files
+            };
+        });
+
+        courseChapters = chapters;
+        const defaultName = pickDefaultChapter(names);
+        const chapter = chapters.find((c) => c.id === defaultName) || chapters[0];
+
+        if (chapters.length > 1) {
+            renderBrowserList(
+                'Chapters',
+                chapters.map((ch) => ({
+                    title: ch.label,
+                    meta: ch.id,
+                    active: ch.id === chapter.id,
+                    onSelect: () => loadLocalChapter(ch, course.files, course.dir, chapters)
+                }))
+            );
+        }
+
+        await loadLocalChapter(chapter, course.files, course.dir, chapters);
+    }
+
+    async function handleLocalFolderFiles(fileList) {
+        clearOpenBrowser();
+        setOpenStatus('Scanning folder…');
+        try {
+            const { courses } = analyzeLocalFiles(fileList);
+            if (courses.length === 1) {
+                await openLocalCourse(courses[0]);
+                return;
+            }
+
+            // Multiple course folders under the selection
+            setOpenStatus(`Found ${courses.length} course folders. Pick one.`);
+            renderBrowserList(
+                'Courses',
+                courses.map((course) => ({
+                    title: course.label,
+                    meta: `${course.mdFiles.length} Markdown file${course.mdFiles.length === 1 ? '' : 's'}`,
+                    onSelect: async () => {
+                        try {
+                            await openLocalCourse(course);
+                        } catch (err) {
+                            setOpenStatus(err.message || String(err), true);
+                        }
+                    }
+                }))
+            );
+        } catch (err) {
+            console.error(err);
+            setOpenStatus(err.message || String(err), true);
+        }
+    }
+
+    async function handleLocalSingleFile(file) {
+        clearOpenBrowser();
+        setOpenStatus('Loading file…');
+        try {
+            const text = await file.text();
+            courseChapters = [];
+            currentChapterId = null;
+            applyCourseMarkdown(text, {
+                sourceKey: `local-file:${file.name}`,
+                baseUrl: '',
+                assetMap: null,
+                shareUrl: null,
+                chapters: [],
+                chapterId: null
+            });
+            setOpenStatus(
+                'File loaded. Tip: choose the course folder if images or other chapters should resolve.'
+            );
+            closeOpenModal();
+        } catch (err) {
+            console.error(err);
+            setOpenStatus(err.message || String(err), true);
+        }
+    }
+
+    // ─── Open modal UI ────────────────────────────────────────────────
+    function openOpenModal(tab = null) {
+        if (!openCourseModal) return;
+        openCourseModal.hidden = false;
+        openCourseModal.setAttribute('aria-hidden', 'false');
+        openModalOpen = true;
+        setOpenStatus('');
+        syncShareLinkButton();
+        renderGitHubRecents();
+        if (tab) switchOpenTab(tab);
+        const focusEl =
+            (tab === 'github' ? githubUrlInput : document.getElementById('pick-local-file')) ||
+            document.getElementById('open-course-close');
+        if (focusEl && focusEl.focus) setTimeout(() => focusEl.focus(), 0);
+    }
+
+    function closeOpenModal() {
+        if (!openCourseModal) return;
+        openCourseModal.hidden = true;
+        openCourseModal.setAttribute('aria-hidden', 'true');
+        openModalOpen = false;
+    }
+
+    function switchOpenTab(tabName) {
+        document.querySelectorAll('.modal-tab').forEach((tab) => {
+            const active = tab.dataset.tab === tabName;
+            tab.classList.toggle('active', active);
+            tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        document.querySelectorAll('.modal-panel').forEach((panel) => {
+            panel.hidden = panel.dataset.panel !== tabName;
+        });
+    }
+
+    function wireOpenCourseUi() {
+        const openBtn = document.getElementById('open-course-btn');
+        const closeBtn = document.getElementById('open-course-close');
+        const cancelBtn = document.getElementById('open-course-cancel');
+        const pickFileBtn = document.getElementById('pick-local-file');
+        const pickFolderBtn = document.getElementById('pick-local-folder');
+        const fileInput = document.getElementById('local-file-input');
+        const folderInput = document.getElementById('local-folder-input');
+        const browseBtn = document.getElementById('github-browse-btn');
+
+        if (openBtn) openBtn.addEventListener('click', () => openOpenModal());
+        if (closeBtn) closeBtn.addEventListener('click', closeOpenModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeOpenModal);
+
+        if (openCourseModal) {
+            openCourseModal.addEventListener('click', (e) => {
+                if (e.target === openCourseModal) closeOpenModal();
+            });
+        }
+
+        document.querySelectorAll('.modal-tab').forEach((tab) => {
+            tab.addEventListener('click', () => switchOpenTab(tab.dataset.tab));
+        });
+
+        if (pickFileBtn && fileInput) {
+            pickFileBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', () => {
+                const file = fileInput.files && fileInput.files[0];
+                if (file) handleLocalSingleFile(file);
+                fileInput.value = '';
+            });
+        }
+
+        if (pickFolderBtn && folderInput) {
+            pickFolderBtn.addEventListener('click', async () => {
+                if (window.showDirectoryPicker) {
+                    try {
+                        const dirHandle = await window.showDirectoryPicker();
+                        const collected = [];
+                        async function walk(handle, prefix) {
+                            for await (const entry of handle.values()) {
+                                const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+                                if (entry.kind === 'file') {
+                                    const file = await entry.getFile();
+                                    // Synthesize webkitRelativePath-like field
+                                    Object.defineProperty(file, 'webkitRelativePath', {
+                                        value: rel,
+                                        configurable: true
+                                    });
+                                    collected.push(file);
+                                } else if (entry.kind === 'directory') {
+                                    const lower = entry.name.toLowerCase();
+                                    // Always include images/; skip other noise directories
+                                    if (IGNORED_DIR_NAMES.has(lower) && lower !== 'images') continue;
+                                    await walk(entry, rel);
+                                }
+                            }
+                        }
+                        await walk(dirHandle, dirHandle.name);
+                        await handleLocalFolderFiles(collected);
+                        return;
+                    } catch (err) {
+                        if (err && err.name === 'AbortError') return;
+                        console.warn('showDirectoryPicker failed, falling back to input', err);
+                    }
+                }
+                folderInput.click();
+            });
+
+            folderInput.addEventListener('change', () => {
+                if (folderInput.files && folderInput.files.length) {
+                    handleLocalFolderFiles(folderInput.files);
+                }
+                folderInput.value = '';
+            });
+        }
+
+        if (browseBtn) {
+            browseBtn.addEventListener('click', () => {
+                browseGitHubUrl(githubUrlInput ? githubUrlInput.value : '');
+            });
+        }
+        if (githubUrlInput) {
+            githubUrlInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    browseGitHubUrl(githubUrlInput.value);
+                }
+            });
+        }
+
+        if (copyShareLinkBtn) {
+            copyShareLinkBtn.addEventListener('click', async () => {
+                if (!currentShareUrl) return;
+                const sharePage = new URL(window.location.href);
+                sharePage.searchParams.set('course', currentShareUrl);
+                try {
+                    await navigator.clipboard.writeText(sharePage.toString());
+                    setOpenStatus('Share link copied to clipboard.');
+                } catch (_) {
+                    setOpenStatus(sharePage.toString());
+                }
+            });
+        }
+
+        if (chapterSelect) {
+            chapterSelect.addEventListener('change', async () => {
+                const chapter = courseChapters.find((c) => c.id === chapterSelect.value);
+                if (!chapter) return;
+                try {
+                    if (chapter.kind === 'github') {
+                        await loadGitHubChapter(chapter);
+                    } else if (chapter.kind === 'local') {
+                        await loadLocalChapter(chapter, chapter.allFiles, chapter.courseDir, courseChapters);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    slideBody.innerHTML = `<div class="error"><strong>Failed to load chapter:</strong><br>${err.message}</div>`;
+                }
+            });
+        }
+    }
+
+    wireOpenCourseUi();
+
+    async function bootFromQueryOrDefault() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let paramUrl = urlParams.get('course') || urlParams.get('lab') || urlParams.get('url');
+
+        if (!paramUrl) {
+            const sampleUrl = './sample-course.md';
+            try {
+                await loadRemoteMarkdown(sampleUrl, null, { chapters: [], chapterId: null });
+                setOpenStatus('');
+            } catch (error) {
+                console.error('Error loading course:', error);
+                slideBody.innerHTML = `<div class="error">
+                    <strong>Failed to load course slides from URL:</strong><br>
+                    <code>${sampleUrl}</code><br><br>
+                    <strong>Error:</strong> ${error.message}
+                </div>`;
+            }
+            return;
+        }
+
+        // Convert github web URLs; if folder/repo, use discovery instead of README.md
+        const gh = parseGitHubUrl(paramUrl);
+        if (gh) {
+            try {
+                const ref = await resolveGitHubRef(gh.owner, gh.repo, gh.ref);
+                if (gh.isFile && gh.path) {
+                    const rawUrl = githubRawUrl(gh.owner, gh.repo, ref, gh.path);
+                    const shareUrl = githubBlobUrl(gh.owner, gh.repo, ref, gh.path);
+                    await loadRemoteMarkdown(rawUrl, shareUrl, { chapters: [], chapterId: null });
+                    // Also discover sibling chapters when possible
+                    try {
+                        const dirPath = gh.path.includes('/')
+                            ? gh.path.split('/').slice(0, -1).join('/')
+                            : '';
+                        const listing = await listGitHubContents(gh.owner, gh.repo, dirPath, ref);
+                        if (Array.isArray(listing)) {
+                            const mdFiles = filterCourseMarkdownFiles(listing);
+                            if (mdFiles.length > 1 && looksLikeNumberedChapterSet(mdFiles.map((i) => i.name))) {
+                                courseChapters = buildGitHubChapters(gh.owner, gh.repo, ref, dirPath, mdFiles);
+                                currentChapterId = gh.path.split('/').pop();
+                                updateChapterSelector();
+                            }
+                        }
+                    } catch (_) { /* sibling discovery is best-effort */ }
+                    return;
+                }
+                openOpenModal('github');
+                if (githubUrlInput) githubUrlInput.value = paramUrl;
+                await inspectGitHubDirectory(gh.owner, gh.repo, ref, gh.path || '');
+                return;
+            } catch (error) {
+                console.error('Error loading course:', error);
+                slideBody.innerHTML = `<div class="error">
+                    <strong>Failed to load course from GitHub:</strong><br>
+                    <code>${paramUrl}</code><br><br>
+                    <strong>Error:</strong> ${error.message}<br><br>
+                    Use the <strong>Open</strong> button to try again.
+                </div>`;
+                return;
+            }
+        }
+
+        // Non-GitHub URL (relative or absolute)
+        if (paramUrl.startsWith('https://github.com/')) {
+            // Fallback leftover conversion
+            paramUrl = paramUrl
+                .replace('https://github.com/', 'https://raw.githubusercontent.com/')
+                .replace('/blob/', '/')
+                .replace('/tree/', '/');
+        }
+
+        try {
+            const shareUrl = paramUrl.startsWith('http') ? paramUrl : null;
+            await loadRemoteMarkdown(paramUrl, shareUrl, { chapters: [], chapterId: null });
+        } catch (error) {
             console.error('Error loading course:', error);
             slideBody.innerHTML = `<div class="error">
                 <strong>Failed to load course slides from URL:</strong><br>
-                <code>${courseUrl}</code><br><br>
+                <code>${paramUrl}</code><br><br>
                 <strong>Error:</strong> ${error.message}
             </div>`;
-        });
+        }
+    }
+
+    bootFromQueryOrDefault();
 
     // Slide Drawer Generator
     function buildSlideDrawer(customCourseTitle) {
@@ -602,8 +1491,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // Sync URL Hash without jumping window scroll
-        history.replaceState(null, '', `#slide-${index + 1}`);
+        // Sync URL Hash without jumping window scroll (preserve ?course=)
+        history.replaceState(
+            null,
+            '',
+            `${window.location.pathname}${window.location.search}#slide-${index + 1}`
+        );
     }
 
     // Process GitHub Callout Alerts
@@ -637,18 +1530,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Resolve relative image URLs
+    // Resolve relative image URLs (remote base URL or local object URLs)
     function processRelativeImages(container) {
         const images = container.querySelectorAll('img');
         images.forEach(img => {
             const src = img.getAttribute('src');
-            if (src && !src.startsWith('http') && !src.startsWith('data:')) {
-                let cleanSrc = src;
-                if (cleanSrc.startsWith('./')) {
-                    cleanSrc = cleanSrc.substring(2);
-                } else if (cleanSrc.startsWith('/')) {
-                    cleanSrc = cleanSrc.substring(1);
+            if (!src || src.startsWith('http') || src.startsWith('data:') || src.startsWith('blob:')) {
+                return;
+            }
+            let cleanSrc = src;
+            if (cleanSrc.startsWith('./')) {
+                cleanSrc = cleanSrc.substring(2);
+            } else if (cleanSrc.startsWith('/')) {
+                cleanSrc = cleanSrc.substring(1);
+            }
+            if (localAssetMap) {
+                const mapped = localAssetMap.get(cleanSrc) || localAssetMap.get(decodeURIComponent(cleanSrc));
+                if (mapped) {
+                    img.src = mapped;
+                    return;
                 }
+            }
+            if (courseBaseUrl) {
                 img.src = courseBaseUrl + cleanSrc;
             }
         });
@@ -845,6 +1748,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && (e.key === 'o' || e.key === 'O')) {
+            e.preventDefault();
+            openOpenModal();
+            return;
+        }
+
+        if (openModalOpen) {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                closeOpenModal();
+            }
+            return;
+        }
+
         if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
             return;
         }
@@ -896,6 +1813,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveAnnotationsToStorage();
                 clearCanvas();
                 clearSlidePointer();
+                break;
+            case 'Escape':
+                // reserved for modal; no-op here
                 break;
         }
     });
@@ -1059,21 +1979,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDrawing = false;
     let currentStroke = null;
 
-    // Persistent storage of strokes per slide index
-    let slideAnnotations = {};
-    const storageKey = `slides-annotations-${courseUrl}`;
-    const savedAnnotations = localStorage.getItem(storageKey);
-    if (savedAnnotations) {
-        try {
-            slideAnnotations = JSON.parse(savedAnnotations);
-        } catch (e) {
-            slideAnnotations = {};
-        }
-    }
-
-    function saveAnnotationsToStorage() {
-        localStorage.setItem(storageKey, JSON.stringify(slideAnnotations));
-    }
+    // Persistent storage of strokes per slide index (keyed by courseUrl via saveAnnotationsToStorage)
+    // slideAnnotations is declared in application state and reloaded in applyCourseMarkdown
 
     function placeSlidePointer(xNorm, yNorm) {
         if (!slidePointer) return;
@@ -1160,7 +2067,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (deleteAllBtn) {
         deleteAllBtn.addEventListener('click', () => {
             slideAnnotations = {};
-            localStorage.removeItem(storageKey);
+            localStorage.removeItem(`slides-annotations-${courseUrl || 'default'}`);
             clearCanvas();
             clearSlidePointer();
         });
