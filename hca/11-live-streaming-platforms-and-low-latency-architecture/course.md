@@ -18,6 +18,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Scale and Reliability (~15 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -46,6 +48,7 @@
 - Technical media / product teams shipping live experiences
 - Cloud engineers supporting large live events
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -55,6 +58,7 @@
 - Helpful: exposure to video formats or event broadcasting
 - Helpful: awareness of HLS / DASH terminology
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

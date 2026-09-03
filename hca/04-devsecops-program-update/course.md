@@ -17,6 +17,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -36,6 +37,7 @@
 - Segment 3: Maturity and Roadmap (~15 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -45,6 +47,7 @@
 - Application and cloud security stakeholders
 - Leaders tracking a DevSecOps initiative
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -54,6 +57,7 @@
 - Helpful: exposure to CI/CD pipelines and pull-request workflows
 - Helpful: awareness of your org’s current security scanning tools
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

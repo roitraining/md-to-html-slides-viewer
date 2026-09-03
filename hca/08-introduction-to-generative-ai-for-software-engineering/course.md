@@ -18,6 +18,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Tools and Responsible Use (~15 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -46,6 +48,7 @@
 - Engineers adopting IDE coding assistants
 - Tech leads setting responsible-use norms
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -55,6 +58,7 @@
 - Helpful: prior exposure to unit testing
 - Helpful: access to an org-approved coding assistant for the demo
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

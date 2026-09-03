@@ -18,6 +18,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Doing It Safely (~15 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -46,6 +48,7 @@
 - Modernization / migration leads
 - Engineering managers funding AI-assisted transformation
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -55,6 +58,7 @@
 - Helpful: experience with legacy systems or large refactors
 - Helpful: Git-based PR review workflows
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

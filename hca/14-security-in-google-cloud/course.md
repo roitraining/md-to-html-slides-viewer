@@ -18,6 +18,7 @@
   - Contact info
 - Let's get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Detect and Respond (~20 min)
 - Q&A (~10 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -45,6 +47,7 @@
 - Cloud security architects
 - Cloud security engineers
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -52,6 +55,7 @@
 - Foundational Google Cloud knowledge (projects, resources, console/`gcloud` basics)
 - Foundational information-security knowledge (identity, encryption, networking concepts)
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

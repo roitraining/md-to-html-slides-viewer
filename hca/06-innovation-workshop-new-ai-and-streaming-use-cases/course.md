@@ -18,6 +18,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Make It Real (~10 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -46,6 +48,7 @@
 - Product, ops, clinical, and platform stakeholders
 - Anyone who will pitch or sponsor a small pilot
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -54,6 +57,7 @@
 - Bring a laptop or notepad for ideation
 - Come ready to talk about friction in your day-to-day work
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

@@ -18,6 +18,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Beyond the Editor (~15 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -46,6 +48,7 @@
 - Tech leads defining shared prompts and review norms
 - Platform engineers supporting IDE / cloud AI tooling
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -55,6 +58,7 @@
 - Helpful: Git / PR workflow familiarity
 - Helpful: access to an org-approved AI code assistant for the demo
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

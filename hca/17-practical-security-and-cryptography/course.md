@@ -18,6 +18,7 @@
   - Contact info
 - Let's get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Attacks and Defense (~20 min)
 - Q&A (~10 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -45,6 +47,7 @@
 - Networking and OS familiarity assumed
 - Useful as a foundation for CISSP study
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -52,6 +55,7 @@
 - Understanding of TCP/IP networking
 - Experience with operating system administration
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

@@ -18,6 +18,7 @@
   - Contact info
 - Let's get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Defenses and Testing, with demo (~25 min)
 - Q&A (~10 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -45,6 +47,7 @@
 - Security staff and technical leads
 - Some development familiarity is helpful—not required
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -52,6 +55,7 @@
 - No prior security experience required
 - Basic familiarity with web or mobile development is helpful, but not required
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

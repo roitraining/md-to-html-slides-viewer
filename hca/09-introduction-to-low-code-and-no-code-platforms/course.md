@@ -18,6 +18,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Doing It Safely (~15 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -46,6 +48,7 @@
 - IT partners enabling or coaching makers
 - Leaders exploring faster departmental delivery
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -54,6 +57,7 @@
 - Helpful: familiarity with a business process you want to improve
 - Helpful: awareness of your org’s approved productivity / automation tools
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

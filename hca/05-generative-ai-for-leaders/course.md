@@ -17,6 +17,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -36,6 +37,7 @@
 - Segment 3: Leading the Change (~15 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -45,6 +47,7 @@
 - Transformation, strategy, and innovation stakeholders
 - Anyone expected to prioritize or govern GenAI work
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -53,6 +56,7 @@
 - Helpful: familiarity with your function’s workflows and pain points
 - Helpful: awareness of where your organization already uses copilots or chat tools
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

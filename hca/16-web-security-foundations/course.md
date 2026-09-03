@@ -18,6 +18,7 @@
   - Contact info
 - Let's get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Safe Processing (~20 min)
 - Q&A (~10 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -45,6 +47,7 @@
 - System and network administrators
 - Web developers responsible for server-side code
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -52,6 +55,7 @@
 - Experience administering Windows or Linux systems
 - Basic familiarity with HTML
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

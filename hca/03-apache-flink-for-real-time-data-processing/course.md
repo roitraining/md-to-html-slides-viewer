@@ -18,6 +18,7 @@
   - Contact info
 - Let’s get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Putting It to Work (~15 min)
 - Q&A (~15 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -46,6 +48,7 @@
 - Platform engineers operating streaming infrastructure
 - Analytics engineers moving from batch-only workloads
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -55,6 +58,7 @@
 - Generative AI basics (as required by your program track)
 - Helpful: prior exposure to Kafka, Pub/Sub, or data warehouses
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

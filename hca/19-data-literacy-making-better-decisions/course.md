@@ -18,6 +18,7 @@
   - Contact info
 - Let's get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: From Data to Decisions (~25 min)
 - Q&A (~10 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -45,6 +47,7 @@
 - Clinical and administrative staff making data-informed decisions
 - Anyone who reads reports, metrics, or scorecards as part of their role
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
@@ -52,6 +55,7 @@
 - No statistics or analytics background required
 - Comfortable reading basic charts and tables
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap

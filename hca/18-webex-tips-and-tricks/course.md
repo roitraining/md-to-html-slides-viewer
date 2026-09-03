@@ -18,6 +18,7 @@
   - Contact info
 - Let's get started!
 
+![Welcome](images/welcome.png)
 ---
 
 # Course Objectives
@@ -37,6 +38,7 @@
 - Segment 3: Smooth and Reliable, with demo (~25 min)
 - Q&A (~10 min)
 
+![Agenda](images/agenda.png)
 ---
 
 # Who Should Attend
@@ -44,12 +46,14 @@
 - All Webex users, from occasional to daily
 - No technical background required
 
+![Who Should Attend](images/who-should-attend.png)
 ---
 
 # Prerequisites
 
 - No prior Webex experience required
 
+![Prerequisites](images/prerequisites.png)
 ---
 <!-- layout: navigation -->
 # Course Roadmap
