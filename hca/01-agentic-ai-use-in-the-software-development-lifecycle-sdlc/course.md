@@ -37,6 +37,8 @@
 - Segment 3: Adopting Agentic AI Responsibly (~25 min)
 - Q&A (~10 min)
 
+![Agenda](images/agenda.png)
+
 ---
 
 # Who Should Attend
@@ -45,12 +47,16 @@
 - Engineering managers evaluating agentic AI adoption
 - QA and DevOps engineers
 
+![Who Should Attend](images/who-should-attend.png)
+
 ---
 
 # Prerequisites
 
 - General software development experience
 - No prior experience with AI agents required
+
+![Prerequisites](images/prerequisites.png)
 
 ---
 <!-- layout: navigation -->
