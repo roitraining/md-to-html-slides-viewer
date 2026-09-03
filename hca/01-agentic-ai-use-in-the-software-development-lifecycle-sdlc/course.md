@@ -18,6 +18,8 @@
   - Contact info
 - Let's get started!
 
+![Welcome](images/welcome.png)
+
 ---
 
 # Course Objectives
