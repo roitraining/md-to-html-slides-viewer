@@ -349,7 +349,7 @@
 - Recognized automated tools for testing application vulnerabilities
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

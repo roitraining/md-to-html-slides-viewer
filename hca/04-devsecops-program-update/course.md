@@ -345,7 +345,7 @@
 - Assessed program maturity and identified next-step priority patterns
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

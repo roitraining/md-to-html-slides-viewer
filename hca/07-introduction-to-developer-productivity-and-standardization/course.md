@@ -345,7 +345,7 @@ Verify: show function + test only
 - Described how cloud-assist tools speed diagnosis and design in an end-to-end flow
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

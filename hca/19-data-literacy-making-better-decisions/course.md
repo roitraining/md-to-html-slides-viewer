@@ -313,7 +313,7 @@
 - Recognized data pitfalls and biases that commonly mislead healthcare decisions
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

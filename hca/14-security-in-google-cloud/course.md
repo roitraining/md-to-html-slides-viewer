@@ -358,7 +358,7 @@
 - Identified monitoring, logging, and threat-detection options
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

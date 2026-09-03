@@ -303,7 +303,7 @@
 - Identified common network and OS attacks and their defenses
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

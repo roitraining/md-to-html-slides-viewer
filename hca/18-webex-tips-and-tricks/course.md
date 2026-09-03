@@ -299,7 +299,7 @@
 - Troubleshot the most common audio/video/connection issues
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

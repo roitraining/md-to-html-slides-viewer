@@ -311,7 +311,7 @@
 - Described governance and security guardrails for citizen development
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

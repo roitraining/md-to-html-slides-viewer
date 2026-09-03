@@ -295,7 +295,7 @@
 - Outlined guardrails for using agents against production codebases
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

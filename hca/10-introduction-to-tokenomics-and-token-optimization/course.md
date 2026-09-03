@@ -323,7 +323,7 @@
 - Recognized caching, retrieval, and model-selection choices that control cost
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

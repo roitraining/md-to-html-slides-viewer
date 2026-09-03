@@ -437,7 +437,7 @@ adk eval path/to/agent_module path/to/eval_set.json
 - Outlined deploy-to-Agent-Engine and ADK evaluation practices
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

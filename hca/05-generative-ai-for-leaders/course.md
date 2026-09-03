@@ -331,7 +331,7 @@
 - Recognized how to lead and prioritize GenAI adoption responsibly
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

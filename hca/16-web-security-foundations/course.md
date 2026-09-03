@@ -318,7 +318,7 @@
 - Described securing web server communication with SSL/TLS
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

@@ -325,7 +325,7 @@ Producers → Kafka/Pub/Sub → Flink (stateful jobs)
 - Recognized how Flink fits alongside messaging and storage in a pipeline
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

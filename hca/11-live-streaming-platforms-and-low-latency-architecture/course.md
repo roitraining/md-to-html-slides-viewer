@@ -318,7 +318,7 @@ Tight encode  →  short segments/parts  →  edge near viewers
 - Recognized scaling, failover, and QoE monitoring needs for live events
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

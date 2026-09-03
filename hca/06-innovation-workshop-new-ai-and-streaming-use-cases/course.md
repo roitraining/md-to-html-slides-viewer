@@ -323,7 +323,7 @@ Fill this on one page (or slide):
 - Applied a value-vs-effort lens to prioritize and pressure-test ideas
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

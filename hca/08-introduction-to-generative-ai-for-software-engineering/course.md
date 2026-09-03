@@ -333,7 +333,7 @@ Now write get_order(id: str) -> Order the same way.
 - Recognized responsible-use and security considerations for AI-assisted coding
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

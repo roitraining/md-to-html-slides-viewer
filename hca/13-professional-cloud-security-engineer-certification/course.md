@@ -295,7 +295,7 @@ Study loop: read task → build in a sandbox → explain the trade-off out loud
 - Recognized where hands-on Google Cloud experience is required to pass
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)

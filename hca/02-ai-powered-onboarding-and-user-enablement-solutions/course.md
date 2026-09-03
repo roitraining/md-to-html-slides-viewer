@@ -349,7 +349,7 @@
 - Outlined success measures and guardrails for AI enablement tools
 
 ---
-
+<!-- layout: title-image -->
 # Q&A
 
-Questions?
+![Questions](images/qa.png)
