@@ -5,7 +5,7 @@
 # Agentic AI Use in the
 # Software Development Lifecycle (SDLC)
 
-## Building, composing, and shipping agents with Google ADK
+## Where autonomous AI agents fit across planning, coding, testing, review, and operations
 
 ---
 
@@ -16,421 +16,285 @@
   - Name
   - Background
   - Contact info
-- Let’s get started!
+- Let's get started!
 
 ---
 
 # Course Objectives
 
-- **Apply Google’s Agent Development Kit (ADK)** to define, compose, evaluate, and deploy agents in an engineering SDLC
-- Describe how ADK compares to other agent frameworks (Gen AI SDK, LangChain)
-- Build a simple agent with tools using ADK
-- Explain multi-agent patterns (parent-child relationships and flows)
-- Outline how ADK agents deploy to Agent Engine and how to evaluate them
+- **Apply agentic AI effectively across the software development lifecycle**—from planning through operations
+- Describe what distinguishes an agentic AI system from a simple prompt-and-response assistant
+- Identify where agentic AI adds value across each phase of the SDLC
+- Recognize common agentic AI tools and patterns used in modern software teams
+- Apply practical guardrails for using agentic AI safely and effectively on a real team
 
 ---
 
 # Agenda
 
-- Segment 1: Getting Started with ADK (~20 min)
-- Segment 2: Tools and Multi-Agent Systems (~25 min)
-- Segment 3: Deploy and Evaluate (~15 min)
-- Q&A (~15 min)
+- Segment 1: What Makes AI "Agentic"? (~20 min)
+- Segment 2: Agentic AI Across the SDLC (~35 min)
+- Segment 3: Adopting Agentic AI Responsibly (~25 min)
+- Q&A (~10 min)
 
 ---
 
 # Who Should Attend
 
-- Machine learning engineers
-- GenAI / LLM application engineers
-- Software engineers moving from prompts and tools into agent systems
-- Technical leads evaluating ADK for team standards
+- Software engineers and technical leads
+- Engineering managers evaluating agentic AI adoption
+- QA and DevOps engineers
 
 ---
 
 # Prerequisites
 
-- **Python:** Comfortable reading and writing functions, modules, and type hints
-- **Prompt engineering:** Intermediate experience shaping LLM instructions
-- **Tool use:** Familiarity with function-calling / tool-using GenAI apps
-- **Optional:** Prior exposure to LangChain, LangGraph, or the Google Gen AI SDK
+- General software development experience
+- No prior experience with AI agents required
 
 ---
 <!-- layout: navigation -->
 # Course Roadmap
 
-- **Getting Started with ADK**
-- Tools and Multi-Agent Systems
-- Deploy and Evaluate
+- **What Makes AI "Agentic"?**
+- Agentic AI Across the SDLC
+- Adopting Agentic AI Responsibly
 
 ---
 
-# What Is ADK?
+# From Chatbots to Agents
 
-- **Agent Development Kit** — open-source, code-first toolkit from Google
-- Build **conversational and non-conversational** agents in Python (and other languages)
-- Designed for the full loop: **build → evaluate → deploy**
-- Optimized for Gemini, flexible enough for other models
-
-> [!NOTE]
-> This session is a fast engineering tour—enough to choose ADK patterns and extend them in your SDLC.
+- A chatbot answers one prompt at a time—you drive every step
+- An agent pursues a goal: it plans, acts, checks its own results, and keeps going
+- The shift isn't a smarter model—it's giving the model a loop, tools, and permission to act
+- This distinction matters because it changes what you can safely delegate
 
 ---
 <!-- layout: title-image -->
-# ADK Across the Agent SDLC
+# The Agent Loop
 
-![ADK agent SDLC](images/adk-agent-sdlc.png)
-
----
-
-# Foundations: Core Primitives
-
-- **Agent** — worker unit (`LlmAgent` or deterministic workflow agents)
-- **Tool** — callable capability (APIs, search, code, other agents)
-- **Session / State** — one conversation’s history and working memory
-- **Runner** — execution engine that drives events and orchestration
-- **Event** — atomic unit of what happened (user turn, tool call, reply)
-
-![ADK core primitives](images/adk-core-primitives.png)
-
----
-<!-- layout: 3-column -->
-# ADK vs. Other Agent Tools
-
-### Gen AI SDK
-- Direct model / chat APIs
-- Great for single-call or simple tool use
-- You own orchestration yourself
-
-### LangChain / LangGraph
-- Broad ecosystem & integrations
-- Graphs and chains as first-class
-- Framework-heavy abstraction surface
-
-### Google ADK
-- Agent-native primitives & multi-agent
-- Built-in eval + deploy paths
-- Deep fit with Gemini & Agent Engine
+![The agent loop: understand the goal, plan the next step, act using a tool, check the result, and repeat](images/ch01-agent-loop.svg)
 
 ---
 
-# When ADK Is the Right Fit
+# Core Building Blocks
 
-- You want **hierarchical multi-agent** apps without reinventing runners
-- You need **evaluation** (trajectory + response) in the same toolkit
-- You plan to **deploy** to Vertex AI Agent Engine / Agent Runtime
-- Your team prefers **code-first** agents over low-code builders
-
-> [!TIP]
-> Treat Gen AI SDK as the model layer; treat ADK as the agent application layer.
-
----
-
-# Parameters for Building an Agent
-
-| Parameter | Role |
-| :--- | :--- |
-| `name` | Stable ID used in logs, transfers, and evals |
-| `model` | LLM that powers reasoning (e.g. Gemini) |
-| `instruction` | System behavior, rules, and tool-use policy |
-| `description` | How *other* agents decide to delegate here |
-| `tools` | Functions / MCP / AgentTool capabilities |
-| `sub_agents` | Children for transfer or workflow composition |
-
-> [!IMPORTANT]
-> In multi-agent systems, a clear `description` is as critical as a good `instruction`.
-
----
-
-# Minimal ADK Agent
-
-- Start from a `root_agent` module your Runner / `adk web` can load
-- Keep the first agent **one job + few tools**
-
-```python
-from google.adk.agents import Agent
-
-def get_weather(city: str) -> dict:
-    """Return current weather for a city."""
-    return {"city": city, "temp_c": 22, "condition": "sunny"}
-
-root_agent = Agent(
-    name="weather_agent",
-    model="gemini-2.5-flash",
-    instruction="Help users check weather. Use get_weather.",
-    description="Answers weather questions for a city.",
-    tools=[get_weather],
-)
-```
+- **Goal**: a task stated in outcome terms, not step-by-step instructions
+- **Tools**: the actions the agent can actually take (run code, call an API, edit a file)
+- **Memory**: context carried across steps—what's already been tried or learned
+- **Iteration**: the ability to evaluate its own output and try again
 
 ---
 <!-- layout: 2-column -->
-# Local Developer Loop
+# Assistant vs. Agent
 
-### Iterate Fast
-- `adk web` for interactive runs
-- Inspect events, state, and tool calls
-- Tighten instructions before adding agents
+### Prompt-and-Response Assistant
+- You supply each step
+- No memory between separate requests
+- Output is advisory—you decide what to do with it
 
-### Keep It Testable
-- Small focused tools
-- Deterministic return shapes (`dict`)
-- Capture sessions early for eval datasets
+### Agentic System
+- Pursues a stated goal across multiple steps
+- Carries context forward within a task
+- Takes real actions—edits files, runs commands, calls APIs
+
+---
+
+# Autonomy Is a Spectrum, Not a Switch
+
+- Suggests only (you approve every action) → fully autonomous (acts, then reports)
+- Most production tools sit in the middle: autonomous within a scoped, permissioned sandbox
+- More autonomy means more leverage—and more blast radius if something goes wrong
+- Segment 3 covers how to choose the right level deliberately
+
+> [!NOTE]
+> "Agentic" describes a pattern of operation, not a single product—coding assistants, test tools, and CI bots can all be built this way.
 
 ---
 <!-- layout: navigation -->
 # Course Roadmap
 
-- Getting Started with ADK
-- **Tools and Multi-Agent Systems**
-- Deploy and Evaluate
+- What Makes AI "Agentic"?
+- **Agentic AI Across the SDLC**
+- Adopting Agentic AI Responsibly
 
 ---
 
-# Empowering Agents
+# Walking the Lifecycle
 
-- An LLM alone **talks**; tools let it **act**
-- Tools bridge agents to APIs, data, code, and other agents
-- Good tools are **narrow, typed, and documented**
-- Bad tools are vague, side-effect heavy, or undocumented
+- Agentic AI isn't one tool bolted onto one phase—it shows up at every stage of building software
+- Each phase has a different job for an agent: research, generate, verify, gate, or operate
+- We'll walk the lifecycle in order, calling out what "agentic" looks like at each stage
+- The goal isn't tool names—it's recognizing the pattern so you can evaluate any tool
+
+---
+<!-- layout: title-image -->
+# Agentic AI Across the SDLC
+
+![Agentic AI across the SDLC: Plan, Code, Test, Review, Deploy, Operate](images/ch01-sdlc-phases.svg)
+
+---
+
+# Planning and Requirements
+
+- Agents can turn a rough problem statement into a structured spec, user stories, or acceptance criteria draft
+- Useful for surfacing edge cases and ambiguities a human might not think to ask about
+- Still needs a human to confirm scope, priority, and business context an agent can't know
+- Treat agent output here as a first draft to critique, not a final spec
+
+---
+
+# Coding
+
+- The most mature use case: an agent reads a codebase, plans a change, edits multiple files, and runs tests
+- Works best on well-scoped tasks with a clear definition of done
+- Struggles with tasks requiring deep, undocumented tribal knowledge
+- The bigger the change, the more a human should review the plan before code gets written
+
+---
+<!-- layout: 2-column -->
+# Coding: What Works vs. What Doesn't (Yet)
+
+### Works Well
+- Bug fixes with a clear repro
+- Refactors with existing test coverage
+- Boilerplate and repetitive changes
+
+### Still Needs a Human
+- Novel architecture decisions
+- Ambiguous or conflicting requirements
+- Changes touching security-sensitive code
+
+---
+
+# Testing and QA
+
+- Agents can generate test cases from code, specs, or even a bug report
+- Can run a test suite, read the failure, and iterate on a fix autonomously
+- Good at expanding coverage for edge cases humans forget to write
+- Doesn't replace judgment about which tests actually matter to the business
+
+> [!TIP]
+> Let agents run the test suite and iterate—that fast feedback loop is exactly where autonomy pays off most.
+
+---
+<!-- layout: 2-column -->
+# Code Review
+
+### What Agents Catch
+- Style and convention violations
+- Common bug patterns
+- Missed edge cases in the diff
+
+### Still the Human's Call
+- Whether the change is the right one
+- Business and priority trade-offs
+- Final approval
+
+---
+
+# Deployment and Operations
+
+| Phase | What an agent can do |
+| :--- | :--- |
+| CI/CD | Diagnose a failed pipeline step and propose a fix |
+| Deployment | Draft a rollout plan or rollback steps |
+| Monitoring | Triage an alert and summarize likely root cause |
+| Incident response | Assemble a timeline from logs before a human takes over |
+
+---
+
+# The Common Thread
+
+- At every phase, the agent's job is to produce a draft, a diagnosis, or a first pass—not the final decision
+- The phases where agents add the most value are the ones with fast, objective feedback (tests pass/fail, pipeline succeeds/fails)
+- The phases needing more human judgment (architecture, priority, security) still need a human in the loop
+- Segment 3 turns this into concrete guardrails for your own team
+
+---
+<!-- layout: navigation -->
+# Course Roadmap
+
+- What Makes AI "Agentic"?
+- Agentic AI Across the SDLC
+- **Adopting Agentic AI Responsibly**
+
+---
+
+# From Capability to Practice
+
+- Everything in Segment 2 described what's possible—this segment covers what's responsible
+- More autonomy isn't automatically better; it should match the risk and reversibility of the task
+- Good adoption is a team practice, not just a tool choice
+- We'll close with a practical path to get started
+
+---
+
+# Guardrail #1: Human in the Loop
+
+- Decide, per task type, where a human must approve before an action takes effect
+- Low-risk, easily reversible actions (draft a PR) can run with less oversight
+- High-risk or hard-to-reverse actions (deploy, delete, modify production data) need explicit approval
+- Make the approval point visible—buried auto-approval is how incidents happen
+
+---
+
+# Guardrail #2: Scope and Permissions
+
+- Give an agent the narrowest set of tools and access it needs for the task at hand—not blanket credentials
+- Sandbox risky actions (running arbitrary code, hitting production systems) away from anything critical
+- Log every action an agent takes the same way you'd log a human's—you'll need it for the postmortem
+- Treat an agent's credentials with the same care as a service account's, because that's what it is
 
 > [!WARNING]
-> Over-broad tools encourage hallucinated arguments and unsafe actions—scope each tool to one job.
-
----
-
-# Providing Tools: Docstrings and Typing
-
-- ADK turns Python callables into model-visible tool schemas
-- **Type hints** become parameter types the model must satisfy
-- **Docstrings** become the tool description the model reads
-- Prefer structured returns (`dict` / Pydantic) over free-form strings
-
-```python
-def lookup_ticket(ticket_id: str, include_comments: bool = False) -> dict:
-    """Fetch a support ticket by ID.
-
-    Args:
-        ticket_id: Stable ticket identifier (e.g. INC-1042).
-        include_comments: When True, include comment thread.
-    """
-    return {"ticket_id": ticket_id, "status": "open"}
-```
-
----
-<!-- layout: 2-column -->
-# Tool Design Heuristics
-
-### Do
-- One capability per tool
-- Explicit argument names
-- Success / error fields in returns
-- Idempotent reads when possible
-
-### Avoid
-- Giant “do_anything” tools
-- Hidden required globals
-- Returning huge blobs to the model
-- Side effects without confirmation
-
----
-
-# Agent with Multiple Tools
-
-```python
-from google.adk.agents import Agent
-
-root_agent = Agent(
-    name="sdlc_helper",
-    model="gemini-2.5-flash",
-    instruction=(
-        "You help engineers with tickets and docs. "
-        "Call tools instead of inventing IDs or statuses."
-    ),
-    tools=[lookup_ticket, search_runbooks],
-)
-```
-
-> [!TIP]
-> Instructions should say *when* to call tools—not restate the entire API docs.
+> An agent with unscoped access is a bigger risk than a careless engineer—it can act faster and at greater scale before anyone notices.
 
 ---
 <!-- layout: title-image -->
-# Parent–Child Multi-Agent Pattern
+# Choosing the Right Autonomy Level
 
-![Multi-agent hierarchy](images/adk-multi-agent-hierarchy.png)
-
----
-<!-- layout: 2-column -->
-# Flow Options Between Agents
-
-### LLM Transfer
-- Coordinator routes via reasoning
-- Uses `sub_agents` + descriptions
-- Flexible; less deterministic
-
-### Agent as Tool
-- Parent calls child via `AgentTool`
-- Parent stays in control
-- Great for “ask a specialist, then continue”
-
----
-<!-- layout: 3-column -->
-# Workflow Agents (Deterministic Flows)
-
-### SequentialAgent
-- Run children in order
-- Pass state forward
-- Pipelines & handoffs
-
-### ParallelAgent
-- Run children together
-- Distinct `output_key`s
-- Fan-out gather patterns
-
-### LoopAgent
-- Repeat until stop
-- Max iterations / escalate
-- Refine–evaluate loops
-
----
-
-# Composing a Small Team
-
-```python
-from google.adk.agents import Agent
-
-researcher = Agent(
-    name="researcher",
-    model="gemini-2.5-flash",
-    description="Researches APIs and docs.",
-    instruction="Gather concise technical facts.",
-)
-
-coder = Agent(
-    name="coder",
-    model="gemini-2.5-flash",
-    description="Drafts small code changes.",
-    instruction="Propose minimal, correct patches.",
-)
-
-root_agent = Agent(
-    name="tech_lead",
-    model="gemini-2.5-flash",
-    instruction="Delegate research vs coding work.",
-    sub_agents=[researcher, coder],
-)
-```
-
----
-
-# Demo: Build a Tool-Using Agent
-
-**Time:** ~10–12 minutes (instructor-led)
-
-**Demo guide:** [ADK multi-tool / agent team tutorial](https://adk.dev/tutorials/index.md)
-
-- Define a tool with docstring + types
-- Wire it into an `Agent`
-- Run locally with `adk web`
-- Optional stretch: add a specialist `sub_agent`
-
----
-<!-- layout: navigation -->
-# Course Roadmap
-
-- Getting Started with ADK
-- Tools and Multi-Agent Systems
-- **Deploy and Evaluate**
-
----
-
-# Shipping Agents
-
-- Local demos are not production
-- Packaging must include **code + dependencies**
-- Prefer managed runtimes when you want scale and governance
-- Keep the same `root_agent` contract from laptop → cloud
-
-![Deploy to Agent Engine](images/adk-deploy-agent-engine.png)
-
----
-
-# Deploying to Agent Engine
-
-- **Agent Engine** (Vertex AI) hosts agents as managed **Agent Runtime**
-- Upload agent code and declared dependencies
-- Runtime supplies the serving stack for Python ADK apps
-- Paths: console / ADK CLI, or accelerated **agents-cli** with CI/CD
-
-> [!NOTE]
-> Product docs increasingly say “Agent Runtime”; many teams still say “Agent Engine.” Same deployment destination for this course.
+![Autonomy spectrum: Suggest Only, Act with Approval, Act Autonomously](images/ch01-autonomy-spectrum.svg)
 
 ---
 <!-- layout: 2-column -->
-# Querying a Deployed App
+# Team Workflow Changes
 
-### After Deploy
-- Obtain the Agent Engine resource ID / endpoint
-- Call the managed query / stream APIs
-- Authenticate with Google Cloud credentials
+### What Shifts
+- Review shifts from writing code to evaluating agent output
+- "Prompting well" becomes a real engineering skill
+- Task breakdown matters more—agents do better with well-scoped work
 
-### Validate
-- Smoke-test the same prompts used locally
-- Confirm tools still reach approved backends
-- Watch latency, errors, and tool failures
-
----
-
-# Why Evaluate Agents?
-
-- LLM agents are **probabilistic**—unit asserts alone are not enough
-- Evaluate both **final response** and **trajectory** (steps / tools)
-- Automate early so regressions show up in CI, not in production
-
-| Focus | Question |
-| :--- | :--- |
-| Trajectory | Did it call the right tools in a sensible order? |
-| Response | Is the answer correct, grounded, and useful? |
-
----
-<!-- layout: 2-column -->
-# Evaluating Agents within ADK
-
-### What You Prepare
-- Eval cases (user turns + expectations)
-- Optional tool-trajectory ground truth
-- Criteria thresholds (`adk eval` / UI)
-
-### How You Run
-- `adk web` Eval tab while iterating
-- `adk eval` for automation
-- `pytest` + `AgentEvaluator` in CI
+### What Stays the Same
+- Someone is still accountable for what ships
+- Code review and testing standards don't relax
+- Security and compliance requirements still apply
 
 ---
 
-# Practical Eval Starter Set
+# Common Pitfalls
 
-- Start with **tool trajectory** match for critical paths
-- Add **response match** / semantic judges for wording variance
-- Promote chat sessions from `adk web` into eval sets
-- Re-run after instruction, tool, or model changes
+- Treating agent output as correct because it's confident and well-formatted
+- Giving an agent a vague goal and being surprised by an unexpected path to it
+- Skipping tests "because the agent already checked it"
+- Letting agent-written code accumulate without anyone truly understanding it
 
-```bash
-adk eval path/to/agent_module path/to/eval_set.json
-```
+---
 
-> [!IMPORTANT]
-> If you only ship demos, skip eval. If you ship products, eval is part of the SDLC—not a nice-to-have.
+# Getting Started on Your Team
+
+- Start with a low-risk, high-feedback task: test generation, small bug fixes, or draft PRs
+- Set explicit approval points before you expand scope
+- Measure outcomes (cycle time, defect rate), not just adoption
+- Expand autonomy only after the guardrails have proven themselves on real work
 
 ---
 
 # What You Learned
 
-- Described how ADK compares to the Gen AI SDK and LangChain-style frameworks
-- Built the mental model (and starter code) for a simple ADK agent with tools
-- Explained parent-child multi-agent patterns and flow options
-- Outlined deploy-to-Agent-Engine and ADK evaluation practices
+- Described what distinguishes an agentic AI system from a simple prompt-and-response assistant
+- Identified where agentic AI adds value across each phase of the SDLC
+- Recognized common agentic AI tools and patterns used in modern software teams
+- Applied practical guardrails for using agentic AI safely and effectively on a real team
 
 ---
 

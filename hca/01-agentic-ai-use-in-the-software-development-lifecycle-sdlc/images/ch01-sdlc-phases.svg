@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f6da8"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="520" fill="#ffffff"/>
+  <text x="600" y="52" text-anchor="middle" font-size="28" font-weight="bold" fill="#003865">Agentic AI Across the SDLC</text>
+
+  <line x1="209" y1="245" x2="219" y2="245" stroke="#0f6da8" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="401" y1="245" x2="411" y2="245" stroke="#0f6da8" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="593" y1="245" x2="603" y2="245" stroke="#0f6da8" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="785" y1="245" x2="795" y2="245" stroke="#0f6da8" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="977" y1="245" x2="987" y2="245" stroke="#0f6da8" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="30" y="135" width="176" height="220" rx="16" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="118" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Plan</text>
+
+  <rect x="222" y="135" width="176" height="220" rx="16" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="310" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Code</text>
+
+  <rect x="414" y="135" width="176" height="220" rx="16" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="502" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Test</text>
+
+  <rect x="606" y="135" width="176" height="220" rx="16" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="694" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Review</text>
+
+  <rect x="798" y="135" width="176" height="220" rx="16" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="886" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Deploy</text>
+
+  <rect x="990" y="135" width="176" height="220" rx="16" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="1078" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Operate</text>
+</svg>

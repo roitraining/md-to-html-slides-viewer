@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1200" height="520" fill="#ffffff"/>
+  <text x="600" y="52" text-anchor="middle" font-size="28" font-weight="bold" fill="#003865">Choosing the Right Autonomy Level</text>
+
+  <rect x="50" y="140" width="340" height="280" rx="20" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="220" y="200" text-anchor="middle" font-size="19" font-weight="bold" fill="#003865">Suggest Only</text>
+  <text x="220" y="244" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">Agent proposes,</text>
+  <text x="220" y="268" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">human decides everything</text>
+
+  <rect x="430" y="140" width="340" height="280" rx="20" fill="#d3e0ee" stroke="#003865" stroke-width="2"/>
+  <text x="600" y="200" text-anchor="middle" font-size="19" font-weight="bold" fill="#003865">Act with Approval</text>
+  <text x="600" y="244" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">Agent acts,</text>
+  <text x="600" y="268" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">human confirms first</text>
+
+  <rect x="810" y="140" width="340" height="280" rx="20" fill="#e8eef5" stroke="#003865" stroke-width="2"/>
+  <text x="980" y="200" text-anchor="middle" font-size="19" font-weight="bold" fill="#003865">Act Autonomously</text>
+  <text x="980" y="244" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">Agent acts,</text>
+  <text x="980" y="268" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">human reviews after</text>
+</svg>
