@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1200" height="520" fill="#ffffff"/>
+  <text x="600" y="52" text-anchor="middle" font-size="28" font-weight="bold" fill="#003865">The CIA Triad</text>
+
+  <rect x="50" y="140" width="340" height="280" rx="20" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="220" y="196" text-anchor="middle" font-size="20" font-weight="bold" fill="#003865">Confidentiality</text>
+  <text x="220" y="240" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">Only authorized parties</text>
+  <text x="220" y="264" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">can read the data</text>
+
+  <rect x="430" y="140" width="340" height="280" rx="20" fill="#d3e0ee" stroke="#003865" stroke-width="2"/>
+  <text x="600" y="196" text-anchor="middle" font-size="20" font-weight="bold" fill="#003865">Integrity</text>
+  <text x="600" y="240" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">Data and code aren't</text>
+  <text x="600" y="264" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">altered undetected</text>
+
+  <rect x="810" y="140" width="340" height="280" rx="20" fill="#e8eef5" stroke="#003865" stroke-width="2"/>
+  <text x="980" y="196" text-anchor="middle" font-size="20" font-weight="bold" fill="#003865">Availability</text>
+  <text x="980" y="240" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">The app stays usable</text>
+  <text x="980" y="264" text-anchor="middle" font-size="15" font-weight="bold" fill="#003865">under load and attack</text>
+</svg>

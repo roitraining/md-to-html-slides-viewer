@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1200" height="520" fill="#ffffff"/>
+  <text x="600" y="48" text-anchor="middle" font-size="28" font-weight="bold" fill="#003865">Areas of Web / Server Security</text>
+
+  <rect x="360" y="90" width="480" height="80" rx="18" fill="#aecbe5" stroke="#003865" stroke-width="2"/>
+  <text x="600" y="137" text-anchor="middle" font-size="19" font-weight="bold" fill="#003865">Applications</text>
+
+  <rect x="310" y="190" width="580" height="80" rx="18" fill="#c1d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="600" y="237" text-anchor="middle" font-size="19" font-weight="bold" fill="#003865">Services</text>
+
+  <rect x="260" y="290" width="680" height="80" rx="18" fill="#d6e5f1" stroke="#003865" stroke-width="2"/>
+  <text x="600" y="337" text-anchor="middle" font-size="19" font-weight="bold" fill="#003865">Network &amp; Protocols</text>
+
+  <rect x="210" y="390" width="780" height="80" rx="18" fill="#eaf1f8" stroke="#003865" stroke-width="2"/>
+  <text x="600" y="437" text-anchor="middle" font-size="19" font-weight="bold" fill="#003865">Operating System</text>
+</svg>
