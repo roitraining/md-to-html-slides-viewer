@@ -306,6 +306,7 @@
 
 ---
 
+<!-- layout: title-image -->
 # Q&A
 
 ![Questions](images/qa.png)
