@@ -77,7 +77,7 @@
 <!-- layout: title-image -->
 # Areas of Web/Server Security
 
-![Areas of web server security stacked from Operating System at the base up through Network and Protocols, Services, and Applications](images/ch16-security-layers.svg)
+![Areas of web server security stacked from Operating System at the base up through Network and Protocols, Services, and Applications](images/ch16-security-layers.png)
 
 ---
 <!-- layout: 2-column -->
@@ -127,7 +127,7 @@
 <!-- layout: title-image -->
 # How PKI Establishes Trust
 
-![PKI trust flow: a key pair is generated, a CSR is submitted to a Certificate Authority, the CA signs the certificate, and it becomes trusted by clients](images/ch16-pki-trust-flow.svg)
+![PKI trust flow: a key pair is generated, a CSR is submitted to a Certificate Authority, the CA signs the certificate, and it becomes trusted by clients](images/ch16-pki-trust-flow.png)
 
 ---
 
@@ -194,7 +194,7 @@
 <!-- layout: title-image -->
 # Network Segmentation for a Web Server
 
-![Network segmentation: the internet reaches a web server in a DMZ, which is separated by a firewall boundary from the internal network](images/ch16-network-segmentation.svg)
+![Network segmentation: the internet reaches a web server in a DMZ, which is separated by a firewall boundary from the internal network](images/ch16-network-segmentation.png)
 
 ---
 
@@ -280,7 +280,7 @@
 <!-- layout: title-image -->
 # From Request to Database
 
-![From request to database: user input flows through a server-side script into a parameterized query and then the database](images/ch16-request-to-database.svg)
+![From request to database: user input flows through a server-side script into a parameterized query and then the database](images/ch16-request-to-database.png)
 
 ---
 

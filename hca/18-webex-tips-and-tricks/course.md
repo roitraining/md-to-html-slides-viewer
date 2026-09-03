@@ -75,7 +75,7 @@
 <!-- layout: title-image -->
 # The Meeting Lifecycle
 
-![The meeting lifecycle: Schedule, Join, Present and Collaborate, then Record and Follow Up](images/ch18-meeting-lifecycle.svg)
+![The meeting lifecycle: Schedule, Join, Present and Collaborate, then Record and Follow Up](images/ch18-meeting-lifecycle.png)
 
 ---
 
@@ -259,7 +259,7 @@
 <!-- layout: title-image -->
 # Troubleshooting Flow
 
-![Troubleshooting flow: Identify, Isolate, Fix, then Confirm](images/ch18-troubleshooting-flow.svg)
+![Troubleshooting flow: Identify, Isolate, Fix, then Confirm](images/ch18-troubleshooting-flow.png)
 
 ---
 

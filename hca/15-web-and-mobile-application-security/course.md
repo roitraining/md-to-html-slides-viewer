@@ -77,7 +77,7 @@
 <!-- layout: title-image -->
 # The CIA Triad
 
-![The CIA triad: Confidentiality, Integrity, and Availability](images/ch15-cia-triad.svg)
+![The CIA triad: Confidentiality, Integrity, and Availability](images/ch15-cia-triad.png)
 
 ---
 
@@ -147,7 +147,7 @@
 <!-- layout: title-image -->
 # OWASP Top 10: Web vs. Mobile
 
-![OWASP Top 10 highlights for web applications (injection, broken access control, XSS) versus mobile applications (insecure storage, communication, authentication)](images/ch15-web-vs-mobile-top10.svg)
+![OWASP Top 10 highlights for web applications (injection, broken access control, XSS) versus mobile applications (insecure storage, communication, authentication)](images/ch15-web-vs-mobile-top10.png)
 
 ---
 
@@ -266,7 +266,7 @@
 <!-- layout: title-image -->
 # TLS Handshake at a Glance
 
-![TLS handshake flow: ClientHello, ServerHello and certificate, key exchange, then an encrypted session](images/ch15-tls-handshake.svg)
+![TLS handshake flow: ClientHello, ServerHello and certificate, key exchange, then an encrypted session](images/ch15-tls-handshake.png)
 
 ---
 

@@ -83,7 +83,7 @@
 <!-- layout: title-image -->
 # The ADK Development Loop
 
-![The ADK development loop: define, compose, evaluate, deploy](images/adk-development-loop.svg)
+![The ADK development loop: define, compose, evaluate, deploy](images/adk-development-loop.png)
 
 ---
 

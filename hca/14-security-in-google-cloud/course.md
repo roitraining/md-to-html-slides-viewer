@@ -77,7 +77,7 @@
 <!-- layout: title-image -->
 # The Shared Responsibility Model
 
-![Shared responsibility model: Google secures infrastructure, you configure IAM, network, and data](images/ch14-shared-responsibility.svg)
+![Shared responsibility model: Google secures infrastructure, you configure IAM, network, and data](images/ch14-shared-responsibility.png)
 
 ---
 <!-- layout: 2-column -->
@@ -119,7 +119,7 @@
 <!-- layout: title-image -->
 # Cloud Resource Hierarchy
 
-![Cloud resource hierarchy: Organization, Folders, Projects, Resources with IAM bindings](images/ch14-iam-hierarchy.svg)
+![Cloud resource hierarchy: Organization, Folders, Projects, Resources with IAM bindings](images/ch14-iam-hierarchy.png)
 
 ---
 
@@ -177,7 +177,7 @@
 <!-- layout: title-image -->
 # Network and Data Protection Layers
 
-![Network isolation with VPCs, firewalls, and VPC Service Controls, alongside data protection with KMS and DLP](images/ch14-network-data.svg)
+![Network isolation with VPCs, firewalls, and VPC Service Controls, alongside data protection with KMS and DLP](images/ch14-network-data.png)
 
 ---
 
@@ -289,7 +289,7 @@
 <!-- layout: title-image -->
 # Detect and Respond Loop
 
-![Detect and respond loop: assets and config feed findings in Security Command Center, which drive triage with audit logs, leading to containment and improvement](images/ch14-detect-respond-loop.svg)
+![Detect and respond loop: assets and config feed findings in Security Command Center, which drive triage with audit logs, leading to containment and improvement](images/ch14-detect-respond-loop.png)
 
 ---
 

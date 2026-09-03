@@ -77,7 +77,7 @@
 <!-- layout: title-image -->
 # What Data Literacy Involves
 
-![What data literacy involves: Find, Understand, Question, Use](images/ch19-data-literacy-loop.svg)
+![What data literacy involves: Find, Understand, Question, Use](images/ch19-data-literacy-loop.png)
 
 ---
 
@@ -248,7 +248,7 @@
 <!-- layout: title-image -->
 # A Framework for Asking Good Questions
 
-![A framework for asking good questions: Define the Question, Check the Source, Check the Comparison, Check for Bias](images/ch19-good-questions-framework.svg)
+![A framework for asking good questions: Define the Question, Check the Source, Check the Comparison, Check for Bias](images/ch19-good-questions-framework.png)
 
 ---
 
