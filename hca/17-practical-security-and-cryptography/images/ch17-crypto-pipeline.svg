@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f6da8"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="520" fill="#ffffff"/>
+  <text x="600" y="52" text-anchor="middle" font-size="27" font-weight="bold" fill="#003865">Symmetric + Asymmetric + Hashing, Working Together</text>
+
+  <line x1="408" y1="250" x2="472" y2="250" stroke="#0f6da8" stroke-width="4" marker-end="url(#arrow)"/>
+  <line x1="808" y1="250" x2="872" y2="250" stroke="#0f6da8" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="40" y="140" width="368" height="220" rx="18" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="224" y="234" text-anchor="middle" font-size="17" font-weight="bold" fill="#003865">Asymmetric:</text>
+  <text x="224" y="262" text-anchor="middle" font-size="17" font-weight="bold" fill="#003865">Exchange a Key</text>
+
+  <rect x="440" y="140" width="368" height="220" rx="18" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="624" y="234" text-anchor="middle" font-size="17" font-weight="bold" fill="#003865">Symmetric:</text>
+  <text x="624" y="262" text-anchor="middle" font-size="17" font-weight="bold" fill="#003865">Encrypt the Data</text>
+
+  <rect x="840" y="140" width="320" height="220" rx="18" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="1000" y="234" text-anchor="middle" font-size="17" font-weight="bold" fill="#003865">Hashing:</text>
+  <text x="1000" y="262" text-anchor="middle" font-size="17" font-weight="bold" fill="#003865">Verify Integrity</text>
+</svg>
