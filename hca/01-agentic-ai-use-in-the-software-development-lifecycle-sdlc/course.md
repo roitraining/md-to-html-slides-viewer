@@ -305,7 +305,6 @@
 - Applied practical guardrails for using agentic AI safely and effectively on a real team
 
 ---
-
 <!-- layout: title-image -->
 # Q&A
 
