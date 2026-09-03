@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1200" height="520" fill="#ffffff"/>
+  <text x="600" y="52" text-anchor="middle" font-size="28" font-weight="bold" fill="#003865">Shared Responsibility Model</text>
+
+  <rect x="40" y="120" width="520" height="300" rx="20" fill="#c3d7ea" stroke="#003865" stroke-width="2"/>
+  <text x="300" y="168" text-anchor="middle" font-size="21" font-weight="bold" fill="#003865">Google Secures</text>
+  <text x="300" y="290" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Physical security &amp; hardware</text>
+  <text x="300" y="316" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Global network backbone</text>
+  <text x="300" y="342" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Hypervisor &amp; host OS patching</text>
+
+  <rect x="640" y="120" width="520" height="300" rx="20" fill="#e8eef5" stroke="#003865" stroke-width="2"/>
+  <text x="900" y="168" text-anchor="middle" font-size="21" font-weight="bold" fill="#003865">You Configure</text>
+  <text x="900" y="290" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">IAM &amp; data classification</text>
+  <text x="900" y="316" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">VPCs, firewalls, and keys</text>
+  <text x="900" y="342" text-anchor="middle" font-size="16" font-weight="bold" fill="#003865">Guest OS &amp; application code</text>
+</svg>
