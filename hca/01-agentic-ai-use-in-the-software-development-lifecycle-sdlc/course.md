@@ -73,7 +73,7 @@
 <!-- layout: title-image -->
 # The Agent Loop
 
-![The agent loop: understand the goal, plan the next step, act using a tool, check the result, and repeat](images/ch01-agent-loop.svg)
+![The agent loop: understand the goal, plan the next step, act using a tool, check the result, and repeat](images/ch01-agent-loop.png)
 
 ---
 
@@ -131,7 +131,7 @@
 <!-- layout: title-image -->
 # Agentic AI Across the SDLC
 
-![Agentic AI across the SDLC: Plan, Code, Test, Review, Deploy, Operate](images/ch01-sdlc-phases.svg)
+![Agentic AI across the SDLC: Plan, Code, Test, Review, Deploy, Operate](images/ch01-sdlc-phases.png)
 
 ---
 
@@ -253,7 +253,7 @@
 <!-- layout: title-image -->
 # Choosing the Right Autonomy Level
 
-![Autonomy spectrum: Suggest Only, Act with Approval, Act Autonomously](images/ch01-autonomy-spectrum.svg)
+![Autonomy spectrum: Suggest Only, Act with Approval, Act Autonomously](images/ch01-autonomy-spectrum.png)
 
 ---
 <!-- layout: 2-column -->
