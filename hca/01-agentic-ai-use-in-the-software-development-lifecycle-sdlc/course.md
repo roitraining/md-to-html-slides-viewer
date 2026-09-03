@@ -308,4 +308,5 @@
 
 # Q&A
 
-Questions?
+![Questions](images/qa.png)
+
