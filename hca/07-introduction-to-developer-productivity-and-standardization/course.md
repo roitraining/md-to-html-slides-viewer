@@ -81,13 +81,13 @@
 
 ---
 <!-- layout: title-image -->
-# Workflow Lens: SDLC
+<!-- # Workflow Lens: SDLC -->
 
 ![Developer workflow SDLC](images/developer-workflow-sdlc.png)
 
 ---
 <!-- layout: title-image -->
-# DORA-Style Efficiency Measures
+<!-- # DORA-Style Efficiency Measures -->
 
 ![DORA metrics](images/dora-metrics.png)
 
@@ -107,7 +107,7 @@
 
 ---
 <!-- layout: title-image -->
-# Where GenAI Improves Efficiency
+<!-- # Where GenAI Improves Efficiency -->
 
 ![AI developer efficiency moments](images/ai-dev-efficiency-moments.png)
 
@@ -163,7 +163,7 @@
 
 ---
 <!-- layout: title-image -->
-# Prompting for Standard Output
+<!-- # Prompting for Standard Output -->
 
 ![Prompt standards loop](images/prompt-standards-loop.png)
 
@@ -234,18 +234,6 @@ Verify: show function + test only
 
 ---
 
-# Demo: AI-Assisted Coding
-
-**Time:** ~10–12 minutes (instructor-led)
-
-**Demo guide:** [Placeholder — org AI coding assistant demo](https://example.com/hca/demos/ai-coding-assist)
-
-- Complete a small function with inline suggestions
-- Generate a matching unit test from a standard prompt
-- Refactor using an existing class as the style reference
-- Show a bad ungrounded suggestion—and how review catches it
-
----
 <!-- layout: navigation -->
 # Course Roadmap
 
@@ -285,7 +273,7 @@ Verify: show function + test only
 
 ---
 <!-- layout: title-image -->
-# End-to-End Assisted Workflow
+<!-- # End-to-End Assisted Workflow -->
 
 ![End-to-end assisted workflow](images/e2e-assisted-workflow.png)
 
