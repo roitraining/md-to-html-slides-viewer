@@ -83,11 +83,6 @@
 
 # Types of Data You'll See
 
-- **Quantitative**
-- **Qualitative**
-- **Structured**
-- **Unstructured**
-
 ![Types of Data](images/types-of-data.png)
 
 ---
