@@ -228,16 +228,46 @@ clicks  →  filter(bot?)  →  keyBy(user)  →  window(5m)  →  counts
 
 ---
 
-# Demo: A Simple Flink Stream Job
+# Example: A Simple Flink Stream Job
 
-**Time:** ~10–12 minutes (instructor-led)
+- Read a stream of purchase events (amount + event-time timestamp)
+- `keyBy` customer so each user’s state is processed independently
+- Tumbling **event-time** windows (1 minute) sum spend per customer
+- Print results—same shape as writing to Kafka, a DB, or a lake sink
 
-**Demo guide:** [Placeholder — Flink windowed aggregation demo](https://example.com/hca/demos/flink-basics)
+```java
+public class SimplePurchaseSumJob {
+    public static void main(String[] args) throws Exception {
+        // Local env for demos; on a cluster you'd use getExecutionEnvironment()
+        StreamExecutionEnvironment env =
+            StreamExecutionEnvironment.createLocalEnvironment();
 
-- Ingest a click or transaction stream
-- `keyBy` an entity and apply a tumbling window
-- Show event-time vs processing-time difference with delayed events
-- Emit aggregates to a console or test sink
+        DataStream<Purchase> purchases = env
+            .addSource(new PurchaseSource()) // Kafka/Pub/Sub in production
+            // Event time + watermarks: Flink advances "time" from the data,
+            // not the wall clock—so late events are handled correctly
+            .assignTimestampsAndWatermarks(
+                WatermarkStrategy
+                    .<Purchase>forBoundedOutOfOrderness(Duration.ofSeconds(5))
+                    .withTimestampAssigner((event, ts) -> event.getEventTimeMillis())
+            );
+
+        purchases
+            .keyBy(Purchase::getCustomerId)           // partition state by customer
+            .window(TumblingEventTimeWindows.of(Time.minutes(1)))
+            .aggregate(new SumAmounts())              // stateful window aggregation
+            .map(result -> String.format(
+                "customer=%s windowEnd=%s total=%.2f",
+                result.getCustomerId(),
+                result.getWindowEnd(),
+                result.getTotal()
+            ))
+            .print();                                 // replace with a real sink later
+
+        env.execute("simple-purchase-sum");
+    }
+}
+```
 
 ---
 <!-- layout: navigation -->
