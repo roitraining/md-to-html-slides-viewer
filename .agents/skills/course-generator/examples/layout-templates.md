@@ -257,6 +257,25 @@ Prefer a **table** or columns instead of more than two levels of nested bullets.
 
 ---
 
+## 11b. Stacked (content top, image below)
+
+Use when bullets and a wide diagram belong on the same slide, but auto-split (side-by-side) is the wrong shape.
+
+```markdown
+<!-- layout: stacked -->
+# From Chatbots to Agents
+
+- A chatbot answers one prompt at a time—you drive every step
+- An agent pursues a goal: it plans, acts, checks results, and keeps going
+- The shift is giving the model a loop, tools, and permission to act
+
+![From chatbots to agents](images/chatbots-to-agents.png)
+```
+
+Alias: `<!-- layout: stack -->` also works.
+
+---
+
 ## 12. Code teaching slide
 
 ~~~~markdown

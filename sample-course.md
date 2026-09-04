@@ -74,6 +74,7 @@ This slide demonstrates the default **content** layout. When no layout directive
 - Auto-Split Layouts
 - Three-Column Layout
 - Immersive Image Layout
+- Stacked Layout
 
 ---
 
@@ -109,6 +110,7 @@ This slide demonstrates the default **content** layout. When no layout directive
 - Auto-Split Layouts
 - Three-Column Layout
 - Immersive Image Layout
+- Stacked Layout
 
 ---
 
@@ -198,7 +200,27 @@ This slide demonstrates the default **content** layout. When no layout directive
 ---
 
 <!-- 
-  SLIDE 11: Code Blocks & Callouts Demo Slide
+  SLIDE 11: Stacked Layout Slide
+  Layout Type: "stacked" (or "stack")
+  Activation: Include "layout: stacked" or "layout: stack" on its own line.
+  Usage: Title and content on top; image below filling remaining height.
+  Design details:
+    Disables auto-split so a bullet list + image stay vertical (content above, image below)
+    instead of side-by-side. The image scales with object-fit: contain into remaining space.
+-->
+<!-- layout: stacked -->
+# Stacked Content + Image
+
+- Use when the diagram is wider than tall and needs full slide width
+- Bullets stay readable above the visual
+- Auto-split is intentionally disabled for this layout
+
+![Stacked Diagram](images/sample-diagram.png)
+
+---
+
+<!-- 
+  SLIDE 12: Code Blocks & Callouts Demo Slide
   Layout Type: "content" (Default)
   Activation: Omit layout directives.
   Usage: Demonstrates how code blocks and GitHub-style alerts are rendered.
@@ -227,7 +249,7 @@ function showStatus(message) {
 ---
 
 <!-- 
-  SLIDE 12: Tables Slide
+  SLIDE 13: Tables Slide
   Layout Type: "content" (Default)
   Activation: Omit layout directives.
   Usage: Showcases clean alignment of markdown tables.
@@ -244,11 +266,12 @@ Here is a summary of all layouts supported in this slide engine:
 | **Auto-Split** | (Automatic) | Triggers automatically if image + bullets are present. |
 | **Three Column** | `layout: three-column` | Creates 3 side-by-side vertical columns. |
 | **Title Image** | `layout: title-image` | Immersive view; image scales to fill remaining height. |
+| **Stacked** | `layout: stacked` | Content on top; image below filling remaining height. |
 
 ---
 
 <!-- 
-  SLIDE 13: Hands-On Activity Slide
+  SLIDE 14: Hands-On Activity Slide
   Layout Type: "content" (Default)
   Activation: Omit layout directives.
 -->

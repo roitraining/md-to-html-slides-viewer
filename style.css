@@ -1159,6 +1159,66 @@ body.dark-theme .layout-title-image .slide-body img {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
+/* Stacked Layout (Content Top, Image Below) */
+.layout-stacked .slide-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.layout-stacked .slide-body h1 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.layout-stacked .slide-body > ul,
+.layout-stacked .slide-body > ol,
+.layout-stacked .slide-body > blockquote,
+.layout-stacked .slide-body > table,
+.layout-stacked .slide-body > pre,
+.layout-stacked .slide-body > p:not(:has(img)) {
+    flex-shrink: 0;
+}
+
+.layout-stacked .stacked-media {
+    margin-top: 12px;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    min-height: 0;
+}
+
+.layout-stacked .stacked-media p {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.layout-stacked .stacked-media img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+    display: block !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-theme .layout-stacked .stacked-media img {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
 /* 2-Column Split Slide Layout (Bullets Left, Image Right) */
 .split-layout, .two-column, .grid-2col {
     display: flex;
@@ -1982,6 +2042,30 @@ body.dark-theme .error {
     .print-slide-card.layout-title-image .slide-body img {
         max-width: 100% !important;
         max-height: 5.2in !important;
+        width: auto !important;
+        height: auto !important;
+        object-fit: contain !important;
+    }
+
+    .print-slide-card.layout-stacked .slide-body {
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+    }
+
+    .print-slide-card.layout-stacked .stacked-media {
+        display: flex !important;
+        flex: 1 !important;
+        justify-content: center !important;
+        align-items: center !important;
+        overflow: hidden !important;
+        min-height: 0 !important;
+        width: 100% !important;
+    }
+
+    .print-slide-card.layout-stacked .stacked-media img {
+        max-width: 100% !important;
+        max-height: 4.2in !important;
         width: auto !important;
         height: auto !important;
         object-fit: contain !important;

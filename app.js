@@ -290,11 +290,15 @@ document.addEventListener('DOMContentLoaded', () => {
             processThreeColumnLayout(body);
         } else if (layoutType === 'two-column') {
             processTwoColumnLayout(body);
+        } else if (layoutType === 'stacked') {
+            processStackedLayout(body);
         }
 
         processGitHubAlerts(body);
         processRelativeImages(body);
-        processSplitLayouts(body);
+        if (layoutType !== 'stacked') {
+            processSplitLayouts(body);
+        }
         processExternalLinks(body);
 
         const placeholder = canvasEl.parentElement && canvasEl.parentElement.querySelector('.slide-thumb-placeholder');
@@ -1424,7 +1428,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const html = marked.parse(slideMarkdown);
         
         // Remove existing layout classes and add new layout class
-        slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-two-column');
+        slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-two-column', 'layout-stacked');
         slideCard.classList.add(`layout-${layoutType}`);
         
         // Re-trigger fade animation
@@ -1444,6 +1448,8 @@ document.addEventListener('DOMContentLoaded', () => {
             processThreeColumnLayout(slideBody);
         } else if (layoutType === 'two-column') {
             processTwoColumnLayout(slideBody);
+        } else if (layoutType === 'stacked') {
+            processStackedLayout(slideBody);
         }
         
         // Process GitHub Callout Alerts
@@ -1452,8 +1458,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Resolve relative image URLs
         processRelativeImages(slideBody);
         
-        // Auto-format 2-column layout (bullets left, image right)
-        processSplitLayouts(slideBody);
+        // Auto-format 2-column layout (bullets left, image right) — skipped for stacked
+        if (layoutType !== 'stacked') {
+            processSplitLayouts(slideBody);
+        }
         
         // Setup code block copy buttons
         processCodeCopyButtons(slideBody);
@@ -1564,6 +1572,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let layout = match[1].toLowerCase();
             if (layout === '3-column') layout = 'three-column';
             if (layout === '2-column') layout = 'two-column';
+            if (layout === 'stack') layout = 'stacked';
             return layout;
         }
         if (index === 0) return 'title';
@@ -1585,7 +1594,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Automatically format slides with bullets on left and graphic on right
     function processSplitLayouts(container) {
-        if (container.querySelector('.split-layout, .two-column, .grid-2col')) {
+        if (container.querySelector('.split-layout, .two-column, .grid-2col, .stacked-media')) {
             return;
         }
 
@@ -1613,6 +1622,24 @@ document.addEventListener('DOMContentLoaded', () => {
             splitWrapper.appendChild(leftCol);
             splitWrapper.appendChild(rightCol);
         }
+    }
+
+    // Stacked layout: keep title/content on top and pin the image below (no auto-split)
+    function processStackedLayout(container) {
+        if (container.querySelector('.stacked-media')) {
+            return;
+        }
+
+        const imgs = container.querySelectorAll('img');
+        if (imgs.length === 0) return;
+
+        const img = imgs[0];
+        const imgTarget = (img.parentElement && img.parentElement.tagName === 'P') ? img.parentElement : img;
+
+        const media = document.createElement('div');
+        media.className = 'stacked-media';
+        imgTarget.parentNode.insertBefore(media, imgTarget);
+        media.appendChild(imgTarget);
     }
 
     // Automatically format slides with three columns
@@ -1868,7 +1895,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Apply post-processing
             processGitHubAlerts(body);
             processRelativeImages(body);
-            processSplitLayouts(body);
+            if (layoutType === 'stacked') {
+                processStackedLayout(body);
+            } else {
+                processSplitLayouts(body);
+            }
             processCodeCopyButtons(body);
             processExternalLinks(body);
 

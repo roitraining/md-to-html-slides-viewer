@@ -47,7 +47,7 @@ Or point `course=` at any reachable Markdown URL, same as on GitHub Pages.
 ### Structure Your Markdown
 Slides are written in Markdown. Use a triple-dash (`---`) on its own line to separate slides. Customize slide properties using HTML comments:
 *   Set course footer title (at top of file): `<!-- course-title: My Slide Course -->`
-*   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, or `<!-- layout: title-image -->`.
+*   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, `<!-- layout: title-image -->`, or `<!-- layout: stacked -->`.
 
 ---
 
@@ -60,6 +60,7 @@ The presentation engine supports the following layout types:
 4.  **Auto-Split (2-Column)**: Triggered automatically in standard content layout if both a list and an image are present on a slide (bullets left, image right).
 5.  **Custom Columns (`2-column` and `3-column`)**: Separates slide content into equal side-by-side vertical flex columns, starting at each subheader (`h3`, `h2`, or `h4`).
 6.  **Immersive Media (`title-image`)**: Displays a title and scales a single diagram image to fill all remaining vertical viewport space without overflow.
+7.  **Stacked (`stacked`)**: Keeps title and content on top and places the image below, filling remaining height (disables auto-split).
 
 ---
 

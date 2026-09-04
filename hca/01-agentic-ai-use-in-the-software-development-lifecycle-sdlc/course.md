@@ -69,7 +69,7 @@
 - Adopting Agentic AI Responsibly
 
 ---
-
+<!-- layout: stacked -->
 # From Chatbots to Agents
 
 - A chatbot answers one prompt at a time—you drive every step
