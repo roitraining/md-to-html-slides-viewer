@@ -85,6 +85,7 @@
 
 ![Types of Data](images/types-of-data.png)
 
+
 ---
 <!-- layout: 2-column -->
 # Where Healthcare Data Comes From
