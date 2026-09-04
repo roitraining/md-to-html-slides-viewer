@@ -327,6 +327,13 @@
 
 # Quiz 1 — Answer
 
+**Two units both report a 22-minute average wait. Unit A’s range is 18–26; Unit B’s is 5–65. What’s the best takeaway?**
+
+- **A.** Same average can hide very different patient experiences—ask about spread and outliers before acting
+- **B.** Averages always tell the full story, so both units need the same fix
+- **C.** Unit B must be better because some patients wait only 5 minutes
+- **D.** Ranges are irrelevant; only the average matters for staffing decisions
+
 **Correct: A**
 
 - An average collapses a distribution and hides variability
@@ -348,6 +355,13 @@
 ---
 
 # Quiz 2 — Answer
+
+**Readmissions drop the same month a new discharge process launches—and flu season ends. What’s the soundest stance?**
+
+- **A.** The process change must be the sole cause
+- **B.** Ignore the process change because other factors exist
+- **C.** Correlation isn’t proof of causation—check what else changed before crediting one driver alone
+- **D.** Any month-over-month drop on a small sample is always statistically and practically significant
 
 **Correct: C**
 
@@ -371,6 +385,12 @@ Pick one recurring dashboard or report you already use (throughput, readmissions
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Pick one recurring dashboard or report you already use (throughput, readmissions, satisfaction, staffing).**
+
+- What decision should this data inform—stated specifically?
+- How would you check source, comparison, and bias before acting?
+- Where might risk adjustment, small samples, or a misleading chart change your conclusion?
 
 ### Strong Answers Mention
 - Define the question before staring at the number

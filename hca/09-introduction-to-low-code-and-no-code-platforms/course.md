@@ -312,6 +312,13 @@
 
 # Quiz 1 — Answer
 
+**What best distinguishes no-code from low-code?**
+
+- **A.** No-code always requires professional developers; low-code never does
+- **B.** Low-code forbids any scripts or integrations
+- **C.** No-code uses visual designers only; low-code adds light code/scripts for deeper logic and integrations
+- **D.** Both are identical to traditional custom development
+
 **Correct: C**
 
 - No-code targets business makers with visual builders only
@@ -333,6 +340,13 @@
 ---
 
 # Quiz 2 — Answer
+
+**Which use case is the poorest fit for low-code/no-code and should usually hand off to engineering?**
+
+- **A.** A system of record needing complex transactional integrity or hard real-time / ultra-high scale
+- **B.** A departmental intake form with clear steps and modest data volume
+- **C.** An approval-and-notification workflow between known systems
+- **D.** A checklist / status tracker owned by one operations team
 
 **Correct: A**
 
@@ -356,6 +370,12 @@ A business team wants to automate an internal request → approve → notify flo
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**A business team wants to automate an internal request → approve → notify flow on an approved platform.**
+
+- What governance controls would you require before go-live?
+- Who is the business owner vs technical contact—and who gets the 2 a.m. alert?
+- When would you insist on Dev → Test → Prod instead of editing production live?
 
 ### Strong Answers Mention
 - Approved platform, connector allowlists, DLP / data classification

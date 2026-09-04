@@ -313,6 +313,13 @@
 
 # Quiz 1 — Answer
 
+**What best describes a Webex Space?**
+
+- **A.** A one-time chat thread that disappears when the meeting ends
+- **B.** A persistent room for a team, project, or topic where messages, files, and context stay searchable
+- **C.** Only a whiteboard that cannot hold messages or files
+- **D.** A calendar invite template used only for scheduling
+
 **Correct: B**
 
 - Spaces are persistent homes for a team, project, or topic—not one-off chats
@@ -334,6 +341,13 @@
 ---
 
 # Quiz 2 — Answer
+
+**You and a colleague hear loud echo in a hybrid room. What should you check first?**
+
+- **A.** Turn everyone’s video off permanently
+- **B.** Delete the Space and recreate the meeting
+- **C.** Disable live captions for all attendees
+- **D.** Ensure only one device per person has meeting audio on in that room
 
 **Correct: D**
 
@@ -357,6 +371,12 @@ Think of a recurring meeting you lead or join (standup, all-hands, or project sy
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Think of a recurring meeting you lead or join (standup, all-hands, or project sync).**
+
+- Which features would improve it most—templates, lobby, breakouts, recordings/transcripts, or Spaces?
+- What etiquette or accessibility defaults should become team norms?
+- How would you diagnose the audio/video issue that most often derails that meeting?
 
 ### Strong Answers Mention
 - Lifecycle habits: schedule well, join early muted, present cleanly, follow up in a Space

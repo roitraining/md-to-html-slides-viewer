@@ -346,6 +346,13 @@
 
 # Quiz 1 — Answer
 
+**Which tooling category primarily finds vulnerable open-source libraries and license risk?**
+
+- **A.** SCA (Software Composition Analysis)
+- **B.** SAST (Static Application Security Testing)
+- **C.** DAST (Dynamic Application Security Testing)
+- **D.** Manual security review only at release
+
 **Correct: A**
 
 - SCA targets dependencies, transitive CVEs, licenses, and SBOM inventory
@@ -367,6 +374,13 @@
 ---
 
 # Quiz 2 — Answer
+
+**What best describes “shift left” in this program’s terms?**
+
+- **A.** Moving all security work to a separate team after deploy
+- **B.** Replacing CI checks with longer manual approval queues
+- **C.** Moving checks into design, code, and CI with actionable PR feedback
+- **D.** Waiving every finding so releases never slow down
 
 **Correct: C**
 
@@ -390,6 +404,12 @@ Score one capability on your team (SCA, SAST, secrets, IaC, or culture) against 
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Score one capability on your team (SCA, SAST, secrets, IaC, or culture) against the maturity levels.**
+
+- What signals put you at Initial, Managed, Defined, or Optimizing?
+- Which 90-day priority would reduce the most risk for the effort?
+- Where should guardrails (PR feedback) replace heavy gates?
 
 ### Strong Answers Mention
 - Maturity is per capability—not one vanity overall score

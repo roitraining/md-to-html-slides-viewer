@@ -317,6 +317,13 @@
 
 # Quiz 1 — Answer
 
+**Which statement about hashing is correct?**
+
+- **A.** Hashing is a reversible form of encryption that uses a shared secret key
+- **B.** A hash can be decrypted with the matching private key
+- **C.** Hashing is a one-way function used for integrity and (with salting) password storage—not encryption
+- **D.** Hashing is only used for bulk data encryption inside TLS sessions
+
 **Correct: C**
 
 - Hashing is one-way: easy forward, infeasible to reverse
@@ -338,6 +345,13 @@
 ---
 
 # Quiz 2 — Answer
+
+**Your team can only ship one high-impact control this quarter. Which best matches this course’s guidance?**
+
+- **A.** Multi-factor authentication on high-access accounts (admins, VPN, email)
+- **B.** Replace all firewalls with application allowlisting alone
+- **C.** Disable SSH and rely only on Telnet with strong passwords
+- **D.** Skip patching because endpoint antivirus is “good enough”
 
 **Correct: A**
 
@@ -361,6 +375,12 @@ Pick one system you help protect (VPN, admin bastion, EHR-adjacent app, or share
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Pick one system you help protect (VPN, admin bastion, EHR-adjacent app, or shared drive).**
+
+- Which CIAA goals matter most for that system—and what threatens them?
+- Where does cryptography already help (TLS, SSH, VPN)—and where is authentication still weak?
+- What would you harden first this month, and how would you know it worked?
 
 ### Strong Answers Mention
 - Threat model first (internal vs. external, likely attackers)

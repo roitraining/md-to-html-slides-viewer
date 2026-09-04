@@ -332,6 +332,13 @@ Tight encode  →  short segments/parts  →  edge near viewers
 
 # Quiz 1 — Answer
 
+**What is the best first step when designing for live latency?**
+
+- **A.** Define a glass-to-glass latency budget (product SLA), then choose protocols and buffers to match
+- **B.** Always pick classic HLS with long segments for interactive auctions
+- **C.** Optimize only the CDN and ignore segment duration and player buffer
+- **D.** Assume player startup buffer never affects end-to-end delay
+
 **Correct: A**
 
 - “Live” is a product SLA—interactive vs broadcast-scale targets differ
@@ -353,6 +360,13 @@ Tight encode  →  short segments/parts  →  edge near viewers
 ---
 
 # Quiz 2 — Answer
+
+**Which statement best captures WebRTC vs LL-HLS trade-offs?**
+
+- **A.** WebRTC is always the right choice for stadium-scale one-to-many fan-out
+- **B.** Classic HLS always has lower latency than LL-HLS
+- **C.** WebRTC targets sub-second interactive use; LL-HLS offers CDN-friendly seconds-scale broadcast low latency
+- **D.** Protocol choice has no product implications if the origin is configured
 
 **Correct: C**
 
@@ -376,6 +390,12 @@ You are preparing a large live event with a &lt;5s glass-to-glass target and exp
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**You are preparing a large live event with a &lt;5s glass-to-glass target and expected audience spikes.**
+
+- Which encode, segment/part, edge, and player levers would you tune first?
+- What failover (dual ingest, origin, multi-CDN) must be rehearsed before game day?
+- Which QoE signals would you watch live (join time, rebuffer, glass-to-glass)?
 
 ### Strong Answers Mention
 - Optimize the largest buffer first; measure end-to-end, not only TTFB

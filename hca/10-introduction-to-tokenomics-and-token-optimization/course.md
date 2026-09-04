@@ -324,6 +324,13 @@
 
 # Quiz 1 — Answer
 
+**How does LLM pricing usually work?**
+
+- **A.** Providers bill only by character count, never by tokens
+- **B.** Only embeddings are free; prompts and completions are not metered
+- **C.** All models cost a fixed monthly seat with unlimited context
+- **D.** Input and output tokens are billable units—and output often costs more than input
+
 **Correct: D**
 
 - Tokenizers split text into billable units (roughly ~4 chars ≈ 1 English token)
@@ -345,6 +352,13 @@
 ---
 
 # Quiz 2 — Answer
+
+**Your chat feature resends the full conversation every turn and bills are climbing. What is the best first fix?**
+
+- **A.** Always paste the entire knowledge corpus into every prompt
+- **B.** Keep only the last N turns or summarize older history, and enforce a hard input budget
+- **C.** Remove `max_output_tokens` so the model can answer freely
+- **D.** Route every request to the largest “pro” model by default
 
 **Correct: B**
 
@@ -368,6 +382,12 @@ You are designing an LLM feature expected to handle 100k calls/month.
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**You are designing an LLM feature expected to handle 100k calls/month.**
+
+- What pieces would you count when estimating tokens (system, history, RAG, output)?
+- Which architectural levers (routing, cache, RAG top-k) would you bake in from day one?
+- How would you monitor spend so a runaway agent doesn’t surprise Finance?
 
 ### Strong Answers Mention
 - Calls × (avg input + avg output) × price—plus retries/tool loops

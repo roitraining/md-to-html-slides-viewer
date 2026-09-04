@@ -347,6 +347,13 @@ Verify: show function + test only
 
 # Quiz 1 — Answer
 
+**How should teams treat AI coding assistant suggestions?**
+
+- **A.** Blind-accept multi-file rewrites to maximize speed
+- **B.** Treat them like a junior pair: fast drafts with mandatory human review
+- **C.** Skip tests because “the AI already wrote them”
+- **D.** Prefer ungrounded generation over open-file / repo context
+
 **Correct: B**
 
 - Suggestions are drafts—compile, test, and read the diff
@@ -368,6 +375,13 @@ Verify: show function + test only
 ---
 
 # Quiz 2 — Answer
+
+**Which signal best measures AI-assisted developer productivity without vanity metrics?**
+
+- **A.** Lines of AI-generated code
+- **B.** Raw suggestion acceptance rate alone
+- **C.** Lead time on small changes and PR rework / review cycles
+- **D.** Total suggestion count shown in the IDE
 
 **Correct: C**
 
@@ -391,6 +405,12 @@ Your team is rolling out an org-approved AI coding assistant next quarter.
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Your team is rolling out an org-approved AI coding assistant next quarter.**
+
+- Which 5–10 shared prompts would you standardize first—and why?
+- Where must a human still own the merge decision?
+- How would you spot-check that standards are helping (not just adopted)?
 
 ### Strong Answers Mention
 - Shared prompts for feature, test, refactor, PR, and incident

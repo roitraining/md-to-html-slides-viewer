@@ -334,6 +334,13 @@ Now write get_order(id: str) -> Order the same way.
 
 # Quiz 1 — Answer
 
+**Which practice most improves the quality of generated code?**
+
+- **A.** State language/runtime, constrain scope, then verify with the smallest build/test immediately
+- **B.** Accept a large rewrite without reading the diff if the model sounds confident
+- **C.** Prefer giant pasted context over open-file / codebase grounding
+- **D.** Skip license and security review because the assistant “knows best”
+
 **Correct: A**
 
 - Clear constraints reduce hallucinations and scope creep
@@ -355,6 +362,13 @@ Now write get_order(id: str) -> Order the same way.
 ---
 
 # Quiz 2 — Answer
+
+**Why should teams standardize on org-approved coding assistants?**
+
+- **A.** Consumer personal accounts never create IP or policy risk
+- **B.** IDE support and enterprise controls do not matter
+- **C.** Any free tool is fine as long as suggestions look good
+- **D.** Enterprise controls (retention, training opt-out, allowlists) reduce policy and IP risk
 
 **Correct: D**
 
@@ -378,6 +392,12 @@ Pick one workflow on your team: generate a function, draft tests, or explain a f
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Pick one workflow on your team: generate a function, draft tests, or explain a failing stack trace.**
+
+- What context and few-shot examples would you include in the prompt?
+- What must never be pasted (secrets, PHI, production dumps)?
+- How would you evaluate the output before merge?
 
 ### Strong Answers Mention
 - Language, I/O contracts, and “match this file’s style”

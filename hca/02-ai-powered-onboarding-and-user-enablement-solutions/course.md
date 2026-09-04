@@ -351,6 +351,13 @@
 
 # Quiz 1 — Answer
 
+**What does RAG do for an enablement assistant?**
+
+- **A.** Retrains the model overnight on every LMS course video
+- **B.** Replaces your curriculum with open-web search results
+- **C.** Retrieves approved content, then generates an answer grounded in it
+- **D.** Removes the need for content owners and review cadences
+
 **Correct: C**
 
 - RAG = retrieve approved sources, then generate a grounded answer
@@ -372,6 +379,13 @@
 ---
 
 # Quiz 2 — Answer
+
+**Which metric is the strongest signal of shorter time-to-productivity?**
+
+- **A.** First independent task completed / days to role-ready checklist
+- **B.** Course completion percentage alone
+- **C.** Hours of onboarding video watched
+- **D.** Number of enablement pages published
 
 **Correct: A**
 
@@ -395,6 +409,12 @@ Pick one high-volume onboarding question in your org (for example: access, polic
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Pick one high-volume onboarding question in your org (for example: access, policy, or a Day-1 system step).**
+
+- Which pattern fits first—assistant, RAG, in-app guidance, or personalized path?
+- What approved sources and content owners would you require before go-live?
+- How would you measure TTP or deflection in the first 90 days?
 
 ### Strong Answers Mention
 - Narrow scope (one role/workflow) before scale

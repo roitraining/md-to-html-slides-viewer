@@ -462,6 +462,13 @@ Producers → Kafka/Pub/Sub → Flink (stateful jobs)
 
 # Quiz 1 — Answer
 
+**A click happens at 10:00:50 but arrives at the Flink job at 10:01:05. For correct “clicks per minute,” which approach attributes it to the 10:00 bucket?**
+
+- **A.** Processing time only (wall-clock arrival)
+- **B.** Dropping any event that arrives after the minute ends
+- **C.** Ignoring timestamps and counting in arrival order
+- **D.** Event time with watermarks (and configured lateness)
+
 **Correct: D**
 
 - Event time uses the time in the event, not when the job saw it
@@ -483,6 +490,13 @@ Producers → Kafka/Pub/Sub → Flink (stateful jobs)
 ---
 
 # Quiz 2 — Answer
+
+**Which workload is the clearest fit for Apache Flink?**
+
+- **A.** A nightly sales workbook Finance needs by 7 a.m.
+- **B.** Scoring each card authorization with recent spend history in sub-seconds
+- **C.** A one-off SQL pull for a quarterly board slide
+- **D.** A simple broker-side filter with no state or windows
 
 **Correct: B**
 
@@ -506,6 +520,12 @@ Describe a real-time use case on your team (fraud, telemetry, alerting, or click
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Describe a real-time use case on your team (fraud, telemetry, alerting, or clickstream).**
+
+- Where do messaging, Flink, and storage each sit in the pipeline?
+- Would you use tumbling, sliding, or session windows—and why?
+- When would DataStream be worth it instead of Flink SQL?
 
 ### Strong Answers Mention
 - Messaging = transport; Flink = stateful compute; storage = history/BI

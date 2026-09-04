@@ -451,6 +451,13 @@ adk eval path/to/agent_module path/to/eval_set.json
 
 # Quiz 1 — Answer
 
+**How does Google ADK best relate to the Gen AI SDK in this course’s framing?**
+
+- **A.** ADK replaces Gemini models; you no longer call an LLM
+- **B.** ADK is only a low-code UI with no Python agents
+- **C.** The Gen AI SDK is the agent application layer; ADK is only raw chat APIs
+- **D.** Treat the Gen AI SDK as the model layer and ADK as the agent application layer (build → evaluate → deploy)
+
 **Correct: D**
 
 - Gen AI SDK: direct model/chat and simple tool use—you own orchestration
@@ -472,6 +479,13 @@ adk eval path/to/agent_module path/to/eval_set.json
 ---
 
 # Quiz 2 — Answer
+
+**When evaluating an ADK agent before production, what should you assess?**
+
+- **A.** Only final wording—tool steps never matter
+- **B.** Both trajectory (sensible tools/order) and response quality (correct, grounded, useful)
+- **C.** Only that `adk web` started once locally
+- **D.** Only latency—skip tool-call correctness
 
 **Correct: B**
 
@@ -495,6 +509,12 @@ Design a small ADK app for one real team task (ticket helper, runbook search, or
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**Design a small ADK app for one real team task (ticket helper, runbook search, or doc Q&A).**
+
+- Which tools stay narrow/typed—and which side effects need confirmation?
+- Parent–child: LLM transfer, Agent-as-tool, or a Sequential/Parallel/Loop workflow?
+- What eval cases and deploy checks would you require before Agent Engine?
 
 ### Strong Answers Mention
 - One job per tool; docstrings + type hints drive schemas

@@ -372,6 +372,13 @@
 
 # Quiz 1 — Answer
 
+**In Google Cloud’s shared responsibility model, which statement is most accurate for a managed service like BigQuery?**
+
+- **A.** You still manage access configuration, data classification, and who can query the data
+- **B.** Google manages IAM bindings and data classification for you automatically
+- **C.** You only manage the hypervisor and physical hardware
+- **D.** Shared responsibility does not apply once a service is fully managed
+
 **Correct: A**
 
 - Google secures infrastructure; you configure IAM, network, and data choices
@@ -393,6 +400,13 @@
 ---
 
 # Quiz 2 — Answer
+
+**Why enable Data Access audit logs for a sensitive dataset before an incident, not during one?**
+
+- **A.** Admin Activity logs are off by default and cannot be enabled later
+- **B.** Data Access logs replace the need for Security Command Center
+- **C.** Data Access logs (reads/writes) are off by default for most services and investigators need that evidence
+- **D.** Enabling them automatically blocks all exfiltration attempts
 
 **Correct: C**
 
@@ -416,6 +430,12 @@ You are hardening a project that holds regulated data in Cloud Storage and BigQu
 ---
 <!-- layout: 2-column -->
 # Quiz 3 — Discussion Points
+
+**You are hardening a project that holds regulated data in Cloud Storage and BigQuery.**
+
+- How would you combine IAM, VPC firewalls, and VPC Service Controls?
+- Which encryption key model (Google-managed vs. CMEK) would you choose and why?
+- What would Security Command Center and audit logs need to show for a healthy detect-and-respond loop?
 
 ### Strong Answers Mention
 - IAM = who; VPC-SC = where data can go; firewalls = what can talk to what
