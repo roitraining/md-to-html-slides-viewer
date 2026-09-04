@@ -373,6 +373,6 @@ Pick one legacy module your team might modernize with an agent (for example: dep
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

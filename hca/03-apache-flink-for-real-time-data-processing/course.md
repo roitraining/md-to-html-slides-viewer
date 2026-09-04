@@ -526,6 +526,6 @@ Describe a real-time use case on your team (fraud, telemetry, alerting, or click
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -381,6 +381,6 @@ Pick one system you help protect (VPN, admin bastion, EHR-adjacent app, or share
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

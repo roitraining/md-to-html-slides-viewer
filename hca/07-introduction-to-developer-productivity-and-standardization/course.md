@@ -411,6 +411,6 @@ Your team is rolling out an org-approved AI coding assistant next quarter.
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

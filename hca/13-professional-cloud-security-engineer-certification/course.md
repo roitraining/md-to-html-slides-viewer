@@ -373,6 +373,6 @@ Draft a 4–6 week PCSE prep plan for someone with Associate-level Google Cloud 
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -388,6 +388,6 @@ You are designing an LLM feature expected to handle 100k calls/month.
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

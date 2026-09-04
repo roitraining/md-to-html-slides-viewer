@@ -396,6 +396,6 @@ You are preparing a large live event with a &lt;5s glass-to-glass target and exp
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

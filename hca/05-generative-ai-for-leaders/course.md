@@ -409,6 +409,6 @@ Pick one GenAI idea in your function and run it through the portfolio filter.
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -515,6 +515,6 @@ Design a small ADK app for one real team task (ticket helper, runbook search, or
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

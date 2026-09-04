@@ -385,7 +385,7 @@ Pick one real task on your team (for example: draft PR, flaky test triage, or al
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)
 

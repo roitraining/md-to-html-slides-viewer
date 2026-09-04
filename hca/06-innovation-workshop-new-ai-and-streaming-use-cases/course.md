@@ -390,6 +390,6 @@ Take the top idea you plotted today and turn it into a 2-week next step.
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -396,6 +396,6 @@ Pick one recurring dashboard or report you already use (throughput, readmissions
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

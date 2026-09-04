@@ -410,6 +410,6 @@ Score one capability on your team (SCA, SAST, secrets, IaC, or culture) against 
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

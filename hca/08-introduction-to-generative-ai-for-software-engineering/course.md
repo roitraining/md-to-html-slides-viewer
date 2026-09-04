@@ -398,6 +398,6 @@ Pick one workflow on your team: generate a function, draft tests, or explain a f
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -427,6 +427,6 @@ Compare securing a browser web app vs. a native mobile app that stores a session
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -415,6 +415,6 @@ Pick one high-volume onboarding question in your org (for example: access, polic
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -396,6 +396,6 @@ Walk the stack for a new public web app: OS → network/DMZ → web server TLS �
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -377,6 +377,6 @@ Think of a recurring meeting you lead or join (standup, all-hands, or project sy
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

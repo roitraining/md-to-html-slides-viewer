@@ -436,6 +436,6 @@ You are hardening a project that holds regulated data in Cloud Storage and BigQu
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)

@@ -376,6 +376,6 @@ A business team wants to automate an internal request → approve → notify flo
 
 ---
 <!-- layout: title-image -->
-# Q&A
+# Questions and Answers
 
 ![Questions](images/qa.png)
