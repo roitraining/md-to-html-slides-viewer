@@ -79,7 +79,7 @@
 
 ---
 <!-- layout: title-image -->
-# GenAI Transforms Functions
+<!-- # GenAI Transforms Functions -->
 
 ![GenAI across business functions](images/genai-business-functions.png)
 
@@ -313,9 +313,9 @@
 
 ---
 
-# Discussion Prompt (Optional)
+# Discussion
 
-**Time:** ~8–10 minutes
+**Consider the following:**
 
 - Which function in *your* org has the clearest GenAI value story?
 - What data or process gap would block it?
