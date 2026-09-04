@@ -81,7 +81,7 @@
 
 ---
 <!-- layout: title-image -->
-# The Agent Loop
+<!-- # The Agent Loop -->
 
 ![The agent loop: understand the goal, plan the next step, act using a tool, check the result, and repeat](images/ch01-agent-loop.png)
 
