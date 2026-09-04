@@ -211,19 +211,6 @@
 - Co-built solutions
 
 ---
-
-# Demo: What You Can Build
-
-**Time:** ~10–12 minutes (instructor-led)
-
-**Demo guide:** [Placeholder — org low-code/no-code demo](https://example.com/hca/demos/lcnc-platforms)
-
-- Show a simple form/app (intake or request)
-- Show an approval / notification workflow
-- Peek at an AI-assisted or agent-builder canvas (if available)
-- Call out environments, connectors, and permission boundaries
-
----
 <!-- layout: navigation -->
 # Course Roadmap
 
