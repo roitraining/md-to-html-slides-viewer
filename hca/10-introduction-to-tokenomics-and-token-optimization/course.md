@@ -101,7 +101,7 @@
 
 ---
 <!-- layout: title-image -->
-# Input vs. Output Tokens
+<!-- # Input vs. Output Tokens -->
 
 ![Input vs output tokens](images/input-vs-output-tokens.png)
 
@@ -232,19 +232,6 @@
 | Deep analysis | Separate “expand” call |
 
 ---
-
-# Demo: Measure and Trim
-
-**Time:** ~10–12 minutes (instructor-led)
-
-**Demo guide:** [Placeholder — token counting & optimization demo](https://example.com/hca/demos/token-optimization)
-
-- Count tokens for a verbose vs compressed prompt
-- Show history growth across turns
-- Apply RAG top-k instead of pasting a long doc
-- Cap output tokens and compare quality vs cost
-
----
 <!-- layout: navigation -->
 # Course Roadmap
 
@@ -254,7 +241,7 @@
 
 ---
 <!-- layout: title-image -->
-# Design for Efficiency
+<!-- # Design for Efficiency -->
 
 ![Cost-aware architecture](images/cost-aware-architecture.png)
 
