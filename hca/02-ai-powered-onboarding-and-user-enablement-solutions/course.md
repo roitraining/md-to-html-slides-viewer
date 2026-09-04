@@ -160,7 +160,7 @@
 
 ---
 <!-- layout: title-image -->
-# Common AI Enablement Patterns
+<!-- # Common AI Enablement Patterns -->
 
 ![AI enablement patterns](images/ai-enablement-patterns.png)
 
@@ -182,7 +182,7 @@
 <!-- layout: title-image -->
 # Pattern 2: Knowledge Retrieval (RAG)
 
-![RAG enablement flow](images/rag-enablement-flow.png)
+![RAG enablement flow](images/rag-enablement-flow.jpeg)
 
 ---
 
@@ -240,18 +240,6 @@
 - Personalized path
 - Practice & coach
 
----
-
-# Demo: AI Enablement in Action
-
-**Time:** ~10–12 minutes (instructor-led)
-
-**Demo guide:** [Placeholder — org demo script](https://example.com/hca/demos/ai-enablement)
-
-- Ask an onboarding question answered from approved docs (RAG)
-- Show an in-app or guided checklist for a first-week task
-- Show a personalized “next lesson” recommendation
-- Point out escalation / “talk to a human” path
 
 ---
 <!-- layout: navigation -->
