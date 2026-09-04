@@ -36,7 +36,7 @@
 - Segment 1: Getting Started with ADK (~20 min)
 - Segment 2: Tools and Multi-Agent Systems (~25 min)
 - Segment 3: Deploy and Evaluate (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---

@@ -36,7 +36,7 @@
 - Segment 1: Security Problems and Tools (~25 min)
 - Segment 2: Applied Cryptography, with demo (~35 min)
 - Segment 3: Attacks and Defense (~20 min)
-- Q&A (~10 min)
+- Questions and Answers (~10 min)
 
 ![Agenda](images/agenda.png)
 ---

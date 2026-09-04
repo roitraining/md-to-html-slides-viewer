@@ -36,7 +36,7 @@
 - Segment 1: GenAI for Developers (~20 min)
 - Segment 2: Prompt Engineering for Code (~25 min)
 - Segment 3: Tools and Responsible Use (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---

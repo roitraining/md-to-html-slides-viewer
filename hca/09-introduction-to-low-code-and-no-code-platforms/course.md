@@ -36,7 +36,7 @@
 - Segment 1: The Low-Code/No-Code Landscape (~20 min)
 - Segment 2: What You Can Build (~25 min)
 - Segment 3: Doing It Safely (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---

@@ -36,7 +36,7 @@
 - Segment 1: Agentic AI, Briefly (~20 min)
 - Segment 2: Agents in a Modernization Workflow (~25 min)
 - Segment 3: Doing It Safely (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---

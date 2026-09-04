@@ -35,7 +35,7 @@
 - Segment 1: DevSecOps in Context (~20 min)
 - Segment 2: Security in the Pipeline (~25 min)
 - Segment 3: Maturity and Roadmap (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---

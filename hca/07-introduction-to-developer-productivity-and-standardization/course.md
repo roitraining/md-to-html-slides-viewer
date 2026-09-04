@@ -36,7 +36,7 @@
 - Segment 1: Developer Efficiency Foundations (~20 min)
 - Segment 2: AI-Assisted Coding (~25 min)
 - Segment 3: Beyond the Editor (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---

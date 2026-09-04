@@ -36,7 +36,7 @@
 - Segment 1: Foundations of Data Literacy (~20 min)
 - Segment 2: Reading and Interpreting Data (~35 min)
 - Segment 3: From Data to Decisions (~25 min)
-- Q&A (~10 min)
+- Questions and Answers (~10 min)
 
 ![Agenda](images/agenda.png)
 ---

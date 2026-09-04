@@ -36,7 +36,7 @@
 - Segment 1: Security Fundamentals (~25 min)
 - Segment 2: Hardening the Stack (~35 min)
 - Segment 3: Safe Processing (~20 min)
-- Q&A (~10 min)
+- Questions and Answers (~10 min)
 
 ![Agenda](images/agenda.png)
 ---

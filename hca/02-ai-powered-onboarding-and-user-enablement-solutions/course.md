@@ -36,7 +36,7 @@
 - Segment 1: The Enablement Opportunity (~20 min)
 - Segment 2: Patterns and Tools (~25 min)
 - Segment 3: Measuring and Governing (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---

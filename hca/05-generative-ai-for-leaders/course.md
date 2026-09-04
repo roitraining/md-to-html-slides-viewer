@@ -35,7 +35,7 @@
 - Segment 1: GenAI Beyond the Chatbot (~20 min)
 - Segment 2: Concepts and Landscape (~25 min)
 - Segment 3: Leading the Change (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---

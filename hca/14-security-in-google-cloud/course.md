@@ -36,7 +36,7 @@
 - Segment 1: Foundations and Identity (~25 min)
 - Segment 2: Network and Data Security, with demo (~35 min)
 - Segment 3: Detect and Respond (~20 min)
-- Q&A (~10 min)
+- Questions and Answers (~10 min)
 
 ![Agenda](images/agenda.png)
 ---

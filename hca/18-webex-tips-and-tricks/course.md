@@ -36,7 +36,7 @@
 - Segment 1: Meetings Done Right, with demo (~30 min)
 - Segment 2: Collaboration Beyond Meetings, with demo (~25 min)
 - Segment 3: Smooth and Reliable, with demo (~25 min)
-- Q&A (~10 min)
+- Questions and Answers (~10 min)
 
 ![Agenda](images/agenda.png)
 ---

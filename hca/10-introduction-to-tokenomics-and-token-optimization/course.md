@@ -36,7 +36,7 @@
 - Segment 1: Token Fundamentals (~20 min)
 - Segment 2: Optimizing Usage (~25 min)
 - Segment 3: Cost-Aware Architecture (~15 min)
-- Q&A (~15 min)
+- Questions and Answers (~15 min)
 
 ![Agenda](images/agenda.png)
 ---
