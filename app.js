@@ -584,7 +584,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchText(url) {
-        const response = await fetch(url);
+        // Bust HTTP cache so local course edits show up on refresh
+        let requestUrl = url;
+        try {
+            const resolved = new URL(url, window.location.href);
+            if (resolved.origin === window.location.origin) {
+                resolved.searchParams.set('_', String(Date.now()));
+                requestUrl = resolved.pathname + resolved.search + resolved.hash;
+            }
+        } catch (_) { /* keep original url */ }
+
+        const response = await fetch(requestUrl, { cache: 'no-store' });
         if (!response.ok) {
             throw new Error(`HTTP ${response.status} loading ${url}`);
         }
