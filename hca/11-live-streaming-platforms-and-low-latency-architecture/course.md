@@ -24,10 +24,10 @@
 # Course Objectives
 
 - **Architect live audio/video delivery** with clear latency, scale, and reliability trade-offs
-- Describe the end-to-end live streaming pipeline
+- Describe the end-to-end live streaming pipeline and contribution options
 - Explain the protocols and trade-offs behind low-latency delivery
-- Identify architectural levers (edge, CDN, encoding) that reduce latency
-- Recognize scaling and reliability considerations for live events
+- Identify architectural levers (edge, CDN, encoding, player) that reduce latency
+- Apply scaling, reliability, auth, and game-day practices for live events
 
 ---
 
@@ -35,8 +35,8 @@
 
 - Segment 1: The Live Streaming Pipeline (~20 min)
 - Segment 2: Low-Latency Techniques (~25 min)
-- Segment 3: Scale and Reliability (~15 min)
-- Q&A (~15 min)
+- Segment 3: Scale and Reliability (~20 min)
+- Questions and Answers (~10 min)
 
 ![Agenda](images/agenda.png)
 ---
@@ -126,6 +126,49 @@
 > Optimizing only the CDN won’t fix a 6-second segment + large player buffer.
 
 ---
+
+# Sample Glass-to-Glass Budgets
+
+Illustrative only—measure your stack; numbers vary by encoder, network, and player.
+
+| Stage (approx.) | Interactive (~&lt;2s) | Broadcast low-latency (~5–10s) |
+| :--- | :--- | :--- |
+| Capture / ingest | 50–150 ms | 100–300 ms |
+| Encode | 100–300 ms | 300–800 ms |
+| Package / parts | 100–400 ms | 1–3 s (segment/part size) |
+| CDN / edge | 50–200 ms | 200–800 ms |
+| Player buffer | 200–800 ms | 2–5 s |
+| **Rough total** | **~0.5–2 s** | **~5–10 s** |
+
+> [!IMPORTANT]
+> Budget the product SLA first. If interactive needs &lt;2s, classic long-GOP HLS will never get you there—no matter how good the CDN is.
+
+---
+<!-- layout: 3-column -->
+# Contribution: RTMP vs SRT vs WHIP
+
+### RTMP
+- Still common from encoders
+- TCP; simple firewall story
+- Weaker on lossy links
+- Aging protocol—plan exits
+
+### SRT
+- UDP + recovery / encryption
+- Strong for unreliable WAN
+- Popular for backup paths
+- Great contribution workhorse
+
+### WHIP
+- WebRTC ingest over HTTP
+- Browser / modern encoders
+- Low-latency contribution
+- Pair with WHEP-style playback when needed
+
+> [!NOTE]
+> Dual ingest (primary + backup) matters more than which single protocol you prefer—paths fail on game day.
+
+---
 <!-- layout: 2-column -->
 # Encode, Package, Deliver
 
@@ -181,6 +224,22 @@
 
 ---
 <!-- layout: title-image -->
+# Reference Architecture
+
+![Live streaming reference architecture: encoder to contribution to packager to origin shield to multi-CDN to players, plus WebRTC island for hosts](images/live-reference-architecture.png)
+
+---
+
+# Reference Architecture Notes
+
+- **Contribution:** primary + backup (SRT/RTMP/WHIP) into cloud packager/transcode
+- **Origin shield:** protect packagers from CDN stampedes on misses
+- **Multi-CDN / multi-region edge:** capacity and regional failover
+- **Players:** LL-HLS/LL-DASH for scale; optional **WebRTC island** for hosts or ultra-interactive rooms
+- Auth tokens / DRM sit at the edge and player—not only at the origin
+
+---
+<!-- layout: title-image -->
 # Architectural Levers
 
 ![Latency architecture levers](images/latency-architecture-levers.png)
@@ -219,6 +278,22 @@
 - Fast startup vs rebuffer risk
 - LL-capable player required
 - ABR logic that doesn’t chase
+
+---
+<!-- layout: 2-column -->
+# Player / ABR Pitfalls
+
+### “We enabled LL-HLS… still laggy”
+- Player still using a large startup buffer
+- ABR thrashing on busy Wi-Fi (up/down swings)
+- Manifest/part fetch blocked behind a slow CDN PoP
+- Mixed classic + LL assumptions in one player build
+
+### Design Fixes
+- Require an LL-capable player build
+- Cap aggressive ABR downswitches
+- Measure **glass-to-glass**, not only CDN TTFB
+- Test on real device/network profiles before go-live
 
 ---
 
@@ -277,6 +352,22 @@ Tight encode  →  short segments/parts  →  edge near viewers
 > Failover that isn’t rehearsed will fail on the main event. Game-day runbooks need dry runs.
 
 ---
+<!-- layout: 2-column -->
+# Who Can Watch? Auth & Entitlement
+
+### Common Controls
+- Signed / expiring URLs or tokens at the CDN edge
+- Geo / IP allow–deny when required
+- DRM when content licenses demand it
+- Separate entitlements for hosts vs audience
+
+### Design Rules
+- Enforce at the **edge + player**, not only origin
+- Short TTL tokens; rotate keys on a schedule
+- Don’t put long-lived secrets in client apps
+- Log denials—abuse and misconfig look the same live
+
+---
 <!-- layout: 3-column -->
 # Monitor Quality of Experience
 
@@ -309,13 +400,35 @@ Tight encode  →  short segments/parts  →  edge near viewers
 | Comms | Status page / stakeholder updates prepared |
 
 ---
+<!-- layout: 3-column -->
+# Game-Day Timeline
+
+### T–24h
+- Capacity & CDN pre-warm plan
+- Dual-ingest dry run
+- Dashboard & alert check
+- Comms / status page ready
+
+### T–2h
+- Confirm backup path live
+- Spot-check ladder & LL player
+- Token/DRM smoke test
+- On-call bridge open
+
+### T–0 / Live
+- Watch join, rebuffer, lag
+- Degrade ladder if needed
+- Execute runbook—not heroics
+- Stakeholder updates on cadence
+
+---
 
 # What You Learned
 
-- Described the end-to-end live streaming pipeline from capture to playback
+- Described the end-to-end live streaming pipeline and contribution options (RTMP, SRT, WHIP)
 - Explained protocol trade-offs for low-latency delivery (WebRTC, LL-HLS, peers)
-- Identified encoding, edge/CDN, and player levers that reduce latency
-- Recognized scaling, failover, and QoE monitoring needs for live events
+- Identified encoding, edge/CDN, player, and architecture levers that reduce latency
+- Applied scaling, failover, auth/entitlement, QoE monitoring, and game-day practices
 
 ---
 
@@ -374,7 +487,7 @@ You are preparing a large live event with a &lt;5s glass-to-glass target and exp
 
 ### Discuss
 - Which encode, segment/part, edge, and player levers would you tune first?
-- What failover (dual ingest, origin, multi-CDN) must be rehearsed before game day?
+- What failover (dual ingest, origin, multi-CDN) and auth checks must be rehearsed before game day?
 - Which QoE signals would you watch live (join time, rebuffer, glass-to-glass)?
 
 ---
@@ -386,12 +499,12 @@ You are preparing a large live event with a &lt;5s glass-to-glass target and exp
 ### Strong Answers Mention
 - Optimize the largest buffer first; measure end-to-end, not only TTFB
 - Pre-warm capacity; dual ingest / hot-standby origin; degrade modes
-- Dashboards for ingest health, CDN errors, rebuffer, lag
+- Edge tokens/DRM smoke-tested; dashboards for ingest, CDN, rebuffer, lag
 - Runbooks with dry runs—not only human panic cutover
 
 ### Watch For
 - Protocol choice mismatched to interactivity vs scale needs
-- Failover never rehearsed on the main event
+- Failover or entitlement checks never rehearsed on the main event
 - Watching only origin metrics while viewers rebuffer
 
 ---
