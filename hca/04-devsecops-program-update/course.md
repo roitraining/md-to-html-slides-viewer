@@ -240,19 +240,6 @@
 - Waive-everything culture
 
 ---
-
-# Demo / Walkthrough: Pipeline Security Map
-
-**Time:** ~10–12 minutes (instructor-led)
-
-**Demo guide:** [Placeholder — org CI security stage map](https://example.com/hca/demos/devsecops-pipeline)
-
-- Show where SCA / SAST / secrets / IaC run today
-- Show a sample PR finding and remediation path
-- Call out what is warn-only vs blocking
-- Note gaps (e.g. no DAST, weak IaC coverage)
-
----
 <!-- layout: navigation -->
 # Course Roadmap
 
