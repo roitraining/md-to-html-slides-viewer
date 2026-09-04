@@ -100,7 +100,7 @@
 
 ---
 <!-- layout: title-image -->
-# Shift-Left and the Secure SDLC
+<!-- # Shift-Left and the Secure SDLC -->
 
 ![Shift-left SDLC](images/shift-left-sdlc.png)
 
