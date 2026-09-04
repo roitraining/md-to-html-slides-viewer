@@ -639,7 +639,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return { owner, repo, ref, path, isFile };
         }
 
-        // Shorthand: owner/repo or owner/repo/path (not relative folder/file.md)
+        // Shorthand: owner/repo or owner/repo/path (NOT local relative paths like hca/01-course/course.md).
+        // Ambiguous nested paths are resolved in bootFromQueryOrDefault by preferring a same-origin file.
         m = trimmed.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/(.+))?$/);
         if (m && !trimmed.includes('://') && !trimmed.startsWith('.') && !isMarkdownName(m[2])) {
             const path = (m[3] || '').replace(/\/+$/, '');
@@ -648,11 +649,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 repo: m[2],
                 ref: null,
                 path,
-                isFile: isMarkdownName(path)
+                isFile: isMarkdownName(path),
+                // Nested "owner/repo/file.md" can collide with local course paths
+                ambiguousLocal: Boolean(path)
             };
         }
 
         return null;
+    }
+
+    async function sameOriginResourceExists(path) {
+        if (!path || path.includes('://')) return false;
+        try {
+            const response = await fetch(path, { method: 'HEAD' });
+            if (response.ok) return true;
+            // Some static servers (or mid proxies) reject HEAD — fall back to GET range/full
+            if (response.status === 405 || response.status === 501) {
+                const getResponse = await fetch(path, { method: 'GET' });
+                return getResponse.ok;
+            }
+        } catch (_) { /* not available locally */ }
+        return false;
     }
 
     async function githubApiFetch(apiPath) {
@@ -738,7 +755,12 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadRemoteMarkdown(rawUrl, shareUrl, chapterState = null) {
         setOpenStatus('Loading slides…');
         const markdownText = await fetchText(rawUrl);
-        const baseUrl = rawUrl.substring(0, rawUrl.lastIndexOf('/') + 1);
+        // Resolve against the page URL so nested local courses (hca/01-…/course.md)
+        // rewrite images/… to absolute paths under that course folder — not /images/….
+        const baseUrl = new URL(
+            rawUrl.substring(0, rawUrl.lastIndexOf('/') + 1) || './',
+            window.location.href
+        ).href;
         applyCourseMarkdown(markdownText, {
             sourceKey: rawUrl,
             baseUrl,
@@ -1162,8 +1184,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     collected.push(file);
                                 } else if (entry.kind === 'directory') {
                                     const lower = entry.name.toLowerCase();
-                                    // Always include images/; skip other noise directories
-                                    if (IGNORED_DIR_NAMES.has(lower) && lower !== 'images') continue;
+                                    // Skip noise dirs, but always walk media folders used by courses
+                                    const mediaDirs = new Set(['images', 'image', 'img', 'assets']);
+                                    if (IGNORED_DIR_NAMES.has(lower) && !mediaDirs.has(lower)) continue;
                                     await walk(entry, rel);
                                 }
                             }
@@ -1258,6 +1281,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Convert github web URLs; if folder/repo, use discovery instead of README.md
         const gh = parseGitHubUrl(paramUrl);
         if (gh) {
+            // Prefer a real local/same-origin Markdown file over GitHub shorthand like
+            // hca/01-some-course/course.md (which looks like owner/repo/path).
+            if (!paramUrl.includes('://') && (gh.ambiguousLocal || gh.isFile)) {
+                const localExists = await sameOriginResourceExists(paramUrl);
+                if (localExists) {
+                    try {
+                        await loadRemoteMarkdown(paramUrl, null, { chapters: [], chapterId: null });
+                        return;
+                    } catch (error) {
+                        console.warn('Local course path exists but failed to load; trying GitHub.', error);
+                    }
+                }
+            }
             try {
                 const ref = await resolveGitHubRef(gh.owner, gh.repo, gh.ref);
                 if (gh.isFile && gh.path) {
