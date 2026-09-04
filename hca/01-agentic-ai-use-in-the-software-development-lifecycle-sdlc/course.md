@@ -77,6 +77,8 @@
 - The shift isn't a smarter model—it's giving the model a loop, tools, and permission to act
 - This distinction matters because it changes what you can safely delegate
 
+![From chatbots to agents](images/chatbots-to-agents.png)
+
 ---
 <!-- layout: title-image -->
 # The Agent Loop
