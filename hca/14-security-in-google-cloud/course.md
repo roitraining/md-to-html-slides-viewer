@@ -358,6 +358,77 @@
 - Identified monitoring, logging, and threat-detection options
 
 ---
+
+# Quiz 1 of 3
+
+**In Google Cloud’s shared responsibility model, which statement is most accurate for a managed service like BigQuery?**
+
+- **A.** You still manage access configuration, data classification, and who can query the data
+- **B.** Google manages IAM bindings and data classification for you automatically
+- **C.** You only manage the hypervisor and physical hardware
+- **D.** Shared responsibility does not apply once a service is fully managed
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: A**
+
+- Google secures infrastructure; you configure IAM, network, and data choices
+- Even managed services require you to manage access and data classification
+- Hypervisor/hardware are Google’s side, not yours on BigQuery
+- Partnership, not a handoff—responsibility shifts by service type, it doesn’t disappear
+
+---
+
+# Quiz 2 of 3
+
+**Why enable Data Access audit logs for a sensitive dataset before an incident, not during one?**
+
+- **A.** Admin Activity logs are off by default and cannot be enabled later
+- **B.** Data Access logs replace the need for Security Command Center
+- **C.** Data Access logs (reads/writes) are off by default for most services and investigators need that evidence
+- **D.** Enabling them automatically blocks all exfiltration attempts
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: C**
+
+- Admin Activity logs are always on; Data Access logs are typically off by default
+- Investigators rely on who-read-what evidence that must already be collected
+- SCC and audit logs complement each other—they don’t replace one another
+- Logging provides visibility; VPC Service Controls and IAM enforce boundaries
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+You are hardening a project that holds regulated data in Cloud Storage and BigQuery.
+
+### Discuss
+- How would you combine IAM, VPC firewalls, and VPC Service Controls?
+- Which encryption key model (Google-managed vs. CMEK) would you choose and why?
+- What would Security Command Center and audit logs need to show for a healthy detect-and-respond loop?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- IAM = who; VPC-SC = where data can go; firewalls = what can talk to what
+- CMEK when you need key ownership/rotation control; default encryption when not required
+- SCC for misconfigs/threats; Admin + Data Access logs for investigation
+- Feed findings back into policy and monitoring coverage
+
+### Watch For
+- “IAM alone is enough for exfiltration”
+- Leaving Data Access logs disabled on sensitive data
+- Over-privileged service accounts (Owner/Editor)
+
+---
 <!-- layout: title-image -->
 # Q&A
 

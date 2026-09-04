@@ -295,6 +295,77 @@ Study loop: read task → build in a sandbox → explain the trade-off out loud
 - Recognized where hands-on Google Cloud experience is required to pass
 
 ---
+
+# Quiz 1 of 3
+
+**If study time is short, which PCSE focus set is the highest-yield “big rocks” priority?**
+
+- **A.** Niche product edges and third-party exam dumps only
+- **B.** Compliance regulation clause memorization before any labs
+- **C.** Access (IAM) + Network + Data (including VPC-SC and KMS)
+- **D.** Skipping hands-on labs if you’ve read the exam guide twice
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: C**
+
+- Access, Network, and Data make up the majority of the exam weight
+- VPC-SC and KMS trade-offs should feel automatic under time pressure
+- Official guide + labs beat outdated third-party dumps
+- Reading alone rarely replaces console/`gcloud` muscle memory
+
+---
+
+# Quiz 2 of 3
+
+**A scenario asks how to stop an authorized user from copying BigQuery data to an unapproved project. Which control is the exam’s best “choose the product” answer?**
+
+- **A.** VPC Service Controls perimeters around the sensitive resources
+- **B.** Granting the user Owner so they can self-manage exports
+- **C.** Disabling Cloud Logging to reduce noise
+- **D.** Relying only on a broader predefined Editor role
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: A**
+
+- VPC-SC limits *where* data can go even with valid credentials
+- IAM answers *who*; it does not stop authorized exfiltration alone
+- Owner/Editor widen blast radius—opposite of least privilege
+- Logging helps investigate; it does not enforce the perimeter
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Draft a 4–6 week PCSE prep plan for someone with Associate-level Google Cloud experience but little VPC-SC or CMEK practice.
+
+### Discuss
+- Which weeks are labs vs. reading vs. practice exams?
+- Where must hands-on experience replace flashcards?
+- How will you verify readiness against the official exam guide?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Official exam guide as source of truth for domains
+- Early weeks: IAM hierarchy, network/VPC-SC, KMS/CMEK labs
+- Later weeks: SCC/ops, compliance mapping, practice exams
+- Study loop: read task → build in sandbox → explain trade-offs aloud
+
+### Watch For
+- Memorizing trivia instead of “choose the control” scenarios
+- Skipping labs for VPC-SC, CMEK, or SCC
+- Trusting outdated dumps over recent official materials
+
+---
 <!-- layout: title-image -->
 # Q&A
 

@@ -345,6 +345,77 @@ Verify: show function + test only
 - Described how cloud-assist tools speed diagnosis and design in an end-to-end flow
 
 ---
+
+# Quiz 1 of 3
+
+**How should teams treat AI coding assistant suggestions?**
+
+- **A.** Blind-accept multi-file rewrites to maximize speed
+- **B.** Treat them like a junior pair: fast drafts with mandatory human review
+- **C.** Skip tests because “the AI already wrote them”
+- **D.** Prefer ungrounded generation over open-file / repo context
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: B**
+
+- Suggestions are drafts—compile, test, and read the diff
+- Blind multi-file accepts create review debt and subtle bugs
+- CI and human ownership remain the source of truth
+- Grounding on local patterns beats invented APIs that “look right”
+
+---
+
+# Quiz 2 of 3
+
+**Which signal best measures AI-assisted developer productivity without vanity metrics?**
+
+- **A.** Lines of AI-generated code
+- **B.** Raw suggestion acceptance rate alone
+- **C.** Lead time on small changes and PR rework / review cycles
+- **D.** Total suggestion count shown in the IDE
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: C**
+
+- Flow and quality outcomes matter more than generation volume
+- Acceptance rate alone ignores whether code survived review and CI
+- Lead time and rework reflect real team efficiency
+- Pair with incident time-to-mitigate and developer satisfaction pulses
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Your team is rolling out an org-approved AI coding assistant next quarter.
+
+### Discuss
+- Which 5–10 shared prompts would you standardize first—and why?
+- Where must a human still own the merge decision?
+- How would you spot-check that standards are helping (not just adopted)?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Shared prompts for feature, test, refactor, PR, and incident
+- Human review + CI as definition of done
+- Metrics like lead time and review rework—not lines of AI code
+- Security settings and “no secrets in prompts” as non-negotiables
+
+### Watch For
+- “Everyone invents their own prompts”
+- Measuring success only by suggestion acceptance
+- Skipping grounding and review to go faster
+
+---
 <!-- layout: title-image -->
 # Q&A
 

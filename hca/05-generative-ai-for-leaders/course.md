@@ -331,6 +331,77 @@
 - Recognized how to lead and prioritize GenAI adoption responsibly
 
 ---
+
+# Quiz 1 of 3
+
+**In plain language, what is a hallucination?**
+
+- **A.** Any answer that uses a larger context window
+- **B.** Confident output that is wrong or made up
+- **C.** Grounding answers in approved documents (RAG)
+- **D.** Charging by tokens for model usage
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: B**
+
+- Hallucinations are confident but incorrect or invented outputs
+- Grounding / RAG reduces reliance on model “memory” alone
+- Tokens and context window are cost/limit concepts—not accuracy labels
+- High-stakes domains still need human review and accountable process
+
+---
+
+# Quiz 2 of 3
+
+**Where should most enterprises focus spend to unlock many use cases—not one demo?**
+
+- **A.** Training a foundation model from scratch as the default first move
+- **B.** Thirty disconnected pilots with no kill criteria
+- **C.** Shadow IT chat tools with no data policy
+- **D.** Platforms & governance plus a short list of flagship apps/agents
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: D**
+
+- Platforms and governance are often the bottleneck—and the advantage
+- Fund platform + 2–3 flagship use cases, not a zoo of PoCs
+- Infrastructure/models are usually partnered unless AI is the product core
+- Apps and agents are where employees and customers feel value
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Pick one GenAI idea in your function and run it through the portfolio filter.
+
+### Discuss
+- Keep / fund, revisit, or park—and why (value, feasibility, risk)?
+- What data or process gap would block it?
+- What does “responsible” require: secure, reliable, accountable?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Clear owner, KPI, and human review where stakes are high
+- Approved tools, least privilege, and grounded answers
+- Metrics and kill criteria before scale
+- Jobs-to-be-done first—not a vendor model slide
+
+### Watch For
+- “The model said so” as a control
+- Cool demos with unacceptable risk or no owner
+- Change fatigue from every team launching alone
+
+---
 <!-- layout: title-image -->
 # Q&A
 

@@ -448,6 +448,77 @@ Producers → Kafka/Pub/Sub → Flink (stateful jobs)
 - Judged fit for Flink with yes / no / maybe scenarios
 
 ---
+
+# Quiz 1 of 3
+
+**A click happens at 10:00:50 but arrives at the Flink job at 10:01:05. For correct “clicks per minute,” which approach attributes it to the 10:00 bucket?**
+
+- **A.** Processing time only (wall-clock arrival)
+- **B.** Dropping any event that arrives after the minute ends
+- **C.** Ignoring timestamps and counting in arrival order
+- **D.** Event time with watermarks (and configured lateness)
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: D**
+
+- Event time uses the time in the event, not when the job saw it
+- Watermarks let windows close despite out-of-order arrival
+- Processing time would put the click in the 10:01 bucket
+- Wrong time semantics break dashboards, fraud scores, and billing
+
+---
+
+# Quiz 2 of 3
+
+**Which workload is the clearest fit for Apache Flink?**
+
+- **A.** A nightly sales workbook Finance needs by 7 a.m.
+- **B.** Scoring each card authorization with recent spend history in sub-seconds
+- **C.** A one-off SQL pull for a quarterly board slide
+- **D.** A simple broker-side filter with no state or windows
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: B**
+
+- Flink shines on continuous, stateful, low-latency event paths
+- Nightly batch and one-off analytics usually belong in the warehouse
+- Messaging transports events; Flink owns compute, state, and windows
+- Ask: do we need continuous stateful compute—or just fresher batch?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Describe a real-time use case on your team (fraud, telemetry, alerting, or clickstream).
+
+### Discuss
+- Where do messaging, Flink, and storage each sit in the pipeline?
+- Would you use tumbling, sliding, or session windows—and why?
+- When would DataStream be worth it instead of Flink SQL?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Messaging = transport; Flink = stateful compute; storage = history/BI
+- Window choice follows the business question
+- Event time + watermarks when delay/reorder matters
+- SQL for analytics-style jobs; DataStream for custom state/timers/CEP
+
+### Watch For
+- Treating Kafka as the compute engine
+- Processing-time windows for correctness-critical metrics
+- Using Flink for pure overnight batch with no continuous consumer
+
+---
 <!-- layout: title-image -->
 # Q&A
 

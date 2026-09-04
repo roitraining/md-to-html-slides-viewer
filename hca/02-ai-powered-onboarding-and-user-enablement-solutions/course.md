@@ -337,6 +337,77 @@
 - Outlined success measures and guardrails for AI enablement tools
 
 ---
+
+# Quiz 1 of 3
+
+**What does RAG do for an enablement assistant?**
+
+- **A.** Retrains the model overnight on every LMS course video
+- **B.** Replaces your curriculum with open-web search results
+- **C.** Retrieves approved content, then generates an answer grounded in it
+- **D.** Removes the need for content owners and review cadences
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: C**
+
+- RAG = retrieve approved sources, then generate a grounded answer
+- It reduces “confident but wrong” answers on policy and process
+- Updating a source doc improves answers without retraining people
+- Stale or unowned knowledge still scales bad information faster
+
+---
+
+# Quiz 2 of 3
+
+**Which metric is the strongest signal of shorter time-to-productivity?**
+
+- **A.** First independent task completed / days to role-ready checklist
+- **B.** Course completion percentage alone
+- **C.** Hours of onboarding video watched
+- **D.** Number of enablement pages published
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: A**
+
+- TTP is how long until someone performs independently
+- Milestones beat “completed modules” as the north star
+- Deflection and task success complement TTP; vanity content metrics do not
+- Pair leading indicators (adoption, thumbs) with lagging outcomes (TTP, tickets)
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Pick one high-volume onboarding question in your org (for example: access, policy, or a Day-1 system step).
+
+### Discuss
+- Which pattern fits first—assistant, RAG, in-app guidance, or personalized path?
+- What approved sources and content owners would you require before go-live?
+- How would you measure TTP or deflection in the first 90 days?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Narrow scope (one role/workflow) before scale
+- Approved sources, citations, and named owners
+- Human escalation for high-risk topics
+- TTP milestones + deflection—not completion % alone
+
+### Watch For
+- Boiling the ocean across every audience
+- Letting the bot invent HR/clinical/legal guidance
+- Measuring only adoption with no accuracy loop
+
+---
 <!-- layout: title-image -->
 # Q&A
 

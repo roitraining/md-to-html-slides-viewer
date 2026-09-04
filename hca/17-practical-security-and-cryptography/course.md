@@ -303,6 +303,77 @@
 - Identified common network and OS attacks and their defenses
 
 ---
+
+# Quiz 1 of 3
+
+**Which statement about hashing is correct?**
+
+- **A.** Hashing is a reversible form of encryption that uses a shared secret key
+- **B.** A hash can be decrypted with the matching private key
+- **C.** Hashing is a one-way function used for integrity and (with salting) password storage—not encryption
+- **D.** Hashing is only used for bulk data encryption inside TLS sessions
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: C**
+
+- Hashing is one-way: easy forward, infeasible to reverse
+- Same input → same hash; any change → a different hash
+- It verifies integrity and protects stored passwords; there is no decryption key
+- Bulk encryption uses symmetric crypto (e.g. AES), not hashing
+
+---
+
+# Quiz 2 of 3
+
+**Your team can only ship one high-impact control this quarter. Which best matches this course’s guidance?**
+
+- **A.** Multi-factor authentication on high-access accounts (admins, VPN, email)
+- **B.** Replace all firewalls with application allowlisting alone
+- **C.** Disable SSH and rely only on Telnet with strong passwords
+- **D.** Skip patching because endpoint antivirus is “good enough”
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: A**
+
+- Passwords alone are a single point of failure—phished, guessed, or reused
+- 2FA adds an independent second factor so a stolen password is far less useful
+- Prioritize accounts with the most access first
+- MFA is high-impact and low-cost compared with exotic one-off controls
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Pick one system you help protect (VPN, admin bastion, EHR-adjacent app, or shared drive).
+
+### Discuss
+- Which CIAA goals matter most for that system—and what threatens them?
+- Where does cryptography already help (TLS, SSH, VPN)—and where is authentication still weak?
+- What would you harden first this month, and how would you know it worked?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Threat model first (internal vs. external, likely attackers)
+- Crypto for confidentiality/integrity; strong auth (keys/2FA) as the anchor
+- Layered controls—firewall + TLS/SSH + patching + MFA
+- Measurable outcomes (failed logins blocked, MFA coverage, patch lag)
+
+### Watch For
+- “Encrypt everything” with no authentication story
+- Trusting perimeter alone (firewall without host/app controls)
+- Treating hashing as encryption or “decrypting” hashes
+
+---
 <!-- layout: title-image -->
 # Q&A
 

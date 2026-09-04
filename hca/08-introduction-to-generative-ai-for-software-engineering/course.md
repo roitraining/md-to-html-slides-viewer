@@ -333,6 +333,77 @@ Now write get_order(id: str) -> Order the same way.
 - Recognized responsible-use and security considerations for AI-assisted coding
 
 ---
+
+# Quiz 1 of 3
+
+**Which practice most improves the quality of generated code?**
+
+- **A.** State language/runtime, constrain scope, then verify with the smallest build/test immediately
+- **B.** Accept a large rewrite without reading the diff if the model sounds confident
+- **C.** Prefer giant pasted context over open-file / codebase grounding
+- **D.** Skip license and security review because the assistant “knows best”
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: A**
+
+- Clear constraints reduce hallucinations and scope creep
+- Immediate verification catches invented APIs and logic bugs early
+- Diff-sized iteration beats merging unexplained large changes
+- Accountability for merges and security duties never goes away
+
+---
+
+# Quiz 2 of 3
+
+**Why should teams standardize on org-approved coding assistants?**
+
+- **A.** Consumer personal accounts never create IP or policy risk
+- **B.** IDE support and enterprise controls do not matter
+- **C.** Any free tool is fine as long as suggestions look good
+- **D.** Enterprise controls (retention, training opt-out, allowlists) reduce policy and IP risk
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: D**
+
+- Personal consumer accounts create retention and IP exposure
+- Enterprise SKUs align with org data-protection settings
+- Standard tooling also enables shared prompts and review norms
+- Security and license duties remain human responsibilities
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Pick one workflow on your team: generate a function, draft tests, or explain a failing stack trace.
+
+### Discuss
+- What context and few-shot examples would you include in the prompt?
+- What must never be pasted (secrets, PHI, production dumps)?
+- How would you evaluate the output before merge?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Language, I/O contracts, and “match this file’s style”
+- Redacted logs / synthetic data; approved enterprise tools
+- Compile, tests, license/security smell check, explainable diff
+- Iterative fixes over one-shot mega-rewrites
+
+### Watch For
+- Pasting credentials or customer data “for better context”
+- Merging code nobody on the team can explain
+- Treating hallucinations as ground truth
+
+---
 <!-- layout: title-image -->
 # Q&A
 

@@ -437,6 +437,77 @@ adk eval path/to/agent_module path/to/eval_set.json
 - Outlined deploy-to-Agent-Engine and ADK evaluation practices
 
 ---
+
+# Quiz 1 of 3
+
+**How does Google ADK best relate to the Gen AI SDK in this course’s framing?**
+
+- **A.** ADK replaces Gemini models; you no longer call an LLM
+- **B.** ADK is only a low-code UI with no Python agents
+- **C.** The Gen AI SDK is the agent application layer; ADK is only raw chat APIs
+- **D.** Treat the Gen AI SDK as the model layer and ADK as the agent application layer (build → evaluate → deploy)
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: D**
+
+- Gen AI SDK: direct model/chat and simple tool use—you own orchestration
+- ADK: agent-native primitives, multi-agent, eval, and deploy paths
+- Deep fit with Gemini and Agent Engine, still code-first
+- Prefer ADK when you need hierarchical agents plus evaluation in one toolkit
+
+---
+
+# Quiz 2 of 3
+
+**When evaluating an ADK agent before production, what should you assess?**
+
+- **A.** Only final wording—tool steps never matter
+- **B.** Both trajectory (sensible tools/order) and response quality (correct, grounded, useful)
+- **C.** Only that `adk web` started once locally
+- **D.** Only latency—skip tool-call correctness
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: B**
+
+- Agents are probabilistic; unit asserts alone aren’t enough
+- Trajectory checks whether the right tools ran in a sensible order
+- Response checks correctness, grounding, and usefulness
+- Use `adk eval` / CI so regressions show up before production
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Design a small ADK app for one real team task (ticket helper, runbook search, or doc Q&A).
+
+### Discuss
+- Which tools stay narrow/typed—and which side effects need confirmation?
+- Parent–child: LLM transfer, Agent-as-tool, or a Sequential/Parallel/Loop workflow?
+- What eval cases and deploy checks would you require before Agent Engine?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- One job per tool; docstrings + type hints drive schemas
+- Clear `description` for delegation; least-privilege tools
+- Eval sets from real sessions; re-run after instruction/tool/model changes
+- Same `root_agent` contract from laptop → Agent Runtime
+
+### Watch For
+- Giant “do_anything” tools and undocumented side effects
+- Shipping demos with no trajectory/response eval
+- Vague multi-agent trees with no stop conditions or ownership
+
+---
 <!-- layout: title-image -->
 # Q&A
 

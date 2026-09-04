@@ -323,6 +323,77 @@
 - Recognized caching, retrieval, and model-selection choices that control cost
 
 ---
+
+# Quiz 1 of 3
+
+**How does LLM pricing usually work?**
+
+- **A.** Providers bill only by character count, never by tokens
+- **B.** Only embeddings are free; prompts and completions are not metered
+- **C.** All models cost a fixed monthly seat with unlimited context
+- **D.** Input and output tokens are billable units—and output often costs more than input
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: D**
+
+- Tokenizers split text into billable units (roughly ~4 chars ≈ 1 English token)
+- Input and output are priced separately; output is often more expensive
+- Model tier, caching, and multi-call agents also drive cost
+- Context limits and latency are tied to token volume too
+
+---
+
+# Quiz 2 of 3
+
+**Your chat feature resends the full conversation every turn and bills are climbing. What is the best first fix?**
+
+- **A.** Always paste the entire knowledge corpus into every prompt
+- **B.** Keep only the last N turns or summarize older history, and enforce a hard input budget
+- **C.** Remove `max_output_tokens` so the model can answer freely
+- **D.** Route every request to the largest “pro” model by default
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: B**
+
+- Long history is a silent cost multiplier—trim by design
+- Summarize or drop irrelevant tool traces instead of dumping transcripts
+- Cap outputs and right-size models; don’t default everything to pro
+- Prefer RAG top-k over pasting whole corpora
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+You are designing an LLM feature expected to handle 100k calls/month.
+
+### Discuss
+- What pieces would you count when estimating tokens (system, history, RAG, output)?
+- Which architectural levers (routing, cache, RAG top-k) would you bake in from day one?
+- How would you monitor spend so a runaway agent doesn’t surprise Finance?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Calls × (avg input + avg output) × price—plus retries/tool loops
+- Small models for routine traffic; escalate only when needed
+- Metering by feature/team; budgets, alerts, workflow-level limits
+- Eval set so cost cuts don’t silently tank quality
+
+### Watch For
+- Optimizing only micro-prompt edits while ignoring architecture
+- Budgeting per single call but not multi-step agent workflows
+- Unlimited history and max tokens “for quality”
+
+---
 <!-- layout: title-image -->
 # Q&A
 

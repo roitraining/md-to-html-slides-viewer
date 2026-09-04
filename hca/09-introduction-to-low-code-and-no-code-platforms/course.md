@@ -311,6 +311,77 @@
 - Described governance and security guardrails for citizen development
 
 ---
+
+# Quiz 1 of 3
+
+**What best distinguishes no-code from low-code?**
+
+- **A.** No-code always requires professional developers; low-code never does
+- **B.** Low-code forbids any scripts or integrations
+- **C.** No-code uses visual designers only; low-code adds light code/scripts for deeper logic and integrations
+- **D.** Both are identical to traditional custom development
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: C**
+
+- No-code targets business makers with visual builders only
+- Low-code keeps visual builders but allows light code for harder logic
+- Both sit on a spectrum with traditional engineering—not a replacement for every system
+- Fit depends on process, data, and ownership—not “can we click it together?”
+
+---
+
+# Quiz 2 of 3
+
+**Which use case is the poorest fit for low-code/no-code and should usually hand off to engineering?**
+
+- **A.** A system of record needing complex transactional integrity or hard real-time / ultra-high scale
+- **B.** A departmental intake form with clear steps and modest data volume
+- **C.** An approval-and-notification workflow between known systems
+- **D.** A checklist / status tracker owned by one operations team
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: A**
+
+- Complex transactional integrity and ultra-high scale are classic hand-offs
+- Clear, department-owned processes with modest data are good LCNC fits
+- Ask who runs it in 18 months—not only whether a maker can build an MVP
+- Poor ownership or compliance posture is another red flag
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+A business team wants to automate an internal request → approve → notify flow on an approved platform.
+
+### Discuss
+- What governance controls would you require before go-live?
+- Who is the business owner vs technical contact—and who gets the 2 a.m. alert?
+- When would you insist on Dev → Test → Prod instead of editing production live?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Approved platform, connector allowlists, DLP / data classification
+- Named owner + technical contact; retirement/handoff plan
+- Environment promotion; least-privilege shared connections
+- AI/agent features scoped narrowly with human escalation
+
+### Watch For
+- Personal productivity accounts for business-critical flows
+- Orphan apps with no owner after the maker leaves
+- Connecting confidential / PHI data without classification
+
+---
 <!-- layout: title-image -->
 # Q&A
 

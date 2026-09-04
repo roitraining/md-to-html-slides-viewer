@@ -345,6 +345,77 @@
 - Assessed program maturity and identified next-step priority patterns
 
 ---
+
+# Quiz 1 of 3
+
+**Which tooling category primarily finds vulnerable open-source libraries and license risk?**
+
+- **A.** SCA (Software Composition Analysis)
+- **B.** SAST (Static Application Security Testing)
+- **C.** DAST (Dynamic Application Security Testing)
+- **D.** Manual security review only at release
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: A**
+
+- SCA targets dependencies, transitive CVEs, licenses, and SBOM inventory
+- SAST looks for insecure coding patterns in source
+- DAST probes a running app/API for exploitable issues
+- Manual late review is not a substitute for automated dependency checks
+
+---
+
+# Quiz 2 of 3
+
+**What best describes “shift left” in this program’s terms?**
+
+- **A.** Moving all security work to a separate team after deploy
+- **B.** Replacing CI checks with longer manual approval queues
+- **C.** Moving checks into design, code, and CI with actionable PR feedback
+- **D.** Waiving every finding so releases never slow down
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: C**
+
+- Shift-left moves checks earlier—design, code, and CI—not only pre-prod
+- Developers need fixable findings in the PR, not a PDF next quarter
+- A thin final gate remains; earlier controls should do most of the work
+- It fails without ownership, severity policy, and remediation SLAs
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Score one capability on your team (SCA, SAST, secrets, IaC, or culture) against the maturity levels.
+
+### Discuss
+- What signals put you at Initial, Managed, Defined, or Optimizing?
+- Which 90-day priority would reduce the most risk for the effort?
+- Where should guardrails (PR feedback) replace heavy gates?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Maturity is per capability—not one vanity overall score
+- Coverage, MTTR, false-positive rate, and finding ownership
+- Prefer platform templates that unlock many teams
+- High-signal blocking checks beat a wall of warn-only noise
+
+### Watch For
+- “We’re Level 4” with ad hoc scans and bypassed gates
+- Adding more tools without owners or severity policy
+- DAST in an unstable environment that teams learn to ignore
+
+---
 <!-- layout: title-image -->
 # Q&A
 

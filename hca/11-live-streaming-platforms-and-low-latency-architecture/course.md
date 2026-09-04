@@ -318,6 +318,77 @@ Tight encode  →  short segments/parts  →  edge near viewers
 - Recognized scaling, failover, and QoE monitoring needs for live events
 
 ---
+
+# Quiz 1 of 3
+
+**What is the best first step when designing for live latency?**
+
+- **A.** Define a glass-to-glass latency budget (product SLA), then choose protocols and buffers to match
+- **B.** Always pick classic HLS with long segments for interactive auctions
+- **C.** Optimize only the CDN and ignore segment duration and player buffer
+- **D.** Assume player startup buffer never affects end-to-end delay
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: A**
+
+- “Live” is a product SLA—interactive vs broadcast-scale targets differ
+- Latency accumulates across ingest, encode, package, CDN, and player
+- CDN tuning alone won’t fix long segments plus large buffers
+- Lower latency usually trades complexity, capacity, or resilience margin
+
+---
+
+# Quiz 2 of 3
+
+**Which statement best captures WebRTC vs LL-HLS trade-offs?**
+
+- **A.** WebRTC is always the right choice for stadium-scale one-to-many fan-out
+- **B.** Classic HLS always has lower latency than LL-HLS
+- **C.** WebRTC targets sub-second interactive use; LL-HLS offers CDN-friendly seconds-scale broadcast low latency
+- **D.** Protocol choice has no product implications if the origin is configured
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: C**
+
+- WebRTC (and peers) excel at interactive, sub-second experiences but fan-out is harder at huge scale
+- LL-HLS/LL-DASH use HTTP/CDN delivery with shorter parts for broadcast-scale low latency
+- Classic HLS is simpler to scale but typically higher delay
+- Validate with your player stack—not origin config alone
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+You are preparing a large live event with a &lt;5s glass-to-glass target and expected audience spikes.
+
+### Discuss
+- Which encode, segment/part, edge, and player levers would you tune first?
+- What failover (dual ingest, origin, multi-CDN) must be rehearsed before game day?
+- Which QoE signals would you watch live (join time, rebuffer, glass-to-glass)?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Optimize the largest buffer first; measure end-to-end, not only TTFB
+- Pre-warm capacity; dual ingest / hot-standby origin; degrade modes
+- Dashboards for ingest health, CDN errors, rebuffer, lag
+- Runbooks with dry runs—not only human panic cutover
+
+### Watch For
+- Protocol choice mismatched to interactivity vs scale needs
+- Failover never rehearsed on the main event
+- Watching only origin metrics while viewers rebuffer
+
+---
 <!-- layout: title-image -->
 # Q&A
 

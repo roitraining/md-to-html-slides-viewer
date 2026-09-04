@@ -349,6 +349,77 @@
 - Recognized automated tools for testing application vulnerabilities
 
 ---
+
+# Quiz 1 of 3
+
+**Which defense best prevents classic SQL injection when building queries from user input?**
+
+- **A.** Trusting client-side JavaScript validation alone
+- **B.** Disabling HTTPS so payloads are easier to inspect
+- **C.** Storing passwords with reversible encryption instead of hashing
+- **D.** Parameterized queries / prepared statements plus server-side validation
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: D**
+
+- Injection happens when untrusted input reaches an interpreter as code
+- Parameterized queries keep input as data, not executable SQL
+- Client-side checks are bypassable; enforce controls on the server
+- HTTPS protects transit—it does not stop injection in query construction
+
+---
+
+# Quiz 2 of 3
+
+**Your pipeline needs both “scan source without running it” and “attack a running app.” Which pairing matches SAST and DAST?**
+
+- **A.** SAST = dependency CVE feed only; DAST = certificate pinning
+- **B.** SAST = static source analysis; DAST = dynamic testing of a live app (e.g. OWASP ZAP)
+- **C.** SAST = firewall rules; DAST = OS patching
+- **D.** SAST and DAST are interchangeable names for the same scanner
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: B**
+
+- SAST analyzes source without executing the app
+- DAST probes a running application like an attacker
+- SCA covers third-party dependencies; it is related but distinct
+- Use both in the lifecycle—design reduces risk; testing confirms it
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Compare securing a browser web app vs. a native mobile app that stores a session token on-device.
+
+### Discuss
+- Which OWASP-style risks overlap, and which are mobile-specific?
+- Where must authorization be enforced—client, server, or both?
+- How would encryption at rest, TLS, and testing tools differ by platform?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Never trust client-side checks; server enforces every sensitive action
+- Mobile adds insecure local storage and app-store patch lag
+- Web adds session/cookie risks; both need least privilege and patching
+- SAST/DAST/SCA (and mobile binary scanners) feed coding standards
+
+### Watch For
+- Hardcoded API keys in the mobile binary
+- “HTTPS means the app is secure”
+- Treating OWASP Top 10 as a one-time gate, not a recurring checklist
+
+---
 <!-- layout: title-image -->
 # Q&A
 

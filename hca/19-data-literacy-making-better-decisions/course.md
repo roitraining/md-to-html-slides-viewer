@@ -313,6 +313,77 @@
 - Recognized data pitfalls and biases that commonly mislead healthcare decisions
 
 ---
+
+# Quiz 1 of 3
+
+**Two units both report a 22-minute average wait. Unit A’s range is 18–26; Unit B’s is 5–65. What’s the best takeaway?**
+
+- **A.** Same average can hide very different patient experiences—ask about spread and outliers before acting
+- **B.** Averages always tell the full story, so both units need the same fix
+- **C.** Unit B must be better because some patients wait only 5 minutes
+- **D.** Ranges are irrelevant; only the average matters for staffing decisions
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: A**
+
+- An average collapses a distribution and hides variability
+- Unit B’s wide range means inconsistent experience—even with the same mean
+- Ask about range, outliers, and whether a median fits better
+- Different patterns need different fixes, not one one-size response
+
+---
+
+# Quiz 2 of 3
+
+**Readmissions drop the same month a new discharge process launches—and flu season ends. What’s the soundest stance?**
+
+- **A.** The process change must be the sole cause
+- **B.** Ignore the process change because other factors exist
+- **C.** Correlation isn’t proof of causation—check what else changed before crediting one driver alone
+- **D.** Any month-over-month drop on a small sample is always statistically and practically significant
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: C**
+
+- Metrics moving together don’t prove one caused the other
+- Third factors (seasonality, partner changes) can drive both
+- Don’t ignore the process—don’t credit it alone without checking
+- Small samples and single periods exaggerate “signals”
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Pick one recurring dashboard or report you already use (throughput, readmissions, satisfaction, staffing).
+
+### Discuss
+- What decision should this data inform—stated specifically?
+- How would you check source, comparison, and bias before acting?
+- Where might risk adjustment, small samples, or a misleading chart change your conclusion?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Define the question before staring at the number
+- Source, freshness, apples-to-apples comparison, risk adjustment
+- Trend over periods—not one point; practical vs. statistical significance
+- Confirmation bias / cherry-picking deserve a second look when data “agrees”
+
+### Watch For
+- Reacting to a clean dashboard as if the underlying data is clean
+- Treating correlation or a short window as proof
+- Letting one metric replace clinical or operational judgment
+
+---
 <!-- layout: title-image -->
 # Q&A
 

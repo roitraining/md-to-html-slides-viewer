@@ -299,6 +299,77 @@
 - Troubleshot the most common audio/video/connection issues
 
 ---
+
+# Quiz 1 of 3
+
+**What best describes a Webex Space?**
+
+- **A.** A one-time chat thread that disappears when the meeting ends
+- **B.** A persistent room for a team, project, or topic where messages, files, and context stay searchable
+- **C.** Only a whiteboard that cannot hold messages or files
+- **D.** A calendar invite template used only for scheduling
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: B**
+
+- Spaces are persistent homes for a team, project, or topic—not one-off chats
+- Shared content stays searchable and organized with the conversation
+- You can pin important messages and continue after a meeting
+- Async Spaces reduce how many meetings you need in the first place
+
+---
+
+# Quiz 2 of 3
+
+**You and a colleague hear loud echo in a hybrid room. What should you check first?**
+
+- **A.** Turn everyone’s video off permanently
+- **B.** Delete the Space and recreate the meeting
+- **C.** Disable live captions for all attendees
+- **D.** Ensure only one device per person has meeting audio on in that room
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: D**
+
+- Echo/feedback usually means multiple open mics/speakers in the same room
+- Keep one device’s audio active per person; mute or leave audio on others
+- Background noise removal helps noise, but not classic dual-device echo
+- Fix audio path before restarting machines or redesigning the meeting
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Think of a recurring meeting you lead or join (standup, all-hands, or project sync).
+
+### Discuss
+- Which features would improve it most—templates, lobby, breakouts, recordings/transcripts, or Spaces?
+- What etiquette or accessibility defaults should become team norms?
+- How would you diagnose the audio/video issue that most often derails that meeting?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Lifecycle habits: schedule well, join early muted, present cleanly, follow up in a Space
+- Captions, transcripts, and recordings as accessibility—and productivity—tools
+- Isolate then fix: right mic/camera, bandwidth, web app fallback
+- Lock/lobby for external guests; stop sharing when done
+
+### Watch For
+- Treating Webex as “video only” and ignoring Spaces/whiteboards
+- Jumping to reboot before checking mute, mic selection, or dual-device audio
+- Skipping etiquette (late join unmuted, abandoned screen share)
+
+---
 <!-- layout: title-image -->
 # Q&A
 

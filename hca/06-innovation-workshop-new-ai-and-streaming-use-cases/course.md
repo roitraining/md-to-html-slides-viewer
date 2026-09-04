@@ -323,6 +323,77 @@ Fill this on one page (or slide):
 - Applied a value-vs-effort lens to prioritize and pressure-test ideas
 
 ---
+
+# Quiz 1 of 3
+
+**When is streaming / real-time processing a better fit than batch?**
+
+- **A.** Monthly reporting and overnight reconciliations
+- **B.** One-off analytics pulls for a deck
+- **C.** Fraud, live ops alerting, in-session personalization, or anomaly detection
+- **D.** Low-urgency historical backfills
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: C**
+
+- Streaming fits when latency and continuous events drive the outcome
+- Batch is fine for monthly reports, overnight jobs, and low-urgency pulls
+- Pair GenAI + streaming only when language *and* latency both matter
+- Don’t force a mashup when either alone is enough
+
+---
+
+# Quiz 2 of 3
+
+**On the value–effort matrix, which ideas should you prefer for first experiments?**
+
+- **A.** Quick wins (high value, lower effort)
+- **B.** Time sinks (low value, high effort)
+- **C.** Any big bet with no sponsor
+- **D.** Ideas with unclear owners and no success metric
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: A**
+
+- Prefer quick wins for first experiments
+- Park time sinks; schedule big bets only with a sponsor
+- Score value, effort, and risk relatively in the room
+- Note one dependency: data, access, policy, or partner team
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Take the top idea you plotted today and turn it into a 2-week next step.
+
+### Discuss
+- Who is the single owner, and what learning goal replaces “build the platform”?
+- What responsible-AI checks apply (PHI/PII, human review, escalation)?
+- What is the one blocker to remove first, and the continue/pivot/stop date?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Concrete user + pain + outcome (not a vague tech wish)
+- Human review for clinical/safety/privacy-critical paths
+- Smallest test with a decision date and kill criteria
+- Interview users / one-pager beats boiling the ocean
+
+### Watch For
+- Skipping risk flags on healthcare, safety, or PHI ideas
+- “Build the platform” with no owner or metric
+- Polishing forever instead of timeboxing to the matrix
+
+---
 <!-- layout: title-image -->
 # Q&A
 

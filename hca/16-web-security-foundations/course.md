@@ -318,6 +318,77 @@
 - Described securing web server communication with SSL/TLS
 
 ---
+
+# Quiz 1 of 3
+
+**Which statement correctly describes hashing in a web security context?**
+
+- **A.** Hashing is a reversible encryption method for bulk traffic
+- **B.** A public/private key pair is required to compute any hash
+- **C.** A hash is a one-way fingerprint used for integrity and password storage (with salt)
+- **D.** Certificates replace the need for hashing entirely
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: C**
+
+- Hashes are one-way fingerprints—same input, same output; not for secrecy of bulk data
+- Password storage uses hashing plus salt; don’t store plaintext or reversible “encryption” of passwords
+- Symmetric/asymmetric encryption solve different problems than hashing
+- PKI/certificates bind keys to identity; they don’t eliminate hashing
+
+---
+
+# Quiz 2 of 3
+
+**When hardening a public web server, which practice is most aligned with least privilege and a reduced attack surface?**
+
+- **A.** Run the web process without root/Administrator, disable unused modules/methods, and enforce TLS-only with a trusted certificate
+- **B.** Leave sample apps and directory listing enabled for easier troubleshooting
+- **C.** Keep SSLv3 and TLS 1.0 enabled “just in case” old clients connect
+- **D.** Connect the app to the database with an admin account for convenience
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: A**
+
+- Least privilege for the service account and disabled unused surface stop many attacks
+- Sample content, banners, and directory listing aid attackers
+- Disable legacy protocols and weak ciphers; redirect HTTP to HTTPS
+- Low-privilege DB accounts limit blast radius if injection occurs
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Walk the stack for a new public web app: OS → network/DMZ → web server TLS → server-side code talking to a database.
+
+### Discuss
+- What hardening step belongs at each layer?
+- How do parameterized queries and secrets handling fit “safe processing”?
+- How would you verify TLS and config after each deployment?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- OS: patch, remove unused services, least privilege, logging
+- Network: segment/DMZ, default-deny firewall, IDS/IPS
+- Web server: secure headers, no defaults, strong TLS/HSTS
+- App/DB: server-side validation, parameterized queries, secrets out of source
+
+### Watch For
+- Hardening as a one-time checklist never re-verified
+- Admin DB credentials from the web tier
+- Self-signed or expired certs in production; mixed content
+
+---
 <!-- layout: title-image -->
 # Q&A
 

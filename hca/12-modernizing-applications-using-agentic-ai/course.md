@@ -295,6 +295,77 @@
 - Outlined guardrails for using agents against production codebases
 
 ---
+
+# Quiz 1 of 3
+
+**What primarily distinguishes an agentic AI system from a simple code assistant?**
+
+- **A.** It always uses a larger language model
+- **B.** It holds a goal across steps, calls tools, and iterates on results
+- **C.** It never needs human review or approval
+- **D.** It only works on greenfield applications
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: B**
+
+- Agents pursue a goal: plan → act → observe → continue
+- Tools (repo, tests, tickets) and iteration are the shift—not model size alone
+- Agents still need scoped permissions and human checkpoints
+- Agentic patterns apply to legacy modernization as much as new code
+
+---
+
+# Quiz 2 of 3
+
+**Your modernization program wants agent help with the highest ROI and lowest risk. Which approach fits best?**
+
+- **A.** Grant the agent production write access so it can finish the rewrite overnight
+- **B.** Skip characterization tests to move faster on the monolith rewrite
+- **C.** Rely on one-off chat with no PR artifacts or ticket linkage
+- **D.** Discover + draft a test harness + ship small PR batches with review
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: D**
+
+- Best ROI: discovery, tests, and small reviewed PRs—not overnight rewrites
+- Broad prod write access without audit is an incident waiting to happen
+- Characterization tests reduce risk before mechanical refactors
+- Artifacts in source control and tickets keep changes reviewable
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Pick one legacy module your team might modernize with an agent (for example: dependency map, strangler step, or framework bump).
+
+### Discuss
+- Which pattern fits—workflow, autonomous, or multi-agent—and why?
+- What must a human approve before any write lands outside a branch?
+- How would you log and verify the agent run like a CI job?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Pattern matched to known steps vs. exploration vs. parallel specialties
+- Approval for auth/data-path changes, deps, secrets, and prod config
+- Least privilege; non-prod first; small PRs with tests
+- Logging prompts, tool calls, and test results per run
+
+### Watch For
+- “Just let the agent rewrite the monolith”
+- Unbounded write access with no audit trail
+- Bypassing branch protection or PR review
+
+---
 <!-- layout: title-image -->
 # Q&A
 
