@@ -1826,7 +1826,7 @@ body.dark-theme .error {
     position: absolute;
     left: -99999px;
     top: 0;
-    width: 10in;
+    width: 11in;
     height: auto;
     overflow: hidden;
     pointer-events: none;
@@ -1834,9 +1834,10 @@ body.dark-theme .error {
 }
 
 @media print {
+    /* Full-bleed PDF pages — no paper margins (digital handouts, not printers) */
     @page {
         size: letter landscape;
-        margin: 0.35in;
+        margin: 0;
     }
 
     html, body {
@@ -1879,17 +1880,17 @@ body.dark-theme .error {
         pointer-events: auto !important;
     }
 
-    /* One slide per printed page — fixed landscape page box (avoid vw/vh in print) */
+    /* One full-bleed slide per page (landscape letter = 11in × 8.5in) */
     .print-slide-card.slide-card,
     .print-slide-card {
-        width: 100% !important;
+        width: 11in !important;
         max-width: none !important;
-        height: 7.5in !important;
-        min-height: 0 !important;
-        max-height: 7.5in !important;
+        height: 8.5in !important;
+        min-height: 8.5in !important;
+        max-height: 8.5in !important;
         margin: 0 !important;
         box-sizing: border-box !important;
-        padding: 0.35in 0.45in 0 0.45in !important;
+        padding: 0 !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
@@ -1916,16 +1917,17 @@ body.dark-theme .error {
 
     .print-slide-card .slide-top-bar {
         background-color: #003865 !important;
-        margin: -0.35in -0.45in 0.25in -0.45in !important;
+        margin: 0 !important;
         border-radius: 0 !important;
+        flex-shrink: 0 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
     .print-slide-card .roi-slide-footer {
-        margin-left: -0.45in !important;
-        margin-right: -0.45in !important;
+        margin: 0 !important;
         border-radius: 0 !important;
+        flex-shrink: 0 !important;
     }
 
     .print-slide-card .footer-number {
@@ -1940,7 +1942,7 @@ body.dark-theme .error {
         max-width: 100% !important;
         width: auto !important;
         height: auto !important;
-        max-height: 4.8in !important;
+        max-height: 5.4in !important;
         object-fit: contain !important;
         object-position: center !important;
         display: block !important;
@@ -1994,13 +1996,15 @@ body.dark-theme .error {
 
     .print-slide-card .split-right img,
     .print-slide-card .grid-2col img {
-        max-height: 4.2in !important;
+        max-height: 4.8in !important;
     }
 
     .print-slide-card .slide-body {
         flex: 1 !important;
         overflow: hidden !important;
         min-height: 0 !important;
+        padding: 0.35in 0.45in 0.25in 0.45in !important;
+        box-sizing: border-box !important;
     }
 
     .print-slide-card .three-column-wrapper {
@@ -2041,7 +2045,7 @@ body.dark-theme .error {
 
     .print-slide-card.layout-title-image .slide-body img {
         max-width: 100% !important;
-        max-height: 5.2in !important;
+        max-height: 6in !important;
         width: auto !important;
         height: auto !important;
         object-fit: contain !important;
@@ -2065,7 +2069,7 @@ body.dark-theme .error {
 
     .print-slide-card.layout-stacked .stacked-media img {
         max-width: 100% !important;
-        max-height: 4.2in !important;
+        max-height: 4.8in !important;
         width: auto !important;
         height: auto !important;
         object-fit: contain !important;
