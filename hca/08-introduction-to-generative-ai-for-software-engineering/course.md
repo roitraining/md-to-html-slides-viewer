@@ -261,21 +261,8 @@ Now write get_order(id: str) -> Order the same way.
 > Standardize on **org-approved** tools and settings—personal consumer accounts create policy and IP risk.
 
 ---
-
-# Demo: Assistants in the IDE
-
-**Time:** ~10–12 minutes (instructor-led)
-
-**Demo guide:** [Placeholder — Copilot / Gemini Code Assist demo](https://example.com/hca/demos/genai-se-assistants)
-
-- Inline-complete a function in Python, Java, or C#
-- Chat-generate a unit test and docstring
-- Compare a grounded vs ungrounded suggestion
-- Show enterprise privacy / exclusion settings if available
-
----
 <!-- layout: title-image -->
-# Responsible AI-Assisted Coding
+<!-- # Responsible AI-Assisted Coding -->
 
 ![Responsible AI coding](images/responsible-ai-coding.png)
 
