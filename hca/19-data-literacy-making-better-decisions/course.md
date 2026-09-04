@@ -75,7 +75,7 @@
 
 ---
 <!-- layout: title-image -->
-# What Data Literacy Involves
+<!-- # What Data Literacy Involves -->
 
 ![What data literacy involves: Find, Understand, Question, Use](images/ch19-data-literacy-loop.png)
 
@@ -83,10 +83,12 @@
 
 # Types of Data You'll See
 
-- **Quantitative**: numbers—counts, rates, times (e.g. length of stay, readmission rate)
-- **Qualitative**: descriptions—patient comments, incident narratives, survey free-text
-- **Structured**: fits neatly in a field (a diagnosis code, a lab value)
-- **Unstructured**: free text, images, notes—harder to summarize, easy to lose in a table
+- **Quantitative**
+- **Qualitative**
+- **Structured**
+- **Unstructured**
+
+![Types of Data](images/types-of-data.png)
 
 ---
 <!-- layout: 2-column -->
@@ -119,8 +121,10 @@
 # Data Literacy in One Sentence
 
 - Data literacy is the ability to find, understand, question, and use data appropriately for a decision
-- It's a practical skill, not a technical credential—everyone in this room already does parts of it
-- The rest of this course builds the "question" and "use" parts, since "find" and "understand" usually come with training on your specific systems
+  - It's a practical skill, not a technical credential—everyone in this room already does parts of it
+  - The rest of this course builds the "question" and "use" parts, since "find" and "understand" usually come with training on your specific systems
+
+![Data Analyst](images/data-analyst.png)
 
 ---
 <!-- layout: navigation -->
@@ -131,13 +135,15 @@
 - From Data to Decisions
 
 ---
-
+<!-- layout: stacked -->
 # From Numbers to Understanding
 
 - This segment is the practical core: how to read a chart, a rate, or a report without being misled
 - Every example here is a pattern you'll recognize in a real dashboard next week
 - We'll work through a few "spot the problem" examples together
 - None of this requires math beyond what you already use daily
+
+![Number to Understanding](images/numbers-understanding.png)
 
 ---
 
@@ -147,6 +153,8 @@
 - Two units can have the same average wait time with very different experiences: one steady, one wildly inconsistent
 - Ask: what's the range? Are there outliers pulling the average up or down?
 - A median is often more representative than a mean when a few extreme values exist
+
+![Averages Hide the Story](images/avg-hide-story.png)
 
 ---
 
@@ -192,6 +200,7 @@
 - Before acting on "X caused Y," ask what else changed at the same time
 - The stronger the claim, the more it deserves a second look
 
+![Correlation Is Not Causation](images/cor-cause.png)
 ---
 
 # Worked Example: What Actually Changed?
