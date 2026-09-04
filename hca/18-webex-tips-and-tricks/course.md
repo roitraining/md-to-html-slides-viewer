@@ -304,10 +304,10 @@
 
 **What best describes a Webex Space?**
 
-- **A.** A one-time chat thread that disappears when the meeting ends
-- **B.** A persistent room for a team, project, or topic where messages, files, and context stay searchable
-- **C.** Only a whiteboard that cannot hold messages or files
-- **D.** A calendar invite template used only for scheduling
+- A. A one-time chat thread that disappears when the meeting ends
+- B. A persistent room for a team, project, or topic where messages, files, and context stay searchable
+- C. Only a whiteboard that cannot hold messages or files
+- D. A calendar invite template used only for scheduling
 
 ---
 
@@ -315,12 +315,7 @@
 
 **What best describes a Webex Space?**
 
-- **A.** A one-time chat thread that disappears when the meeting ends
-- **B.** A persistent room for a team, project, or topic where messages, files, and context stay searchable
-- **C.** Only a whiteboard that cannot hold messages or files
-- **D.** A calendar invite template used only for scheduling
-
-**Correct: B**
+**Correct: B.** A persistent room for a team, project, or topic where messages, files, and context stay searchable
 
 - Spaces are persistent homes for a team, project, or topic—not one-off chats
 - Shared content stays searchable and organized with the conversation
@@ -333,10 +328,10 @@
 
 **You and a colleague hear loud echo in a hybrid room. What should you check first?**
 
-- **A.** Turn everyone’s video off permanently
-- **B.** Delete the Space and recreate the meeting
-- **C.** Disable live captions for all attendees
-- **D.** Ensure only one device per person has meeting audio on in that room
+- A. Turn everyone’s video off permanently
+- B. Delete the Space and recreate the meeting
+- C. Disable live captions for all attendees
+- D. Ensure only one device per person has meeting audio on in that room
 
 ---
 
@@ -344,12 +339,7 @@
 
 **You and a colleague hear loud echo in a hybrid room. What should you check first?**
 
-- **A.** Turn everyone’s video off permanently
-- **B.** Delete the Space and recreate the meeting
-- **C.** Disable live captions for all attendees
-- **D.** Ensure only one device per person has meeting audio on in that room
-
-**Correct: D**
+**Correct: D.** Ensure only one device per person has meeting audio on in that room
 
 - Echo/feedback usually means multiple open mics/speakers in the same room
 - Keep one device’s audio active per person; mute or leave audio on others
@@ -373,10 +363,6 @@ Think of a recurring meeting you lead or join (standup, all-hands, or project sy
 # Quiz 3 — Discussion Points
 
 **Think of a recurring meeting you lead or join (standup, all-hands, or project sync).**
-
-- Which features would improve it most—templates, lobby, breakouts, recordings/transcripts, or Spaces?
-- What etiquette or accessibility defaults should become team norms?
-- How would you diagnose the audio/video issue that most often derails that meeting?
 
 ### Strong Answers Mention
 - Lifecycle habits: schedule well, join early muted, present cleanly, follow up in a Space

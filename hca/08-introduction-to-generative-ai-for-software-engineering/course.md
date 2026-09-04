@@ -325,10 +325,10 @@ Now write get_order(id: str) -> Order the same way.
 
 **Which practice most improves the quality of generated code?**
 
-- **A.** State language/runtime, constrain scope, then verify with the smallest build/test immediately
-- **B.** Accept a large rewrite without reading the diff if the model sounds confident
-- **C.** Prefer giant pasted context over open-file / codebase grounding
-- **D.** Skip license and security review because the assistant “knows best”
+- A. State language/runtime, constrain scope, then verify with the smallest build/test immediately
+- B. Accept a large rewrite without reading the diff if the model sounds confident
+- C. Prefer giant pasted context over open-file / codebase grounding
+- D. Skip license and security review because the assistant “knows best”
 
 ---
 
@@ -336,12 +336,7 @@ Now write get_order(id: str) -> Order the same way.
 
 **Which practice most improves the quality of generated code?**
 
-- **A.** State language/runtime, constrain scope, then verify with the smallest build/test immediately
-- **B.** Accept a large rewrite without reading the diff if the model sounds confident
-- **C.** Prefer giant pasted context over open-file / codebase grounding
-- **D.** Skip license and security review because the assistant “knows best”
-
-**Correct: A**
+**Correct: A.** State language/runtime, constrain scope, then verify with the smallest build/test immediately
 
 - Clear constraints reduce hallucinations and scope creep
 - Immediate verification catches invented APIs and logic bugs early
@@ -354,10 +349,10 @@ Now write get_order(id: str) -> Order the same way.
 
 **Why should teams standardize on org-approved coding assistants?**
 
-- **A.** Consumer personal accounts never create IP or policy risk
-- **B.** IDE support and enterprise controls do not matter
-- **C.** Any free tool is fine as long as suggestions look good
-- **D.** Enterprise controls (retention, training opt-out, allowlists) reduce policy and IP risk
+- A. Consumer personal accounts never create IP or policy risk
+- B. IDE support and enterprise controls do not matter
+- C. Any free tool is fine as long as suggestions look good
+- D. Enterprise controls (retention, training opt-out, allowlists) reduce policy and IP risk
 
 ---
 
@@ -365,12 +360,7 @@ Now write get_order(id: str) -> Order the same way.
 
 **Why should teams standardize on org-approved coding assistants?**
 
-- **A.** Consumer personal accounts never create IP or policy risk
-- **B.** IDE support and enterprise controls do not matter
-- **C.** Any free tool is fine as long as suggestions look good
-- **D.** Enterprise controls (retention, training opt-out, allowlists) reduce policy and IP risk
-
-**Correct: D**
+**Correct: D.** Enterprise controls (retention, training opt-out, allowlists) reduce policy and IP risk
 
 - Personal consumer accounts create retention and IP exposure
 - Enterprise SKUs align with org data-protection settings
@@ -394,10 +384,6 @@ Pick one workflow on your team: generate a function, draft tests, or explain a f
 # Quiz 3 — Discussion Points
 
 **Pick one workflow on your team: generate a function, draft tests, or explain a failing stack trace.**
-
-- What context and few-shot examples would you include in the prompt?
-- What must never be pasted (secrets, PHI, production dumps)?
-- How would you evaluate the output before merge?
 
 ### Strong Answers Mention
 - Language, I/O contracts, and “match this file’s style”

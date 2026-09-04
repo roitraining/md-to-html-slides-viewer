@@ -323,10 +323,10 @@
 
 **Which statement correctly describes hashing in a web security context?**
 
-- **A.** Hashing is a reversible encryption method for bulk traffic
-- **B.** A public/private key pair is required to compute any hash
-- **C.** A hash is a one-way fingerprint used for integrity and password storage (with salt)
-- **D.** Certificates replace the need for hashing entirely
+- A. Hashing is a reversible encryption method for bulk traffic
+- B. A public/private key pair is required to compute any hash
+- C. A hash is a one-way fingerprint used for integrity and password storage (with salt)
+- D. Certificates replace the need for hashing entirely
 
 ---
 
@@ -334,12 +334,7 @@
 
 **Which statement correctly describes hashing in a web security context?**
 
-- **A.** Hashing is a reversible encryption method for bulk traffic
-- **B.** A public/private key pair is required to compute any hash
-- **C.** A hash is a one-way fingerprint used for integrity and password storage (with salt)
-- **D.** Certificates replace the need for hashing entirely
-
-**Correct: C**
+**Correct: C.** A hash is a one-way fingerprint used for integrity and password storage (with salt)
 
 - Hashes are one-way fingerprints—same input, same output; not for secrecy of bulk data
 - Password storage uses hashing plus salt; don’t store plaintext or reversible “encryption” of passwords
@@ -352,10 +347,10 @@
 
 **When hardening a public web server, which practice is most aligned with least privilege and a reduced attack surface?**
 
-- **A.** Run the web process without root/Administrator, disable unused modules/methods, and enforce TLS-only with a trusted certificate
-- **B.** Leave sample apps and directory listing enabled for easier troubleshooting
-- **C.** Keep SSLv3 and TLS 1.0 enabled “just in case” old clients connect
-- **D.** Connect the app to the database with an admin account for convenience
+- A. Run the web process without root/Administrator, disable unused modules/methods, and enforce TLS-only with a trusted certificate
+- B. Leave sample apps and directory listing enabled for easier troubleshooting
+- C. Keep SSLv3 and TLS 1.0 enabled “just in case” old clients connect
+- D. Connect the app to the database with an admin account for convenience
 
 ---
 
@@ -363,12 +358,7 @@
 
 **When hardening a public web server, which practice is most aligned with least privilege and a reduced attack surface?**
 
-- **A.** Run the web process without root/Administrator, disable unused modules/methods, and enforce TLS-only with a trusted certificate
-- **B.** Leave sample apps and directory listing enabled for easier troubleshooting
-- **C.** Keep SSLv3 and TLS 1.0 enabled “just in case” old clients connect
-- **D.** Connect the app to the database with an admin account for convenience
-
-**Correct: A**
+**Correct: A.** Run the web process without root/Administrator, disable unused modules/methods, and enforce TLS-only with a trusted certificate
 
 - Least privilege for the service account and disabled unused surface stop many attacks
 - Sample content, banners, and directory listing aid attackers
@@ -392,10 +382,6 @@ Walk the stack for a new public web app: OS → network/DMZ → web server TLS �
 # Quiz 3 — Discussion Points
 
 **Walk the stack for a new public web app: OS → network/DMZ → web server TLS → server-side code talking to a database.**
-
-- What hardening step belongs at each layer?
-- How do parameterized queries and secrets handling fit “safe processing”?
-- How would you verify TLS and config after each deployment?
 
 ### Strong Answers Mention
 - OS: patch, remove unused services, least privilege, logging

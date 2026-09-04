@@ -300,10 +300,10 @@ Study loop: read task → build in a sandbox → explain the trade-off out loud
 
 **If study time is short, which PCSE focus set is the highest-yield “big rocks” priority?**
 
-- **A.** Niche product edges and third-party exam dumps only
-- **B.** Compliance regulation clause memorization before any labs
-- **C.** Access (IAM) + Network + Data (including VPC-SC and KMS)
-- **D.** Skipping hands-on labs if you’ve read the exam guide twice
+- A. Niche product edges and third-party exam dumps only
+- B. Compliance regulation clause memorization before any labs
+- C. Access (IAM) + Network + Data (including VPC-SC and KMS)
+- D. Skipping hands-on labs if you’ve read the exam guide twice
 
 ---
 
@@ -311,12 +311,7 @@ Study loop: read task → build in a sandbox → explain the trade-off out loud
 
 **If study time is short, which PCSE focus set is the highest-yield “big rocks” priority?**
 
-- **A.** Niche product edges and third-party exam dumps only
-- **B.** Compliance regulation clause memorization before any labs
-- **C.** Access (IAM) + Network + Data (including VPC-SC and KMS)
-- **D.** Skipping hands-on labs if you’ve read the exam guide twice
-
-**Correct: C**
+**Correct: C.** Access (IAM) + Network + Data (including VPC-SC and KMS)
 
 - Access, Network, and Data make up the majority of the exam weight
 - VPC-SC and KMS trade-offs should feel automatic under time pressure
@@ -329,10 +324,10 @@ Study loop: read task → build in a sandbox → explain the trade-off out loud
 
 **A scenario asks how to stop an authorized user from copying BigQuery data to an unapproved project. Which control is the exam’s best “choose the product” answer?**
 
-- **A.** VPC Service Controls perimeters around the sensitive resources
-- **B.** Granting the user Owner so they can self-manage exports
-- **C.** Disabling Cloud Logging to reduce noise
-- **D.** Relying only on a broader predefined Editor role
+- A. VPC Service Controls perimeters around the sensitive resources
+- B. Granting the user Owner so they can self-manage exports
+- C. Disabling Cloud Logging to reduce noise
+- D. Relying only on a broader predefined Editor role
 
 ---
 
@@ -340,12 +335,7 @@ Study loop: read task → build in a sandbox → explain the trade-off out loud
 
 **A scenario asks how to stop an authorized user from copying BigQuery data to an unapproved project. Which control is the exam’s best “choose the product” answer?**
 
-- **A.** VPC Service Controls perimeters around the sensitive resources
-- **B.** Granting the user Owner so they can self-manage exports
-- **C.** Disabling Cloud Logging to reduce noise
-- **D.** Relying only on a broader predefined Editor role
-
-**Correct: A**
+**Correct: A.** VPC Service Controls perimeters around the sensitive resources
 
 - VPC-SC limits *where* data can go even with valid credentials
 - IAM answers *who*; it does not stop authorized exfiltration alone
@@ -369,10 +359,6 @@ Draft a 4–6 week PCSE prep plan for someone with Associate-level Google Cloud 
 # Quiz 3 — Discussion Points
 
 **Draft a 4–6 week PCSE prep plan for someone with Associate-level Google Cloud experience but little VPC-SC or CMEK practice.**
-
-- Which weeks are labs vs. reading vs. practice exams?
-- Where must hands-on experience replace flashcards?
-- How will you verify readiness against the official exam guide?
 
 ### Strong Answers Mention
 - Official exam guide as source of truth for domains

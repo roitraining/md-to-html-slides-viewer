@@ -337,10 +337,10 @@
 
 **Which tooling category primarily finds vulnerable open-source libraries and license risk?**
 
-- **A.** SCA (Software Composition Analysis)
-- **B.** SAST (Static Application Security Testing)
-- **C.** DAST (Dynamic Application Security Testing)
-- **D.** Manual security review only at release
+- A. SCA (Software Composition Analysis)
+- B. SAST (Static Application Security Testing)
+- C. DAST (Dynamic Application Security Testing)
+- D. Manual security review only at release
 
 ---
 
@@ -348,12 +348,7 @@
 
 **Which tooling category primarily finds vulnerable open-source libraries and license risk?**
 
-- **A.** SCA (Software Composition Analysis)
-- **B.** SAST (Static Application Security Testing)
-- **C.** DAST (Dynamic Application Security Testing)
-- **D.** Manual security review only at release
-
-**Correct: A**
+**Correct: A.** SCA (Software Composition Analysis)
 
 - SCA targets dependencies, transitive CVEs, licenses, and SBOM inventory
 - SAST looks for insecure coding patterns in source
@@ -366,10 +361,10 @@
 
 **What best describes “shift left” in this program’s terms?**
 
-- **A.** Moving all security work to a separate team after deploy
-- **B.** Replacing CI checks with longer manual approval queues
-- **C.** Moving checks into design, code, and CI with actionable PR feedback
-- **D.** Waiving every finding so releases never slow down
+- A. Moving all security work to a separate team after deploy
+- B. Replacing CI checks with longer manual approval queues
+- C. Moving checks into design, code, and CI with actionable PR feedback
+- D. Waiving every finding so releases never slow down
 
 ---
 
@@ -377,12 +372,7 @@
 
 **What best describes “shift left” in this program’s terms?**
 
-- **A.** Moving all security work to a separate team after deploy
-- **B.** Replacing CI checks with longer manual approval queues
-- **C.** Moving checks into design, code, and CI with actionable PR feedback
-- **D.** Waiving every finding so releases never slow down
-
-**Correct: C**
+**Correct: C.** Moving checks into design, code, and CI with actionable PR feedback
 
 - Shift-left moves checks earlier—design, code, and CI—not only pre-prod
 - Developers need fixable findings in the PR, not a PDF next quarter
@@ -406,10 +396,6 @@ Score one capability on your team (SCA, SAST, secrets, IaC, or culture) against 
 # Quiz 3 — Discussion Points
 
 **Score one capability on your team (SCA, SAST, secrets, IaC, or culture) against the maturity levels.**
-
-- What signals put you at Initial, Managed, Defined, or Optimizing?
-- Which 90-day priority would reduce the most risk for the effort?
-- Where should guardrails (PR feedback) replace heavy gates?
 
 ### Strong Answers Mention
 - Maturity is per capability—not one vanity overall score

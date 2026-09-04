@@ -308,10 +308,10 @@
 
 **Which statement about hashing is correct?**
 
-- **A.** Hashing is a reversible form of encryption that uses a shared secret key
-- **B.** A hash can be decrypted with the matching private key
-- **C.** Hashing is a one-way function used for integrity and (with salting) password storage—not encryption
-- **D.** Hashing is only used for bulk data encryption inside TLS sessions
+- A. Hashing is a reversible form of encryption that uses a shared secret key
+- B. A hash can be decrypted with the matching private key
+- C. Hashing is a one-way function used for integrity and (with salting) password storage—not encryption
+- D. Hashing is only used for bulk data encryption inside TLS sessions
 
 ---
 
@@ -319,12 +319,7 @@
 
 **Which statement about hashing is correct?**
 
-- **A.** Hashing is a reversible form of encryption that uses a shared secret key
-- **B.** A hash can be decrypted with the matching private key
-- **C.** Hashing is a one-way function used for integrity and (with salting) password storage—not encryption
-- **D.** Hashing is only used for bulk data encryption inside TLS sessions
-
-**Correct: C**
+**Correct: C.** Hashing is a one-way function used for integrity and (with salting) password storage—not encryption
 
 - Hashing is one-way: easy forward, infeasible to reverse
 - Same input → same hash; any change → a different hash
@@ -337,10 +332,10 @@
 
 **Your team can only ship one high-impact control this quarter. Which best matches this course’s guidance?**
 
-- **A.** Multi-factor authentication on high-access accounts (admins, VPN, email)
-- **B.** Replace all firewalls with application allowlisting alone
-- **C.** Disable SSH and rely only on Telnet with strong passwords
-- **D.** Skip patching because endpoint antivirus is “good enough”
+- A. Multi-factor authentication on high-access accounts (admins, VPN, email)
+- B. Replace all firewalls with application allowlisting alone
+- C. Disable SSH and rely only on Telnet with strong passwords
+- D. Skip patching because endpoint antivirus is “good enough”
 
 ---
 
@@ -348,12 +343,7 @@
 
 **Your team can only ship one high-impact control this quarter. Which best matches this course’s guidance?**
 
-- **A.** Multi-factor authentication on high-access accounts (admins, VPN, email)
-- **B.** Replace all firewalls with application allowlisting alone
-- **C.** Disable SSH and rely only on Telnet with strong passwords
-- **D.** Skip patching because endpoint antivirus is “good enough”
-
-**Correct: A**
+**Correct: A.** Multi-factor authentication on high-access accounts (admins, VPN, email)
 
 - Passwords alone are a single point of failure—phished, guessed, or reused
 - 2FA adds an independent second factor so a stolen password is far less useful
@@ -377,10 +367,6 @@ Pick one system you help protect (VPN, admin bastion, EHR-adjacent app, or share
 # Quiz 3 — Discussion Points
 
 **Pick one system you help protect (VPN, admin bastion, EHR-adjacent app, or shared drive).**
-
-- Which CIAA goals matter most for that system—and what threatens them?
-- Where does cryptography already help (TLS, SSH, VPN)—and where is authentication still weak?
-- What would you harden first this month, and how would you know it worked?
 
 ### Strong Answers Mention
 - Threat model first (internal vs. external, likely attackers)

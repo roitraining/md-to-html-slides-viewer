@@ -317,10 +317,10 @@ Fill this on one page (or slide):
 
 **When is streaming / real-time processing a better fit than batch?**
 
-- **A.** Monthly reporting and overnight reconciliations
-- **B.** One-off analytics pulls for a deck
-- **C.** Fraud, live ops alerting, in-session personalization, or anomaly detection
-- **D.** Low-urgency historical backfills
+- A. Monthly reporting and overnight reconciliations
+- B. One-off analytics pulls for a deck
+- C. Fraud, live ops alerting, in-session personalization, or anomaly detection
+- D. Low-urgency historical backfills
 
 ---
 
@@ -328,12 +328,7 @@ Fill this on one page (or slide):
 
 **When is streaming / real-time processing a better fit than batch?**
 
-- **A.** Monthly reporting and overnight reconciliations
-- **B.** One-off analytics pulls for a deck
-- **C.** Fraud, live ops alerting, in-session personalization, or anomaly detection
-- **D.** Low-urgency historical backfills
-
-**Correct: C**
+**Correct: C.** Fraud, live ops alerting, in-session personalization, or anomaly detection
 
 - Streaming fits when latency and continuous events drive the outcome
 - Batch is fine for monthly reports, overnight jobs, and low-urgency pulls
@@ -346,10 +341,10 @@ Fill this on one page (or slide):
 
 **On the value–effort matrix, which ideas should you prefer for first experiments?**
 
-- **A.** Quick wins (high value, lower effort)
-- **B.** Time sinks (low value, high effort)
-- **C.** Any big bet with no sponsor
-- **D.** Ideas with unclear owners and no success metric
+- A. Quick wins (high value, lower effort)
+- B. Time sinks (low value, high effort)
+- C. Any big bet with no sponsor
+- D. Ideas with unclear owners and no success metric
 
 ---
 
@@ -357,12 +352,7 @@ Fill this on one page (or slide):
 
 **On the value–effort matrix, which ideas should you prefer for first experiments?**
 
-- **A.** Quick wins (high value, lower effort)
-- **B.** Time sinks (low value, high effort)
-- **C.** Any big bet with no sponsor
-- **D.** Ideas with unclear owners and no success metric
-
-**Correct: A**
+**Correct: A.** Quick wins (high value, lower effort)
 
 - Prefer quick wins for first experiments
 - Park time sinks; schedule big bets only with a sponsor
@@ -386,10 +376,6 @@ Take the top idea you plotted today and turn it into a 2-week next step.
 # Quiz 3 — Discussion Points
 
 **Take the top idea you plotted today and turn it into a 2-week next step.**
-
-- Who is the single owner, and what learning goal replaces “build the platform”?
-- What responsible-AI checks apply (PHI/PII, human review, escalation)?
-- What is the one blocker to remove first, and the continue/pivot/stop date?
 
 ### Strong Answers Mention
 - Concrete user + pain + outcome (not a vague tech wish)

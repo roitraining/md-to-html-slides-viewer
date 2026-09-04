@@ -354,10 +354,10 @@
 
 **Which defense best prevents classic SQL injection when building queries from user input?**
 
-- **A.** Trusting client-side JavaScript validation alone
-- **B.** Disabling HTTPS so payloads are easier to inspect
-- **C.** Storing passwords with reversible encryption instead of hashing
-- **D.** Parameterized queries / prepared statements plus server-side validation
+- A. Trusting client-side JavaScript validation alone
+- B. Disabling HTTPS so payloads are easier to inspect
+- C. Storing passwords with reversible encryption instead of hashing
+- D. Parameterized queries / prepared statements plus server-side validation
 
 ---
 
@@ -365,12 +365,7 @@
 
 **Which defense best prevents classic SQL injection when building queries from user input?**
 
-- **A.** Trusting client-side JavaScript validation alone
-- **B.** Disabling HTTPS so payloads are easier to inspect
-- **C.** Storing passwords with reversible encryption instead of hashing
-- **D.** Parameterized queries / prepared statements plus server-side validation
-
-**Correct: D**
+**Correct: D.** Parameterized queries / prepared statements plus server-side validation
 
 - Injection happens when untrusted input reaches an interpreter as code
 - Parameterized queries keep input as data, not executable SQL
@@ -383,10 +378,10 @@
 
 **Your pipeline needs both “scan source without running it” and “attack a running app.” Which pairing matches SAST and DAST?**
 
-- **A.** SAST = dependency CVE feed only; DAST = certificate pinning
-- **B.** SAST = static source analysis; DAST = dynamic testing of a live app (e.g. OWASP ZAP)
-- **C.** SAST = firewall rules; DAST = OS patching
-- **D.** SAST and DAST are interchangeable names for the same scanner
+- A. SAST = dependency CVE feed only; DAST = certificate pinning
+- B. SAST = static source analysis; DAST = dynamic testing of a live app (e.g. OWASP ZAP)
+- C. SAST = firewall rules; DAST = OS patching
+- D. SAST and DAST are interchangeable names for the same scanner
 
 ---
 
@@ -394,12 +389,7 @@
 
 **Your pipeline needs both “scan source without running it” and “attack a running app.” Which pairing matches SAST and DAST?**
 
-- **A.** SAST = dependency CVE feed only; DAST = certificate pinning
-- **B.** SAST = static source analysis; DAST = dynamic testing of a live app (e.g. OWASP ZAP)
-- **C.** SAST = firewall rules; DAST = OS patching
-- **D.** SAST and DAST are interchangeable names for the same scanner
-
-**Correct: B**
+**Correct: B.** SAST = static source analysis; DAST = dynamic testing of a live app (e.g. OWASP ZAP)
 
 - SAST analyzes source without executing the app
 - DAST probes a running application like an attacker
@@ -423,10 +413,6 @@ Compare securing a browser web app vs. a native mobile app that stores a session
 # Quiz 3 — Discussion Points
 
 **Compare securing a browser web app vs. a native mobile app that stores a session token on-device.**
-
-- Which OWASP-style risks overlap, and which are mobile-specific?
-- Where must authorization be enforced—client, server, or both?
-- How would encryption at rest, TLS, and testing tools differ by platform?
 
 ### Strong Answers Mention
 - Never trust client-side checks; server enforces every sensitive action

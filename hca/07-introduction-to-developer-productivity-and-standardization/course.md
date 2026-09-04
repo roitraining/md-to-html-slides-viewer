@@ -338,10 +338,10 @@ Verify: show function + test only
 
 **How should teams treat AI coding assistant suggestions?**
 
-- **A.** Blind-accept multi-file rewrites to maximize speed
-- **B.** Treat them like a junior pair: fast drafts with mandatory human review
-- **C.** Skip tests because “the AI already wrote them”
-- **D.** Prefer ungrounded generation over open-file / repo context
+- A. Blind-accept multi-file rewrites to maximize speed
+- B. Treat them like a junior pair: fast drafts with mandatory human review
+- C. Skip tests because “the AI already wrote them”
+- D. Prefer ungrounded generation over open-file / repo context
 
 ---
 
@@ -349,12 +349,7 @@ Verify: show function + test only
 
 **How should teams treat AI coding assistant suggestions?**
 
-- **A.** Blind-accept multi-file rewrites to maximize speed
-- **B.** Treat them like a junior pair: fast drafts with mandatory human review
-- **C.** Skip tests because “the AI already wrote them”
-- **D.** Prefer ungrounded generation over open-file / repo context
-
-**Correct: B**
+**Correct: B.** Treat them like a junior pair: fast drafts with mandatory human review
 
 - Suggestions are drafts—compile, test, and read the diff
 - Blind multi-file accepts create review debt and subtle bugs
@@ -367,10 +362,10 @@ Verify: show function + test only
 
 **Which signal best measures AI-assisted developer productivity without vanity metrics?**
 
-- **A.** Lines of AI-generated code
-- **B.** Raw suggestion acceptance rate alone
-- **C.** Lead time on small changes and PR rework / review cycles
-- **D.** Total suggestion count shown in the IDE
+- A. Lines of AI-generated code
+- B. Raw suggestion acceptance rate alone
+- C. Lead time on small changes and PR rework / review cycles
+- D. Total suggestion count shown in the IDE
 
 ---
 
@@ -378,12 +373,7 @@ Verify: show function + test only
 
 **Which signal best measures AI-assisted developer productivity without vanity metrics?**
 
-- **A.** Lines of AI-generated code
-- **B.** Raw suggestion acceptance rate alone
-- **C.** Lead time on small changes and PR rework / review cycles
-- **D.** Total suggestion count shown in the IDE
-
-**Correct: C**
+**Correct: C.** Lead time on small changes and PR rework / review cycles
 
 - Flow and quality outcomes matter more than generation volume
 - Acceptance rate alone ignores whether code survived review and CI
@@ -407,10 +397,6 @@ Your team is rolling out an org-approved AI coding assistant next quarter.
 # Quiz 3 — Discussion Points
 
 **Your team is rolling out an org-approved AI coding assistant next quarter.**
-
-- Which 5–10 shared prompts would you standardize first—and why?
-- Where must a human still own the merge decision?
-- How would you spot-check that standards are helping (not just adopted)?
 
 ### Strong Answers Mention
 - Shared prompts for feature, test, refactor, PR, and incident

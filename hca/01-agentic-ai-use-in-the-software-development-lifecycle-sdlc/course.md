@@ -312,10 +312,10 @@
 
 **What primarily distinguishes an agentic AI system from a prompt-and-response chatbot?**
 
-- **A.** It always uses a larger language model
-- **B.** It pursues a goal across multiple steps using tools, memory, and iteration
-- **C.** It never needs human review
-- **D.** It only works during the coding phase of the SDLC
+- A. It always uses a larger language model
+- B. It pursues a goal across multiple steps using tools, memory, and iteration
+- C. It never needs human review
+- D. It only works during the coding phase of the SDLC
 
 ---
 
@@ -323,12 +323,7 @@
 
 **What primarily distinguishes an agentic AI system from a prompt-and-response chatbot?**
 
-- **A.** It always uses a larger language model
-- **B.** It pursues a goal across multiple steps using tools, memory, and iteration
-- **C.** It never needs human review
-- **D.** It only works during the coding phase of the SDLC
-
-**Correct: B**
+**Correct: B.** It pursues a goal across multiple steps using tools, memory, and iteration
 
 - An agent pursues a goal: plan → act → check → repeat
 - The shift is the **loop, tools, and permission to act**—not merely a smarter model
@@ -341,10 +336,10 @@
 
 **Your team wants to give an agent more autonomy. Which task is the best first candidate?**
 
-- **A.** Deploying a schema change to production with no approval gate
-- **B.** Making a novel architecture decision for a new service
-- **C.** Generating tests and iterating on failures until the suite passes
-- **D.** Granting the agent broad production credentials “to move faster”
+- A. Deploying a schema change to production with no approval gate
+- B. Making a novel architecture decision for a new service
+- C. Generating tests and iterating on failures until the suite passes
+- D. Granting the agent broad production credentials “to move faster”
 
 ---
 
@@ -352,12 +347,7 @@
 
 **Your team wants to give an agent more autonomy. Which task is the best first candidate?**
 
-- **A.** Deploying a schema change to production with no approval gate
-- **B.** Making a novel architecture decision for a new service
-- **C.** Generating tests and iterating on failures until the suite passes
-- **D.** Granting the agent broad production credentials “to move faster”
-
-**Correct: C**
+**Correct: C.** Generating tests and iterating on failures until the suite passes
 
 - High-feedback, reversible work is where autonomy pays off (tests pass/fail)
 - Production deploys and broad credentials raise blast radius—use explicit approval
@@ -381,10 +371,6 @@ Pick one real task on your team (for example: draft PR, flaky test triage, or al
 # Quiz 3 — Discussion Points
 
 **Pick one real task on your team (for example: draft PR, flaky test triage, or alert summarization).**
-
-- Where should a human approve before action takes effect?
-- What tools and permissions does the agent need—and what should it *not* have?
-- How would you know the guardrails are working?
 
 ### Strong Answers Mention
 - Approval matched to risk and reversibility

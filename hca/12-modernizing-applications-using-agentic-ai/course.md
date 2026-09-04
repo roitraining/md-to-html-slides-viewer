@@ -300,10 +300,10 @@
 
 **What primarily distinguishes an agentic AI system from a simple code assistant?**
 
-- **A.** It always uses a larger language model
-- **B.** It holds a goal across steps, calls tools, and iterates on results
-- **C.** It never needs human review or approval
-- **D.** It only works on greenfield applications
+- A. It always uses a larger language model
+- B. It holds a goal across steps, calls tools, and iterates on results
+- C. It never needs human review or approval
+- D. It only works on greenfield applications
 
 ---
 
@@ -311,12 +311,7 @@
 
 **What primarily distinguishes an agentic AI system from a simple code assistant?**
 
-- **A.** It always uses a larger language model
-- **B.** It holds a goal across steps, calls tools, and iterates on results
-- **C.** It never needs human review or approval
-- **D.** It only works on greenfield applications
-
-**Correct: B**
+**Correct: B.** It holds a goal across steps, calls tools, and iterates on results
 
 - Agents pursue a goal: plan → act → observe → continue
 - Tools (repo, tests, tickets) and iteration are the shift—not model size alone
@@ -329,10 +324,10 @@
 
 **Your modernization program wants agent help with the highest ROI and lowest risk. Which approach fits best?**
 
-- **A.** Grant the agent production write access so it can finish the rewrite overnight
-- **B.** Skip characterization tests to move faster on the monolith rewrite
-- **C.** Rely on one-off chat with no PR artifacts or ticket linkage
-- **D.** Discover + draft a test harness + ship small PR batches with review
+- A. Grant the agent production write access so it can finish the rewrite overnight
+- B. Skip characterization tests to move faster on the monolith rewrite
+- C. Rely on one-off chat with no PR artifacts or ticket linkage
+- D. Discover + draft a test harness + ship small PR batches with review
 
 ---
 
@@ -340,12 +335,7 @@
 
 **Your modernization program wants agent help with the highest ROI and lowest risk. Which approach fits best?**
 
-- **A.** Grant the agent production write access so it can finish the rewrite overnight
-- **B.** Skip characterization tests to move faster on the monolith rewrite
-- **C.** Rely on one-off chat with no PR artifacts or ticket linkage
-- **D.** Discover + draft a test harness + ship small PR batches with review
-
-**Correct: D**
+**Correct: D.** Discover + draft a test harness + ship small PR batches with review
 
 - Best ROI: discovery, tests, and small reviewed PRs—not overnight rewrites
 - Broad prod write access without audit is an incident waiting to happen
@@ -369,10 +359,6 @@ Pick one legacy module your team might modernize with an agent (for example: dep
 # Quiz 3 — Discussion Points
 
 **Pick one legacy module your team might modernize with an agent (for example: dependency map, strangler step, or framework bump).**
-
-- Which pattern fits—workflow, autonomous, or multi-agent—and why?
-- What must a human approve before any write lands outside a branch?
-- How would you log and verify the agent run like a CI job?
 
 ### Strong Answers Mention
 - Pattern matched to known steps vs. exploration vs. parallel specialties

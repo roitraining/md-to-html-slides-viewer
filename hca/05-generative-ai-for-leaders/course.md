@@ -336,10 +336,10 @@
 
 **In plain language, what is a hallucination?**
 
-- **A.** Any answer that uses a larger context window
-- **B.** Confident output that is wrong or made up
-- **C.** Grounding answers in approved documents (RAG)
-- **D.** Charging by tokens for model usage
+- A. Any answer that uses a larger context window
+- B. Confident output that is wrong or made up
+- C. Grounding answers in approved documents (RAG)
+- D. Charging by tokens for model usage
 
 ---
 
@@ -347,12 +347,7 @@
 
 **In plain language, what is a hallucination?**
 
-- **A.** Any answer that uses a larger context window
-- **B.** Confident output that is wrong or made up
-- **C.** Grounding answers in approved documents (RAG)
-- **D.** Charging by tokens for model usage
-
-**Correct: B**
+**Correct: B.** Confident output that is wrong or made up
 
 - Hallucinations are confident but incorrect or invented outputs
 - Grounding / RAG reduces reliance on model “memory” alone
@@ -365,10 +360,10 @@
 
 **Where should most enterprises focus spend to unlock many use cases—not one demo?**
 
-- **A.** Training a foundation model from scratch as the default first move
-- **B.** Thirty disconnected pilots with no kill criteria
-- **C.** Shadow IT chat tools with no data policy
-- **D.** Platforms & governance plus a short list of flagship apps/agents
+- A. Training a foundation model from scratch as the default first move
+- B. Thirty disconnected pilots with no kill criteria
+- C. Shadow IT chat tools with no data policy
+- D. Platforms & governance plus a short list of flagship apps/agents
 
 ---
 
@@ -376,12 +371,7 @@
 
 **Where should most enterprises focus spend to unlock many use cases—not one demo?**
 
-- **A.** Training a foundation model from scratch as the default first move
-- **B.** Thirty disconnected pilots with no kill criteria
-- **C.** Shadow IT chat tools with no data policy
-- **D.** Platforms & governance plus a short list of flagship apps/agents
-
-**Correct: D**
+**Correct: D.** Platforms & governance plus a short list of flagship apps/agents
 
 - Platforms and governance are often the bottleneck—and the advantage
 - Fund platform + 2–3 flagship use cases, not a zoo of PoCs
@@ -405,10 +395,6 @@ Pick one GenAI idea in your function and run it through the portfolio filter.
 # Quiz 3 — Discussion Points
 
 **Pick one GenAI idea in your function and run it through the portfolio filter.**
-
-- Keep / fund, revisit, or park—and why (value, feasibility, risk)?
-- What data or process gap would block it?
-- What does “responsible” require: secure, reliable, accountable?
 
 ### Strong Answers Mention
 - Clear owner, KPI, and human review where stakes are high
