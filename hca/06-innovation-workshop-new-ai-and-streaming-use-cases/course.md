@@ -81,7 +81,7 @@
 
 ---
 <!-- layout: title-image -->
-# GenAI Across Industries
+<!-- # GenAI Across Industries -->
 
 ![GenAI industry use cases](images/genai-industry-usecases.png)
 
@@ -106,13 +106,13 @@
 
 ---
 <!-- layout: title-image -->
-# Healthcare Spotlight
+<!-- # Healthcare Spotlight -->
 
 ![Healthcare spotlight](images/healthcare-spotlight.png)
 
 ---
 
-# Healthcare Ideas (Illustrative Only)
+# Healthcare Ideas
 
 - **Clinician admin assist:** draft notes, after-visit summaries, coding suggestions (with review)
 - **Knowledge bots:** approved protocols and playbooks at the point of need
@@ -124,7 +124,7 @@
 
 ---
 <!-- layout: title-image -->
-# Streaming / Real-Time Plays
+<!-- # Streaming / Real-Time Plays -->
 
 ![Streaming use case patterns](images/streaming-usecase-patterns.png)
 
@@ -168,13 +168,13 @@
 
 ---
 <!-- layout: title-image -->
-# Spot Opportunities in Daily Work
+<!-- # Spot Opportunities in Daily Work -->
 
 ![Spot opportunities](images/spot-opportunities.png)
 
 ---
 
-# Workshop: Capture Friction (Solo)
+# Workshop: Capture Friction
 
 **Time:** ~5 minutes
 
@@ -188,19 +188,8 @@ Write 3–5 items from *your* week:
 Keep each to one sentence: *Who* + *pain* + *desired outcome*.
 
 ---
-
-# Workshop: Share & Cluster (Pairs / Table)
-
-**Time:** ~8 minutes
-
-- Share top 2 ideas with a partner or table
-- Cluster similar ideas (admin burden, knowledge hunt, live ops, CX…)
-- Star anything that touches **healthcare operations, safety, or PHI**—note the risk flag
-- Pick **one idea per person** to take into prioritization
-
----
 <!-- layout: title-image -->
-# Value vs. Effort Lens
+<!-- # Value vs. Effort Lens -->
 
 ![Value vs effort matrix](images/value-vs-effort-matrix.png)
 
@@ -238,7 +227,7 @@ Keep each to one sentence: *Who* + *pain* + *desired outcome*.
 
 ---
 <!-- layout: title-image -->
-# From Idea to Next Step
+<!-- # From Idea to Next Step -->
 
 ![Idea to next step](images/idea-to-next-step.png)
 
