@@ -26,7 +26,8 @@
 - **Explain how Apache Flink enables low-latency stream processing** in a modern data architecture
 - Explain real-time stream processing and how it differs from batch
 - Describe Flink’s core concepts: streams, state, windows, and event time
-- Identify common real-time use cases suited to Flink
+- Contrast DataStream and SQL/Table APIs on the same engine
+- Identify common real-time use cases and judge when Flink is a fit
 - Recognize how Flink fits alongside messaging and storage in a pipeline
 
 ---
@@ -214,6 +215,24 @@ clicks  →  filter(bot?)  →  keyBy(user)  →  window(5m)  →  counts
 
 ---
 <!-- layout: 2-column -->
+# Story: The Late Click
+
+### What Happened
+- User clicks at **10:00:50** (event time)
+- Mobile network delays delivery
+- Event arrives at the job at **10:01:05**
+- You need “clicks per minute” for **10:00**
+
+### Processing Time vs Event Time
+- **Processing time:** lands in the 10:01 bucket → undercount 10:00, inflate 10:01
+- **Event time + watermark:** still attributed to 10:00; window closes when watermark passes 10:01
+- Same bug shows up in fraud scores, billing, and SLO burn rates
+
+> [!TIP]
+> If your chart “looks wrong under load or mobile traffic,” check time semantics before tuning parallelism.
+
+---
+<!-- layout: 2-column -->
 # Mental Model: A Flink Job
 
 ### Sources
@@ -225,6 +244,25 @@ clicks  →  filter(bot?)  →  keyBy(user)  →  window(5m)  →  counts
 - Stateful keyed logic
 - Windows & timers
 - Write to DB, lake, alert bus
+
+---
+<!-- layout: 2-column -->
+# Two APIs, Same Engine
+
+### DataStream (Java / Scala)
+- Imperative operators in code
+- Full control: timers, custom state, CEP
+- What the next example uses
+- Best when logic is complex or bespoke
+
+### SQL / Table API
+- Declarative queries over streams & tables
+- Windows, joins, aggregations in SQL
+- Often faster for analytics-style jobs
+- Same runtime: state, checkpoints, event time
+
+> [!NOTE]
+> Many production teams use **Flink SQL** day to day and drop to DataStream only when SQL is not enough. The engine—and the concepts—are the same.
 
 ---
 
@@ -268,6 +306,34 @@ public class SimplePurchaseSumJob {
     }
 }
 ```
+
+---
+
+# From `print()` to a Kafka Sink
+
+- Swap the sink—**not** the window or `keyBy` logic
+- Serialize the aggregate (JSON, Avro, Protobuf) for consumers
+- Use a transactional / idempotent sink when you need stronger delivery guarantees
+- Downstream reads a topic instead of job logs—same pipeline shape as production
+
+```java
+// Instead of:  resultStream.print();
+resultStream.sinkTo(
+    KafkaSink.<String>builder()
+        .setBootstrapServers("kafka:9092")
+        .setRecordSerializer(
+            KafkaRecordSerializationSchema.builder()
+                .setTopic("customer-minute-spend")
+                .setValueSerializationSchema(new SimpleStringSchema())
+                .build()
+        )
+        .setDeliveryGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
+        .build()
+);
+```
+
+> [!TIP]
+> Source → stateful operators → sink is the whole job. Changing Kafka topic names or sink guarantees should not require rewriting your window math.
 
 ---
 <!-- layout: navigation -->
@@ -346,13 +412,40 @@ Producers → Kafka/Pub/Sub → Flink (stateful jobs)
 - Storage owns **history, BI, and downstream ML features**
 
 ---
+<!-- layout: 3-column -->
+# Would You Use Flink?
+
+### Yes
+**Card authorizations**
+- Every swipe scored with recent spend history
+- Sub-second enrich + route to review
+- Stateful per-card logic is the product
+
+### No
+**Nightly sales workbook**
+- Finance needs yesterday’s totals by 7 a.m.
+- Batch / warehouse job is enough
+- No continuous consumer waiting on the stream
+
+### Maybe
+**Clickstream → lake + alerts**
+- Flink (or SQL) for live anomaly windows
+- Micro-batch OK for lake-only analytics
+- Split: speed path vs history path
+
+> [!IMPORTANT]
+> Ask: Do we need **continuous stateful compute** on the event path—or just fresher batch?
+
+---
 
 # What You Learned
 
 - Explained real-time stream processing and how it differs from batch
 - Described Flink’s core concepts: streams, state, windows, and event time
+- Contrasted DataStream and SQL/Table APIs on the same engine
 - Identified common real-time use cases suited to Flink
 - Recognized how Flink fits alongside messaging and storage in a pipeline
+- Judged fit for Flink with yes / no / maybe scenarios
 
 ---
 <!-- layout: title-image -->
