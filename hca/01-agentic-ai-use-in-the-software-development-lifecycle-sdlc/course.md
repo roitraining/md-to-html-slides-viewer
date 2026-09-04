@@ -307,6 +307,77 @@
 - Applied practical guardrails for using agentic AI safely and effectively on a real team
 
 ---
+
+# Quiz 1 of 3
+
+**What primarily distinguishes an agentic AI system from a prompt-and-response chatbot?**
+
+- **A.** It always uses a larger language model
+- **B.** It pursues a goal across multiple steps using tools, memory, and iteration
+- **C.** It never needs human review
+- **D.** It only works during the coding phase of the SDLC
+
+---
+
+# Quiz 1 — Answer
+
+**Correct: B**
+
+- An agent pursues a goal: plan → act → check → repeat
+- The shift is the **loop, tools, and permission to act**—not merely a smarter model
+- Agents still need review; autonomy is a spectrum, not “no humans”
+- Agentic patterns appear across the SDLC, not only in coding
+
+---
+
+# Quiz 2 of 3
+
+**Your team wants to give an agent more autonomy. Which task is the best first candidate?**
+
+- **A.** Deploying a schema change to production with no approval gate
+- **B.** Making a novel architecture decision for a new service
+- **C.** Generating tests and iterating on failures until the suite passes
+- **D.** Granting the agent broad production credentials “to move faster”
+
+---
+
+# Quiz 2 — Answer
+
+**Correct: C**
+
+- High-feedback, reversible work is where autonomy pays off (tests pass/fail)
+- Production deploys and broad credentials raise blast radius—use explicit approval
+- Novel architecture still needs human judgment on trade-offs
+- Start low-risk, measure outcomes, then expand autonomy
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 of 3 — Discussion
+
+### Prompt
+Pick one real task on your team (for example: draft PR, flaky test triage, or alert summarization).
+
+### Discuss
+- Where should a human approve before action takes effect?
+- What tools and permissions does the agent need—and what should it *not* have?
+- How would you know the guardrails are working?
+
+---
+<!-- layout: 2-column -->
+# Quiz 3 — Discussion Points
+
+### Strong Answers Mention
+- Approval matched to risk and reversibility
+- Least-privilege tools; sandboxed risky actions
+- Logging agent actions like a service account
+- Outcomes (cycle time, defects)—not vanity adoption
+
+### Watch For
+- “Just trust the model” with no gate
+- Vague goals with unbounded permissions
+- Skipping tests because “the agent already checked”
+
+---
 <!-- layout: title-image -->
 # Q&A
 
