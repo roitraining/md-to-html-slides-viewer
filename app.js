@@ -529,7 +529,8 @@ document.addEventListener('DOMContentLoaded', () => {
             assetMap = null,
             shareUrl = null,
             chapters = null,
-            chapterId = null
+            chapterId = null,
+            respectHash = true
         } = options;
 
         revokeLocalAssets();
@@ -572,12 +573,15 @@ document.addEventListener('DOMContentLoaded', () => {
         syncShareLinkButton();
         updateBrowserCourseQuery(currentShareUrl);
 
-        const hash = window.location.hash;
+        // Chapter switches start at slide 1; deep links / refresh still honor #slide-N.
         let initialIndex = 0;
-        if (hash) {
-            const match = hash.match(/#(?:slide-)?(\d+)/i);
-            if (match) {
-                initialIndex = parseInt(match[1], 10) - 1;
+        if (respectHash) {
+            const hash = window.location.hash;
+            if (hash) {
+                const match = hash.match(/#(?:slide-)?(\d+)/i);
+                if (match) {
+                    initialIndex = parseInt(match[1], 10) - 1;
+                }
             }
         }
         goToSlide(initialIndex);
@@ -776,7 +780,8 @@ document.addEventListener('DOMContentLoaded', () => {
             baseUrl,
             shareUrl: shareUrl || rawUrl,
             chapters: chapterState ? chapterState.chapters : courseChapters,
-            chapterId: chapterState ? chapterState.chapterId : currentChapterId
+            chapterId: chapterState ? chapterState.chapterId : currentChapterId,
+            respectHash: chapterState ? chapterState.respectHash !== false : true
         });
         setOpenStatus('Course loaded.');
         closeOpenModal();
@@ -820,7 +825,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentChapterId = chapter.id;
         await loadRemoteMarkdown(chapter.rawUrl, chapter.shareUrl, {
             chapters: courseChapters,
-            chapterId: chapter.id
+            chapterId: chapter.id,
+            respectHash: false
         });
         updateChapterSelector();
     }
@@ -1012,7 +1018,8 @@ document.addEventListener('DOMContentLoaded', () => {
             assetMap,
             shareUrl: null,
             chapters,
-            chapterId: chapter.id
+            chapterId: chapter.id,
+            respectHash: false
         });
         setOpenStatus('Local course loaded. (Share links are only available for GitHub courses.)');
         closeOpenModal();
