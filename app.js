@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const fontSizeSlider = document.getElementById('font-size-slider');
     const fullscreenToggle = document.getElementById('fullscreen-toggle');
+    const presentationStage = document.getElementById('presentation-stage');
+    const slideScaleShell = document.getElementById('slide-scale-shell');
+
+    // Fixed 16:9 design canvas — scaled uniformly to fit the stage (PPT-style)
+    const SLIDE_DESIGN_WIDTH = 1280;
+    const SLIDE_DESIGN_HEIGHT = 720;
+    const SLIDE_DESIGN_FONT_PX = 16;
+    let slideFitScale = 1;
     
     // Application State
     let slides = [];
@@ -66,8 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateFontSize() {
         currentFontSize = snapFontSize(currentFontSize);
-        if (slideCard) slideCard.style.fontSize = `${currentFontSize}%`;
-        document.body.style.fontSize = `${currentFontSize}%`;
+        // Size relative to the design canvas root — uniform stage scale handles monitor size
+        if (slideCard) {
+            slideCard.style.fontSize = `${(SLIDE_DESIGN_FONT_PX * currentFontSize) / 100}px`;
+        }
         localStorage.setItem('slides-viewer-font-size', currentFontSize);
         syncFontSlider();
         fitFooterCourseTitle();
@@ -126,6 +136,38 @@ document.addEventListener('DOMContentLoaded', () => {
         footerTitleObserver.observe(footerCourseTitle);
     }
     window.addEventListener('resize', fitFooterCourseTitle);
+
+    /**
+     * Scale the fixed design canvas to fit the presentation stage (letterboxed).
+     * Same idea as PowerPoint / Google Slides: composition is constant; only scale changes.
+     */
+    function scaleSlideToFit() {
+        if (!presentationStage || !slideScaleShell || !slideCard) return;
+
+        const stageStyle = getComputedStyle(presentationStage);
+        const padX =
+            (parseFloat(stageStyle.paddingLeft) || 0) + (parseFloat(stageStyle.paddingRight) || 0);
+        const padY =
+            (parseFloat(stageStyle.paddingTop) || 0) + (parseFloat(stageStyle.paddingBottom) || 0);
+
+        const availW = Math.max(0, presentationStage.clientWidth - padX);
+        const availH = Math.max(0, presentationStage.clientHeight - padY);
+        if (availW < 2 || availH < 2) return;
+
+        const scale = Math.min(availW / SLIDE_DESIGN_WIDTH, availH / SLIDE_DESIGN_HEIGHT);
+        slideFitScale = scale;
+
+        slideScaleShell.style.width = `${SLIDE_DESIGN_WIDTH * scale}px`;
+        slideScaleShell.style.height = `${SLIDE_DESIGN_HEIGHT * scale}px`;
+        slideCard.style.transform = `scale(${scale})`;
+
+        if (typeof resizeCanvas === 'function') {
+            resizeCanvas();
+        }
+        fitFooterCourseTitle();
+    }
+
+    window.addEventListener('resize', scaleSlideToFit);
     
     // Fullscreen Mode Toggle & Sync
     fullscreenToggle.addEventListener('click', toggleFullscreen);
@@ -145,6 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('fullscreenchange', () => {
         const isFS = !!document.fullscreenElement;
         document.body.classList.toggle('is-fullscreen', isFS);
+        setTimeout(scaleSlideToFit, 50);
+        setTimeout(scaleSlideToFit, 250);
     });
     
     // Side Menu Drawer interactions (open / pin / close)
@@ -165,8 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 drawerPinned ? 'Unpin slide list' : 'Pin slide list open'
             );
         }
-        // Stage width changes when docking — refresh annotation canvas if present
-        if (typeof resizeCanvas === 'function') {
+        // Stage width changes when docking — refresh fit + annotation canvas
+        if (typeof scaleSlideToFit === 'function') {
+            setTimeout(scaleSlideToFit, 320);
+        } else if (typeof resizeCanvas === 'function') {
             setTimeout(resizeCanvas, 320);
         }
         if (typeof scaleAllThumbnails === 'function') {
@@ -2082,12 +2128,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resizeCanvas() {
         if (!canvas || !slideCard) return;
-        const rect = canvas.getBoundingClientRect();
-        if (rect.width === 0 || rect.height === 0) return;
+        // Use pre-transform layout size (design canvas), not getBoundingClientRect (visual).
+        const width = canvas.offsetWidth || SLIDE_DESIGN_WIDTH;
+        const height = canvas.offsetHeight || SLIDE_DESIGN_HEIGHT;
+        if (width === 0 || height === 0) return;
         
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = Math.round(rect.width * dpr);
-        canvas.height = Math.round(rect.height * dpr);
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
         
         if (ctx) {
             if (ctx.resetTransform) {
@@ -2100,24 +2148,33 @@ document.addEventListener('DOMContentLoaded', () => {
         redrawCurrentSlideAnnotations();
     }
 
-    window.addEventListener('resize', resizeCanvas);
-    document.addEventListener('fullscreenchange', () => {
-        setTimeout(resizeCanvas, 50);
-        setTimeout(resizeCanvas, 250);
-    });
-    document.addEventListener('webkitfullscreenchange', () => {
-        setTimeout(resizeCanvas, 50);
-        setTimeout(resizeCanvas, 250);
-    });
-
-    if (window.ResizeObserver && slideCard) {
-        const slideObserver = new ResizeObserver(() => {
-            resizeCanvas();
-        });
-        slideObserver.observe(slideCard);
+    function getCanvasLayoutSize() {
+        if (!canvas) return { width: SLIDE_DESIGN_WIDTH, height: SLIDE_DESIGN_HEIGHT };
+        return {
+            width: canvas.offsetWidth || SLIDE_DESIGN_WIDTH,
+            height: canvas.offsetHeight || SLIDE_DESIGN_HEIGHT
+        };
     }
 
-    setTimeout(resizeCanvas, 200);
+    window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('fullscreenchange', () => {
+        setTimeout(scaleSlideToFit, 50);
+        setTimeout(scaleSlideToFit, 250);
+    });
+    document.addEventListener('webkitfullscreenchange', () => {
+        setTimeout(scaleSlideToFit, 50);
+        setTimeout(scaleSlideToFit, 250);
+    });
+
+    if (window.ResizeObserver && presentationStage) {
+        const stageObserver = new ResizeObserver(() => {
+            scaleSlideToFit();
+        });
+        stageObserver.observe(presentationStage);
+    }
+
+    scaleSlideToFit();
+    setTimeout(scaleSlideToFit, 200);
 
     if (penBtn) {
         penBtn.addEventListener('click', () => {
@@ -2250,7 +2307,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderStroke(stroke) {
         if (!canvas || !ctx || !stroke.points || stroke.points.length === 0) return;
-        const rect = canvas.getBoundingClientRect();
+        const { width, height } = getCanvasLayoutSize();
 
         ctx.save();
         ctx.beginPath();
@@ -2269,9 +2326,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.globalCompositeOperation = 'source-over';
 
         const pts = stroke.points;
-        ctx.moveTo(pts[0].x * rect.width, pts[0].y * rect.height);
+        ctx.moveTo(pts[0].x * width, pts[0].y * height);
         for (let i = 1; i < pts.length; i++) {
-            ctx.lineTo(pts[i].x * rect.width, pts[i].y * rect.height);
+            ctx.lineTo(pts[i].x * width, pts[i].y * height);
         }
         ctx.stroke();
         ctx.restore();

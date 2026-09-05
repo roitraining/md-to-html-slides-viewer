@@ -12,8 +12,10 @@
     --roi-num-bg: #888d96;
     --roi-num-text: #ffffff;
     --shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --slide-max-width: 100%;
-    --slide-min-height: 0;
+    /* Fixed design canvas (16:9) — JS scales this to fit the stage */
+    --slide-design-width: 1280px;
+    --slide-design-height: 720px;
+    --slide-design-font: 16px;
     --drawer-width: 300px;
 }
 
@@ -577,11 +579,11 @@ body.dark-theme .font-size-slider::-moz-range-thumb {
     border-color: #1e293b;
 }
 
-/* Main Presentation Stage */
+/* Main Presentation Stage — letterbox around a fixed design canvas */
 .presentation-stage {
     flex: 1;
     display: flex;
-    align-items: stretch;
+    align-items: center;
     justify-content: center;
     padding: 10px 12px;
     position: relative;
@@ -595,29 +597,42 @@ body.is-fullscreen .presentation-stage {
     background-color: #050a14;
 }
 
-/* Slide Content Card — fill available stage space */
+/* Outer shell: display size = design × scale (set by JS) */
+.slide-scale-shell {
+    position: relative;
+    flex-shrink: 0;
+    width: var(--slide-design-width);
+    height: var(--slide-design-height);
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+/* Slide Content Card — fixed design resolution; scaled via transform */
 .slide-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    box-shadow: var(--shadow);
-    width: 100%;
-    max-width: var(--slide-max-width);
-    min-height: var(--slide-min-height);
-    height: 100%;
+    box-shadow: none;
+    width: var(--slide-design-width);
+    height: var(--slide-design-height);
+    min-width: var(--slide-design-width);
+    min-height: var(--slide-design-height);
+    max-width: none;
     max-height: none;
     padding: 40px 50px 0 50px;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    font-size: var(--slide-design-font);
+    transform-origin: top left;
+    transform: scale(1);
     animation: slideFadeIn 0.22s ease-out;
 }
 
 :fullscreen .slide-card,
 body.is-fullscreen .slide-card {
-    height: 100%;
-    max-height: none;
     border-radius: 12px;
     position: relative;
 }
@@ -780,14 +795,13 @@ body.is-fullscreen .annotation-dock {
     fill: #ffffff !important;
 }
 
+/* Opacity-only: must not override the JS scale-to-fit transform */
 @keyframes slideFadeIn {
     from {
         opacity: 0.4;
-        transform: scale(0.995);
     }
     to {
         opacity: 1;
-        transform: scale(1);
     }
 }
 
@@ -849,7 +863,7 @@ body.dark-theme .slide-body h1 {
     margin-bottom: 12px;
 }
 
-.slide-body p, .slide-body li {
+.slide-body p {
     font-size: 1.15em;
     line-height: 1.7;
     color: var(--text-color);
@@ -861,12 +875,33 @@ body.dark-theme .slide-body h1 {
 }
 
 .slide-body li {
-    margin-bottom: 14px;
+    font-size: 1.15em;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+.slide-body li:first-child {
+    margin-top: 0;
+}
+
+/* Nested bullets: same type as parent; no extra gap before each sub-item */
+.slide-body li ul,
+.slide-body li ol {
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+.slide-body li li {
+    font-size: 1em;
+    margin-top: 0;
 }
 
 .slide-body img {
     max-width: 100%;
-    max-height: 65vh;
+    /* Cap relative to design canvas height, not the browser viewport */
+    max-height: 480px;
     height: auto;
     object-fit: contain;
     border-radius: 8px;
@@ -1261,11 +1296,8 @@ body.dark-theme .layout-stacked .stacked-media img {
     margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-    .split-layout, .two-column, .grid-2col {
-        flex-direction: column;
-    }
-}
+/* Slide layouts stay in design-canvas coordinates — do not reflow on narrow viewports.
+   The whole slide scales to fit instead (PowerPoint-style). */
 
 /* Integrated ROI Training Corporate Footer */
 .roi-slide-footer {
@@ -1742,8 +1774,9 @@ body.dark-theme .side-menu.view-thumbnails #slide-list li a.active .slide-thumb-
     left: 0;
     width: 960px;
     height: 540px;
+    min-width: 960px;
+    min-height: 540px;
     max-width: none;
-    min-height: 0;
     max-height: none;
     margin: 0;
     padding: 28px 36px 24px;
@@ -1884,6 +1917,7 @@ body.dark-theme .error {
     .print-slide-card.slide-card,
     .print-slide-card {
         width: 11in !important;
+        min-width: 0 !important;
         max-width: none !important;
         height: 8.5in !important;
         min-height: 8.5in !important;
@@ -1902,6 +1936,8 @@ body.dark-theme .error {
         border: none !important;
         border-radius: 0 !important;
         animation: none !important;
+        transform: none !important;
+        font-size: 16px !important;
         page-break-after: always;
         break-after: page;
         page-break-inside: avoid;

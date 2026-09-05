@@ -63,38 +63,40 @@
         <button id="delete-all-canvas-btn" class="icon-btn tool-btn" aria-label="Delete All" title="Delete All" data-tooltip="Delete All">🗑️</button>
     </div>
 
-    <!-- Slide Presentation Stage -->
+    <!-- Slide Presentation Stage (fixed design canvas, scaled to fit) -->
     <main id="presentation-stage" class="presentation-stage">
-        <div id="slide-card" class="slide-card">
-            <!-- Annotation Drawing Canvas Overlay -->
-            <canvas id="annotation-canvas" class="annotation-canvas"></canvas>
-            <!-- Presenter pointer (one at a time) -->
-            <div id="slide-pointer" class="slide-pointer" hidden aria-hidden="true">👈</div>
+        <div id="slide-scale-shell" class="slide-scale-shell">
+            <div id="slide-card" class="slide-card">
+                <!-- Annotation Drawing Canvas Overlay -->
+                <canvas id="annotation-canvas" class="annotation-canvas"></canvas>
+                <!-- Presenter pointer (one at a time) -->
+                <div id="slide-pointer" class="slide-pointer" hidden aria-hidden="true">👈</div>
 
-            <!-- Top Dark Blue Accent Line -->
-            <div class="slide-top-bar"></div>
-            
-            <!-- Slide Body Content -->
-            <div id="slide-body" class="slide-body">
-                <div class="slide-loading">Loading course slides...</div>
+                <!-- Top Dark Blue Accent Line -->
+                <div class="slide-top-bar"></div>
+                
+                <!-- Slide Body Content -->
+                <div id="slide-body" class="slide-body">
+                    <div class="slide-loading">Loading course slides...</div>
+                </div>
+
+                <!-- Integrated ROI Training Footer -->
+                <footer class="roi-slide-footer">
+                    <div id="footer-course-title" class="footer-cell footer-course">815: Hands-On Terraform</div>
+                    
+                    <div id="footer-copyright" class="footer-cell footer-copyright">
+                        © 2026 Copyright ROI Training, Inc.<br>
+                        All rights reserved. Not to be reproduced without prior written consent.
+                    </div>
+                    
+                    <div class="footer-cell footer-logo">
+                        <img src="images/roi-logo.png" alt="ROI Training" class="roi-logo-img">
+                        ROI Training, Inc.
+                    </div>
+                    
+                    <div id="footer-slide-number" class="footer-cell footer-number">1 of 1</div>
+                </footer>
             </div>
-
-            <!-- Integrated ROI Training Footer -->
-            <footer class="roi-slide-footer">
-                <div id="footer-course-title" class="footer-cell footer-course">815: Hands-On Terraform</div>
-                
-                <div id="footer-copyright" class="footer-cell footer-copyright">
-                    © 2026 Copyright ROI Training, Inc.<br>
-                    All rights reserved. Not to be reproduced without prior written consent.
-                </div>
-                
-                <div class="footer-cell footer-logo">
-                    <img src="images/roi-logo.png" alt="ROI Training" class="roi-logo-img">
-                    ROI Training, Inc.
-                </div>
-                
-                <div id="footer-slide-number" class="footer-cell footer-number">1 of 1</div>
-            </footer>
         </div>
     </main>
 
