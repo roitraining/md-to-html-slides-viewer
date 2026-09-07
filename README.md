@@ -79,44 +79,11 @@ The presentation engine supports the following layout types:
 
 ---
 
-## AI Agent Customization: Course Generator Skill
+## Authoring courses (not in this repo)
 
-This project includes a **Course Generator Skill** designed to teach AI assistants how to structure and write high-quality, compiler-compliant courses for this slide viewer. You can configure this globally on your computer so that your AI assistant can help you build new slide decks in *any* directory.
+This repository is the **slides viewer** (runtime). Course authoring skills, stock images, and instructor docs live in the separate template:
 
-The Customization Skill consists of:
-*   Instructions: [`.agents/skills/course-generator/SKILL.md`](.agents/skills/course-generator/SKILL.md)
-*   Templates: [`.agents/skills/course-generator/examples/layout-templates.md`](.agents/skills/course-generator/examples/layout-templates.md)
+**[roitraining/roi-course-authoring-template](https://github.com/roitraining/roi-course-authoring-template)**
 
----
-
-## Global Setup Instructions for AI Agents
-
-Follow these setup steps to make the Course Generator guidelines available to your AI assistant globally:
-
-### 1. Antigravity Setup (Automatic Discovery)
-Antigravity automatically scans your system-wide customizations directory.
-1. Copy the skill folder to your global Antigravity config directory:
-   ```bash
-   mkdir -p ~/.gemini/config/skills/
-   cp -R .agents/skills/course-generator ~/.gemini/config/skills/
-   ```
-2. Antigravity will now automatically load and apply these layout guidelines and templates whenever you ask it to create or edit slides on your machine.
-
-### 2. Visual Studio Code / GitHub Copilot Setup
-You can instruct VS Code's Copilot to read the slide deck guidelines automatically for every workspace on your machine:
-1. Open VS Code.
-2. Open your User Settings JSON (`Cmd + Shift + P` $\rightarrow$ type `Preferences: Open User Settings (JSON)`).
-3. Add the following line to your settings object (replace `/Users/YOUR_NAME` with your actual user home path):
-   ```json
-   "github.copilot.chat.customInstructions.file": "/Users/YOUR_NAME/.gemini/config/skills/course-generator/SKILL.md"
-   ```
-4. Save the file. Copilot will now load these instructions globally for all chats and completions.
-
-### 3. Cursor Setup
-Cursor allows you to define global rules for its AI engine:
-1. Open Cursor's settings GUI (`Cmd + ,` or the gear icon in the top right).
-2. Navigate to **General** $\rightarrow$ **Rules for AI**.
-3. Open [`SKILL.md`](.agents/skills/course-generator/SKILL.md) in your editor and copy the entire text.
-4. Paste the content into Cursor's **Rules for AI** input box.
-5. Save settings. Cursor will now apply these guidelines to every project you open.
+Use that template to create slide courses and labs with an AI coding agent. Do not maintain Course Generator / Lab Generator skills in this viewer repo.
 
