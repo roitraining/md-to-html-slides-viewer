@@ -50,7 +50,7 @@ When asked for a **course**, emit separate files:
 01-getting-started.md
 02-basic-language-syntax.md
 …
-images/          # shared visuals for all chapters
+images/          # shared visuals for all chapters (include standard stock set—see §7)
 ```
 
 Use zero-padded indexes and short kebab-case slugs.
@@ -78,11 +78,11 @@ Use zero-padded indexes and short kebab-case slugs.
 ### Introduction chapter (`00-introduction.md`), in order
 
 1. **Title** — `<!-- layout: title -->` (logo + course title/subtitle)
-2. **Welcome!** — ROI positioning; Meet your instructor (Name / Background / Contact info placeholders—**do not invent** a fake instructor); Let’s get started!
+2. **Welcome!** — ROI positioning; Meet your instructor (Name / Background / Contact info placeholders—**do not invent** a fake instructor); Let’s get started! Include **`images/welcome.png`** (auto-split with bullets).
 3. **Course Objectives** — bullets: **1 overall course objective**, then **one objective per content chapter** (5 chapters → 6 bullets)
-4. **Agenda** — list of **chapters** (course-level orientation; not section Navigation)
-5. **Who Should Attend**
-6. **Prerequisites**
+4. **Agenda** — list of **chapters** (course-level orientation; not section Navigation). Include **`images/agenda.png`** (auto-split with bullets).
+5. **Who Should Attend** — Include **`images/who-should-attend.png`** (auto-split with bullets).
+6. **Prerequisites** — Include **`images/prerequisites.png`** (auto-split with bullets).
 
 ### Each content chapter file, in order
 
@@ -93,7 +93,7 @@ Use zero-padded indexes and short kebab-case slugs.
    - **Section teaching slides** (~6–10 typical)
 4. **Activity / Hands-On Lab** — title, time estimate, link to lab instructions **only** (labs are authored by a different process)
 5. **What You Learned** — past tense of the Chapter Objectives (same ideas)
-6. **Q&A** — title `Q&A`; body `Questions?`
+6. **Questions and Answers** — title `Questions and Answers` only (no body text; the image is enough); use **`<!-- layout: stacked -->`** with **`images/qa.png`**. Do **not** use `Q&A` or an ampersand in the title.
 
 ---
 
@@ -141,6 +141,7 @@ Use sparingly for teaching emphasis:
 - Prefer a **table** or **3-column** layout instead of more than **two levels** of nested bullets
 - Keep slides scannable: short bullets; avoid walls of text; ~6 bullets / ~8 words per bullet when practical
 - Code teaching slides: small focused snippets (about 5–15 lines), not dumps
+- Do **not** use the ampersand character (`&`) in slide titles or body text (write “and” instead—e.g. **Questions and Answers**, not “Q&A”)
 
 ---
 
@@ -148,7 +149,20 @@ Use sparingly for teaching emphasis:
 
 Visuals are part of course quality—not optional decoration.
 
-### When to use images
+### Standard stock images (required on every course)
+
+Copy these into the course `images/` folder (from the HTML Slides Viewer repo `images/` directory, or any course that already has them). **Do not regenerate** them; reuse the same filenames and wire them on the matching slides:
+
+| File | Required on slide | Layout |
+| :--- | :--- | :--- |
+| `images/roi-logo-with-name.png` | Title / chapter dividers | `title` |
+| `images/welcome.png` | Welcome! | auto-split (bullets + image) |
+| `images/agenda.png` | Agenda | auto-split (bullets + image) |
+| `images/who-should-attend.png` | Who Should Attend | auto-split (bullets + image) |
+| `images/prerequisites.png` | Prerequisites | auto-split (bullets + image) |
+| `images/qa.png` | Questions and Answers (each content chapter) | `stacked` |
+
+### When to use other images
 
 - Diagrams, analogies, infographics, charts, architecture drawings, AI-generated photos when they improve understanding or appeal
 - Screenshots when teaching UI/tooling
@@ -172,6 +186,7 @@ Visuals are part of course quality—not optional decoration.
 
 - Never silently omit a needed visual; prefer a placeholder over a weak text-only slide
 - Do **not** invent fake product screenshots when accuracy matters—use a placeholder
+- Do **not** invent replacements for the standard stock images above—copy the canonical files
 
 ---
 
@@ -190,6 +205,7 @@ Visuals are part of course quality—not optional decoration.
 - **Do not invent instructor bio**—use Welcome placeholders
 - **Do not** put an entire multi-chapter course in one Markdown file
 - **Do not** leave a broken image link without a TODO when the file was not generated
+- **Do not** skip or replace the standard stock images (`welcome`, `agenda`, `who-should-attend`, `prerequisites`, `qa`, ROI logo)
 
 ---
 
@@ -200,15 +216,17 @@ Before delivering:
 - [ ] One file for intro + one file per content chapter; naming follows `00-…`, `01-…`
 - [ ] Same `<!-- course-title: … -->` in every file
 - [ ] Intro slide order: Title → Welcome → Course Objectives → Agenda → Who Should Attend → Prerequisites
+- [ ] Intro uses stock images: `welcome.png`, `agenda.png`, `who-should-attend.png`, `prerequisites.png` (plus ROI logo on title)
 - [ ] Course Objectives = 1 overall + 1 per content chapter
-- [ ] Each chapter: Title → Objectives → (Nav → section slides)… → Lab stub → What You Learned → Q&A
+- [ ] Each chapter: Title → Objectives → (Nav → section slides)… → Lab stub → What You Learned → Questions and Answers
+- [ ] Each chapter Questions and Answers uses `<!-- layout: stacked -->` and `images/qa.png` (title only—no `Questions?` body; no `Q&A` / `&`)
 - [ ] Every section Navigation lists **all** sections with **exactly one** `**bold**` item
 - [ ] Lab stub has title, time estimate, and link only (no lab steps authored here)
-- [ ] What You Learned is past tense of Chapter Objectives; Q&A is minimal
+- [ ] What You Learned is past tense of Chapter Objectives; Questions and Answers is title + image only
 - [ ] Layout directives are valid; comments are clean (not nested)
 - [ ] Alerts use correct `[!NOTE]|[!TIP]|[!WARNING]|[!IMPORTANT]|[!CAUTION]` syntax
 - [ ] Code fences have language tags
-- [ ] Images live under `images/` with relative links; TODOs present where assets were not generated
+- [ ] Images live under `images/` with relative links; stock set copied in; TODOs present where other assets were not generated
 - [ ] No more than 3 consecutive default content slides; tables/columns used instead of deep nesting
 - [ ] Timing/size roughly matches requested duration
 

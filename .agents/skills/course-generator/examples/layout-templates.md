@@ -13,10 +13,17 @@ course-root/
   01-getting-started.md
   02-basic-language-syntax.md
   images/
-    roi-logo-with-name.png
+    roi-logo-with-name.png      # required stock
+    welcome.png                 # required stock
+    agenda.png                  # required stock
+    who-should-attend.png       # required stock
+    prerequisites.png           # required stock
+    qa.png                      # required stock
     ch01-architecture-overview.png
     ch02-console-screenshot.png   # may be a TODO placeholder target
 ```
+
+Copy the six **required stock** files from the HTML Slides Viewer repo `images/` folder (do not regenerate). Wire them on Welcome, Agenda, Who Should Attend, Prerequisites, and Questions and Answers as shown below.
 
 Every Markdown file starts with the **same** course-title metadata:
 
@@ -53,6 +60,8 @@ Chapter divider variant:
 
 ## 2. Welcome (Introduction chapter)
 
+Bullets + `welcome.png` → auto-split (list left, image right). **Required.**
+
 ```markdown
 # Welcome!
 
@@ -62,6 +71,8 @@ Chapter divider variant:
   - Background
   - Contact info
 - Let’s get started!
+
+![Welcome](images/welcome.png)
 ```
 
 Do **not** invent a fictional instructor—leave Name / Background / Contact info as placeholders unless the user provides details.
@@ -86,7 +97,7 @@ Do **not** invent a fictional instructor—leave Name / Background / Contact inf
 
 ## 4. Course Agenda (chapter list)
 
-Course-level orientation (distinct from per-section Navigation):
+Course-level orientation (distinct from per-section Navigation). Include **`agenda.png`** for auto-split. **Required.**
 
 ```markdown
 # Agenda
@@ -95,13 +106,17 @@ Course-level orientation (distinct from per-section Navigation):
 - Chapter 2: State & Remote Backends
 - Chapter 3: Modules & Workspaces
 - Chapter 4: Delivery & Guardrails
+
+![Agenda](images/agenda.png)
 ```
 
-Optional: use `<!-- layout: navigation -->` and bold the first chapter if you want syllabus highlighting.
+Do **not** use `layout: navigation` for this course-level Agenda slide—save navigation layout for in-chapter section orientation.
 
 ---
 
 ## 5. Who Should Attend / Prerequisites
+
+Include the stock images on both slides (auto-split). **Required.**
 
 ```markdown
 # Who Should Attend
@@ -109,6 +124,8 @@ Optional: use `<!-- layout: navigation -->` and bold the first chapter if you wa
 - Cloud engineers and DevOps practitioners
 - Developers who own infrastructure as code
 - Technical leads standardizing IaC practices
+
+![Who Should Attend](images/who-should-attend.png)
 ```
 
 ```markdown
@@ -117,6 +134,8 @@ Optional: use `<!-- layout: navigation -->` and bold the first chapter if you wa
 - Comfortable with the Linux command line
 - Familiar with at least one major cloud console (AWS, Azure, or GCP)
 - Basic Git workflows (clone, commit, push)
+
+![Prerequisites](images/prerequisites.png)
 ```
 
 ---
@@ -345,18 +364,25 @@ Do **not** write lab steps here. Labs are authored separately.
 
 ---
 
-## 16. Q&A
+## 16. Questions and Answers
+
+Use **stacked** layout with stock **`qa.png`**. **Required** at the end of every content chapter.
+
+Title only—**do not** use `Q&A`, an ampersand, or body text like `Questions?` (the image is enough).
 
 ```markdown
-# Q&A
+<!-- layout: stacked -->
+# Questions and Answers
 
-Questions?
+![Questions and Answers](images/qa.png)
 ```
 
 ---
 
 ## 17. Assemble files
 
-**`00-introduction.md`:** Title → Welcome → Course Objectives → Agenda → Who Should Attend → Prerequisites
+**`00-introduction.md`:** Title → Welcome (+ `welcome.png`) → Course Objectives → Agenda (+ `agenda.png`) → Who Should Attend (+ `who-should-attend.png`) → Prerequisites (+ `prerequisites.png`)
 
-**Each `0N-….md` chapter:** Title → Chapter Objectives → (Navigation → section slides) × N → Lab stub → What You Learned → Q&A
+**Each `0N-….md` chapter:** Title → Chapter Objectives → (Navigation → section slides) × N → Lab stub → What You Learned → Questions and Answers (`stacked` + `qa.png`)
+
+Ensure `images/` includes the full stock set: `roi-logo-with-name.png`, `welcome.png`, `agenda.png`, `who-should-attend.png`, `prerequisites.png`, `qa.png`.

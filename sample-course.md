@@ -21,7 +21,63 @@
 ---
 
 <!-- 
-  SLIDE 2: Default / Content Layout Slide
+  SLIDE 2: Welcome (auto-split: bullets + image)
+-->
+# Welcome!
+
+- ROI leads the industry in designing and delivering customized technology and management training solutions
+- Meet your instructor
+  - Name
+  - Background
+  - Contact info
+- Let's get started!
+
+![Welcome](images/welcome.png)
+
+---
+
+<!-- 
+  SLIDE 3: Agenda (auto-split: bullets + image)
+-->
+# Agenda
+
+- Chapter 1: Standard & Split Layouts
+- Chapter 2: Multi-Column & Immersive Layouts
+- Layout reference and hands-on practice
+- Questions and wrap-up
+
+![Agenda](images/agenda.png)
+
+---
+
+<!-- 
+  SLIDE 4: Who Should Attend (auto-split: bullets + image)
+-->
+# Who Should Attend
+
+- Instructors authoring ROI Markdown slide decks
+- Course designers learning layout directives
+- Anyone evaluating the HTML Slides Viewer
+
+![Who Should Attend](images/who-should-attend.png)
+
+---
+
+<!-- 
+  SLIDE 5: Prerequisites (auto-split: bullets + image)
+-->
+# Prerequisites
+
+- Comfortable editing Markdown files
+- Basic familiarity with HTML comments
+- No prior slide-tool experience required
+
+![Prerequisites](images/prerequisites.png)
+
+---
+
+<!-- 
+  SLIDE 6: Default / Content Layout Slide
   Layout Type: "content" (Default)
   Activation: Leave blank or omit layout directives.
   Usage: Text and lists flow vertically. Standard for general information slides.
@@ -302,3 +358,10 @@ Here is a summary of all layouts supported in this slide engine:
 2. Utilizing the correct layout for different presentation styles
 3. Presenting code blocks and tables elegantly
 4. Working with vertical & split layouts
+
+---
+
+<!-- layout: stacked -->
+# Questions and Answers
+
+![Questions and Answers](images/qa.png)
