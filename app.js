@@ -475,6 +475,20 @@ document.addEventListener('DOMContentLoaded', () => {
         openCourseStatus.classList.toggle('is-error', !!isError);
     }
 
+    function notifyNoCourseAtPath(pathLabel) {
+        const where = pathLabel ? `\n\n${pathLabel}` : '';
+        const message =
+            `No course found at that path.${where}\n\n` +
+            'A course folder must contain Markdown course files (and usually an images/ folder).';
+        window.alert(message);
+        setOpenStatus('No course found at that path.', true);
+    }
+
+    function isNoCourseError(err) {
+        const msg = (err && err.message) || String(err || '');
+        return /no markdown course|no course found|no markdown \(\.md\) files found/i.test(msg);
+    }
+
     function clearOpenBrowser() {
         if (!openCourseBrowser) return;
         openCourseBrowser.hidden = true;
@@ -877,8 +891,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updateChapterSelector();
     }
 
-    async function inspectGitHubDirectory(owner, repo, ref, dirPath) {
-        setOpenStatus(`Browsing ${dirPath || 'repository root'}…`);
+    async function inspectGitHubDirectory(owner, repo, ref, dirPath, options = {}) {
+        const { alertIfNoCourse = false } = options;
+        const pathLabel = dirPath
+            ? `${owner}/${repo}/${dirPath}`
+            : `${owner}/${repo}`;
+
+        setOpenStatus(`Looking in ${dirPath || 'repository root'}…`);
         const listing = await listGitHubContents(owner, repo, dirPath, ref);
         if (!Array.isArray(listing)) {
             if (listing && listing.type === 'file' && isMarkdownName(listing.name)) {
@@ -890,7 +909,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await loadRemoteMarkdown(rawUrl, shareUrl, { chapters: [], chapterId: null });
                 return;
             }
-            throw new Error('Unexpected GitHub response for that path.');
+            throw new Error('No course found at that path.');
         }
 
         const mdFiles = filterCourseMarkdownFiles(listing);
@@ -936,24 +955,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // No Markdown course files at this path
         if (dirs.length === 0) {
-            throw new Error('No Markdown course files or course folders found at that path.');
+            throw new Error('No course found at that path.');
         }
 
-        // Multi-course repo / parent folder: list directories for the user to pick
+        if (alertIfNoCourse) {
+            notifyNoCourseAtPath(pathLabel);
+        }
+
         setOpenStatus(
-            dirs.length === 1
-                ? 'Found one folder. Opening it…'
-                : `Found ${dirs.length} folders. Pick a course folder.`
+            `No course in this folder. Pick a course subfolder (${dirs.length} found).`
         );
-
-        if (dirs.length === 1) {
-            const only = dirs[0];
-            const nextPath = dirPath ? `${dirPath.replace(/\/+$/, '')}/${only.name}` : only.name;
-            await inspectGitHubDirectory(owner, repo, ref, nextPath);
-            return;
-        }
-
         rememberGitHubUrl(githubTreeUrl(owner, repo, ref, dirPath));
         renderBrowserList(
             'Course folders',
@@ -962,10 +975,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 meta: 'Open folder',
                 onSelect: async () => {
                     try {
-                        const nextPath = dirPath ? `${dirPath.replace(/\/+$/, '')}/${dir.name}` : dir.name;
-                        await inspectGitHubDirectory(owner, repo, ref, nextPath);
+                        const nextPath = dirPath
+                            ? `${dirPath.replace(/\/+$/, '')}/${dir.name}`
+                            : dir.name;
+                        // Nested picks: list or load without another alert unless truly empty
+                        await inspectGitHubDirectory(owner, repo, ref, nextPath, {
+                            alertIfNoCourse: false
+                        });
                     } catch (err) {
-                        setOpenStatus(err.message || String(err), true);
+                        console.error(err);
+                        const label = dirPath
+                            ? `${owner}/${repo}/${dirPath}/${dir.name}`
+                            : `${owner}/${repo}/${dir.name}`;
+                        if (isNoCourseError(err) || (err && err.status === 404)) {
+                            notifyNoCourseAtPath(label);
+                        } else {
+                            setOpenStatus(err.message || String(err), true);
+                        }
                     }
                 }
             }))
@@ -981,9 +1007,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const pathLabel = parsed.path
+            ? `${parsed.owner}/${parsed.repo}/${parsed.path}`
+            : `${parsed.owner}/${parsed.repo}`;
+
         try {
             const ref = await resolveGitHubRef(parsed.owner, parsed.repo, parsed.ref);
             if (parsed.isFile && parsed.path) {
+                if (!isMarkdownName(parsed.path)) {
+                    notifyNoCourseAtPath(pathLabel);
+                    return;
+                }
                 setOpenStatus('Loading Markdown file…');
                 const rawUrl = githubRawUrl(parsed.owner, parsed.repo, ref, parsed.path);
                 const shareUrl = githubBlobUrl(parsed.owner, parsed.repo, ref, parsed.path);
@@ -993,9 +1027,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 await loadRemoteMarkdown(rawUrl, shareUrl, { chapters: [], chapterId: null });
                 return;
             }
-            await inspectGitHubDirectory(parsed.owner, parsed.repo, ref, parsed.path || '');
+            await inspectGitHubDirectory(parsed.owner, parsed.repo, ref, parsed.path || '', {
+                alertIfNoCourse: true
+            });
         } catch (err) {
             console.error(err);
+            if (isNoCourseError(err) || (err && err.status === 404)) {
+                notifyNoCourseAtPath(pathLabel);
+                return;
+            }
             setOpenStatus(err.message || String(err), true);
         }
     }
@@ -1136,31 +1176,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function handleLocalSingleFile(file) {
-        clearOpenBrowser();
-        setOpenStatus('Loading file…');
-        try {
-            const text = await file.text();
-            courseChapters = [];
-            currentChapterId = null;
-            applyCourseMarkdown(text, {
-                sourceKey: `local-file:${file.name}`,
-                baseUrl: '',
-                assetMap: null,
-                shareUrl: null,
-                chapters: [],
-                chapterId: null
-            });
-            setOpenStatus(
-                'File loaded. Tip: choose the course folder if images or other chapters should resolve.'
-            );
-            closeOpenModal();
-        } catch (err) {
-            console.error(err);
-            setOpenStatus(err.message || String(err), true);
-        }
-    }
-
     // ─── Open modal UI ────────────────────────────────────────────────
     function openOpenModal(tab = null) {
         if (!openCourseModal) return;
@@ -1172,7 +1187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGitHubRecents();
         if (tab) switchOpenTab(tab);
         const focusEl =
-            (tab === 'github' ? githubUrlInput : document.getElementById('pick-local-file')) ||
+            (tab === 'github' ? githubUrlInput : document.getElementById('pick-local-folder')) ||
             document.getElementById('open-course-close');
         if (focusEl && focusEl.focus) setTimeout(() => focusEl.focus(), 0);
     }
@@ -1199,9 +1214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const openBtn = document.getElementById('open-course-btn');
         const closeBtn = document.getElementById('open-course-close');
         const cancelBtn = document.getElementById('open-course-cancel');
-        const pickFileBtn = document.getElementById('pick-local-file');
         const pickFolderBtn = document.getElementById('pick-local-folder');
-        const fileInput = document.getElementById('local-file-input');
         const folderInput = document.getElementById('local-folder-input');
         const browseBtn = document.getElementById('github-browse-btn');
 
@@ -1218,15 +1231,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.modal-tab').forEach((tab) => {
             tab.addEventListener('click', () => switchOpenTab(tab.dataset.tab));
         });
-
-        if (pickFileBtn && fileInput) {
-            pickFileBtn.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', () => {
-                const file = fileInput.files && fileInput.files[0];
-                if (file) handleLocalSingleFile(file);
-                fileInput.value = '';
-            });
-        }
 
         if (pickFolderBtn && folderInput) {
             pickFolderBtn.addEventListener('click', async () => {
@@ -1382,7 +1386,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 openOpenModal('github');
                 if (githubUrlInput) githubUrlInput.value = paramUrl;
-                await inspectGitHubDirectory(gh.owner, gh.repo, ref, gh.path || '');
+                await inspectGitHubDirectory(gh.owner, gh.repo, ref, gh.path || '', {
+                    alertIfNoCourse: true
+                });
                 return;
             } catch (error) {
                 console.error('Error loading course:', error);

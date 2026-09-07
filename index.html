@@ -138,12 +138,10 @@
 
             <div class="modal-body">
                 <div id="panel-local" class="modal-panel" role="tabpanel" data-panel="local">
-                    <p class="modal-help">Open a single Markdown file, or a folder that contains a course (chapter <code>.md</code> files + <code>images/</code>).</p>
+                    <p class="modal-help">Open a course folder (chapter <code>.md</code> files + <code>images/</code>). Multiple Markdown files in the folder appear as chapters.</p>
                     <div class="modal-actions-row">
-                        <button type="button" id="pick-local-file" class="btn-primary">Choose File…</button>
-                        <button type="button" id="pick-local-folder" class="btn-secondary">Choose Folder…</button>
+                        <button type="button" id="pick-local-folder" class="btn-primary">Choose Folder…</button>
                     </div>
-                    <input type="file" id="local-file-input" accept=".md,.markdown,text/markdown" hidden>
                     <input type="file" id="local-folder-input" webkitdirectory directory multiple hidden>
                 </div>
 
@@ -151,7 +149,7 @@
                     <p class="modal-help">Paste a GitHub repo, folder, or Markdown file URL. Works for single-course repos and repos with multiple course folders.</p>
                     <div class="modal-actions-row modal-github-row">
                         <input type="url" id="github-url-input" class="modal-text-input" placeholder="https://github.com/owner/repo or …/tree/main/course-folder" autocomplete="off" spellcheck="false">
-                        <button type="button" id="github-browse-btn" class="btn-primary">Browse</button>
+                        <button type="button" id="github-browse-btn" class="btn-primary">Open</button>
                     </div>
                     <div id="github-recents" class="github-recents" hidden>
                         <div class="github-recents-label">Recent</div>
@@ -177,6 +175,6 @@
     <!-- html2pdf.js for Direct PDF File Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- Slide Viewer App Logic -->
-    <script src="app.js?v=21"></script>
+    <script src="app.js?v=25"></script>
 </body>
 </html>
