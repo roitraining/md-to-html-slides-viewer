@@ -23,6 +23,16 @@
 
 ---
 
+<!-- Course Objectives: default content (bullets only) -->
+# Course Objectives
+
+- **Author polished ROI slide decks in Markdown** using the HTML Slides Viewer layouts and directives
+- Choose the right layout for standard content, auto-split, columns, and large media
+- Place notes and warnings inside columns or full-width under them
+- Use the layout reference patterns when building your own courses
+
+---
+
 <!-- Agenda: auto-split -->
 # Agenda
 

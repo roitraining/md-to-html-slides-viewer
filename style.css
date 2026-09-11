@@ -871,6 +871,7 @@ body.dark-theme .slide-body h1 {
 
 .slide-body ul, .slide-body ol {
     padding-left: 32px;
+    margin-top: 0;
     margin-bottom: 24px;
 }
 
@@ -1310,7 +1311,7 @@ body.dark-theme .layout-stacked .stacked-media img {
     align-items: flex-start; /* top-align bullets; do not vertically center to the image */
     justify-content: space-between;
     gap: 36px;
-    margin-top: 15px;
+    margin-top: 0; /* match default content: sit directly under the H1 */
     margin-bottom: 20px;
 }
 
@@ -1320,6 +1321,13 @@ body.dark-theme .layout-stacked .stacked-media img {
 .grid-2col > div:first-child {
     flex: 1.25;
     min-width: 0;
+}
+
+.split-left > ul,
+.split-left > ol,
+.split-layout > div:first-child > ul,
+.split-layout > div:first-child > ol {
+    margin-top: 0;
 }
 
 .split-right,
