@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!body) return;
 
         canvasEl.classList.add(`layout-${layoutType}`);
-        body.innerHTML = marked.parse(slideMarkdown);
+        body.innerHTML = prepareSlideHtml(slideMarkdown);
 
         if (layoutType === 'navigation' || layoutType === 'section') {
             processNavigationLayout(body);
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         processGitHubAlerts(body);
         processRelativeImages(body);
-        if (layoutType !== 'stacked') {
+        if (layoutType !== 'stacked' && layoutType !== 'image-only') {
             processSplitLayouts(body);
         }
         processExternalLinks(body);
@@ -1530,10 +1530,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderSlide(index) {
         const slideMarkdown = slides[index];
         const layoutType = extractLayoutDirective(slideMarkdown, index);
-        const html = marked.parse(slideMarkdown);
-        
+
         // Remove existing layout classes and add new layout class
-        slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-two-column', 'layout-stacked');
+        slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-image-only', 'layout-two-column', 'layout-stacked');
         slideCard.classList.add(`layout-${layoutType}`);
         
         // Re-trigger fade animation
@@ -1541,7 +1540,7 @@ document.addEventListener('DOMContentLoaded', () => {
         void slideCard.offsetWidth; // Trigger reflow
         slideCard.classList.add('slide-card');
         
-        slideBody.innerHTML = html;
+        slideBody.innerHTML = prepareSlideHtml(slideMarkdown);
         
         // Apply current font scaling
         updateFontSize();
@@ -1563,8 +1562,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Resolve relative image URLs
         processRelativeImages(slideBody);
         
-        // Auto-format 2-column layout (bullets left, image right) — skipped for stacked
-        if (layoutType !== 'stacked') {
+        // Auto-format 2-column layout (bullets left, image right) — skipped for stacked / image-only
+        if (layoutType !== 'stacked' && layoutType !== 'image-only') {
             processSplitLayouts(slideBody);
         }
         
@@ -1678,10 +1677,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (layout === '3-column') layout = 'three-column';
             if (layout === '2-column') layout = 'two-column';
             if (layout === 'stack') layout = 'stacked';
+            if (layout === 'image' || layout === 'image_only') layout = 'image-only';
             return layout;
         }
         if (index === 0) return 'title';
         return 'content';
+    }
+
+    /**
+     * Turn a standalone <!-- below-columns --> line into a DOM sentinel so column
+     * builders can leave following content (e.g. full-width alerts) outside the columns.
+     * Only whole-line markers are converted so instructional text can mention the comment.
+     */
+    function prepareSlideHtml(slideMarkdown) {
+        const prepared = String(slideMarkdown || '').replace(
+            /^[ \t]*<!--\s*below-columns\s*-->[ \t]*$/gim,
+            '<div class="below-columns-break" hidden aria-hidden="true"></div>'
+        );
+        return marked.parse(prepared);
     }
 
     // Process Navigation Agenda Slide styling
@@ -1749,59 +1762,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Automatically format slides with three columns
     function processThreeColumnLayout(container) {
-        if (container.querySelector('.three-column-wrapper')) {
-            return;
-        }
-
-        // Find header elements that can act as column markers.
-        // Look for h3 first, fallback to h2 then h4.
-        let headers = Array.from(container.querySelectorAll('h3'));
-        if (headers.length === 0) {
-            headers = Array.from(container.querySelectorAll('h2'));
-        }
-        if (headers.length === 0) {
-            headers = Array.from(container.querySelectorAll('h4'));
-        }
-
-        if (headers.length < 2) return;
-
-        const children = Array.from(container.children);
-        const firstHeaderIndex = children.indexOf(headers[0]);
-        const insertReference = children[firstHeaderIndex];
-        const originalParent = insertReference ? insertReference.parentNode : null;
-        
-        if (!originalParent) return;
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'three-column-wrapper';
-
-        // Insert wrapper before the first header element's original position
-        originalParent.insertBefore(wrapper, insertReference);
-
-        let currentColumn = null;
-        for (let i = firstHeaderIndex; i < children.length; i++) {
-            const child = children[i];
-            
-            if (headers.includes(child)) {
-                currentColumn = document.createElement('div');
-                currentColumn.className = 'column';
-                wrapper.appendChild(currentColumn);
-            }
-            
-            if (currentColumn) {
-                currentColumn.appendChild(child);
-            }
-        }
+        processColumnLayout(container, 'three-column-wrapper');
     }
 
     // Automatically format slides with two custom columns (headers and lists)
     function processTwoColumnLayout(container) {
-        if (container.querySelector('.two-column-wrapper')) {
-            return;
-        }
+        processColumnLayout(container, 'two-column-wrapper');
+    }
 
-        // Find header elements that can act as column markers.
-        // Look for h3 first, fallback to h2 then h4.
+    function findColumnHeaders(container) {
         let headers = Array.from(container.querySelectorAll('h3'));
         if (headers.length === 0) {
             headers = Array.from(container.querySelectorAll('h2'));
@@ -1809,35 +1778,60 @@ document.addEventListener('DOMContentLoaded', () => {
         if (headers.length === 0) {
             headers = Array.from(container.querySelectorAll('h4'));
         }
+        return headers;
+    }
 
+    /**
+     * Split slide content into equal columns starting at ### (or ## / ####) headers.
+     * Optional <!-- below-columns --> (converted to .below-columns-break) ends the
+     * column region so following content stays full slide width.
+     */
+    function processColumnLayout(container, wrapperClassName) {
+        if (container.querySelector(`.${wrapperClassName}`)) {
+            return;
+        }
+
+        const headers = findColumnHeaders(container);
         if (headers.length < 2) return;
 
         const children = Array.from(container.children);
         const firstHeaderIndex = children.indexOf(headers[0]);
+        if (firstHeaderIndex < 0) return;
+
+        const breakEl = container.querySelector('.below-columns-break');
+        let endIndex = children.length;
+        if (breakEl) {
+            const breakIndex = children.indexOf(breakEl);
+            if (breakIndex > firstHeaderIndex) {
+                endIndex = breakIndex;
+            }
+        }
+
         const insertReference = children[firstHeaderIndex];
         const originalParent = insertReference ? insertReference.parentNode : null;
-        
         if (!originalParent) return;
 
         const wrapper = document.createElement('div');
-        wrapper.className = 'two-column-wrapper';
-
-        // Insert wrapper before the first header element's original position
+        wrapper.className = wrapperClassName;
         originalParent.insertBefore(wrapper, insertReference);
 
         let currentColumn = null;
-        for (let i = firstHeaderIndex; i < children.length; i++) {
+        for (let i = firstHeaderIndex; i < endIndex; i++) {
             const child = children[i];
-            
+
             if (headers.includes(child)) {
                 currentColumn = document.createElement('div');
                 currentColumn.className = 'column';
                 wrapper.appendChild(currentColumn);
             }
-            
+
             if (currentColumn) {
                 currentColumn.appendChild(child);
             }
+        }
+
+        if (breakEl && breakEl.parentNode) {
+            breakEl.remove();
         }
     }
 
@@ -1985,7 +1979,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render each slide sequentially into printStage
         slides.forEach((slideMarkdown, index) => {
             const layoutType = extractLayoutDirective(slideMarkdown, index);
-            const html = marked.parse(slideMarkdown);
+            const html = prepareSlideHtml(slideMarkdown);
 
             const card = document.createElement('div');
             card.className = `slide-card print-slide-card layout-${layoutType}`;
@@ -2002,7 +1996,7 @@ document.addEventListener('DOMContentLoaded', () => {
             processRelativeImages(body);
             if (layoutType === 'stacked') {
                 processStackedLayout(body);
-            } else {
+            } else if (layoutType !== 'image-only') {
                 processSplitLayouts(body);
             }
             processCodeCopyButtons(body);
