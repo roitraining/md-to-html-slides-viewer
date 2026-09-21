@@ -70,7 +70,7 @@ The presentation engine supports the following layout types:
 *   **Slide Navigation**: Click side arrow buttons, or use the Keyboard shortcuts: `Right Arrow` / `Space` (Next Slide), `Left Arrow` (Previous Slide), `Home` / `End` (First / Last Slide).
 *   **Slide Index Drawer**: Click the hamburger icon in the upper-left to open the Table of Contents drawer and jump to any slide instantly.
 *   **Font Scaling**: Use the `A-` and `A+` buttons in the toolbar to shrink or expand text dynamically. Settings are persisted in local storage.
-*   **Print / PDF Export**: Click the printer (`🖨️`) button in the toolbar to open the print dialog. Pages are full-bleed (no margins) for student PDF handouts. Choose **Landscape**, **margins: None**, and enable **background graphics**.
+*   **Print / PDF Export**: Click the printer (`🖨️`) button in the toolbar to open the print dialog. Pages are **16:9** full-bleed (same aspect as on-screen slides) for student PDF handouts. Choose **Save as PDF**, **margins: None**, and enable **background graphics**. Leave paper size at the default so it stays 16:9; do not switch to Letter.
 *   **Annotations**: Use the floating annotation panel on the right of the stage:
     *   `✏️` **Pen Tool (P)**: Draw in ROI Navy Blue `#003865`.
     *   `🖊️` **Highlighter Tool (H)**: Draw in translucency-blended yellow `#ffeb3b`.

@@ -16,6 +16,9 @@
     --slide-design-width: 1280px;
     --slide-design-height: 720px;
     --slide-design-font: 16px;
+    /* Print/PDF page = PowerPoint 16:9 widescreen (1280×720 at 96dpi) */
+    --slide-print-width: 13.333in;
+    --slide-print-height: 7.5in;
     --drawer-width: 300px;
 }
 
@@ -1337,7 +1340,7 @@ body.dark-theme .layout-stacked .stacked-media img {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-width: 0;
 }
 
@@ -1345,8 +1348,12 @@ body.dark-theme .layout-stacked .stacked-media img {
 .split-layout img,
 .two-column img,
 .grid-2col img {
-    max-width: 100%;
-    max-height: 380px;
+    /* Width cap keeps square/landscape images near the previous 380px look.
+       Height cap uses leftover canvas so tall portraits can grow. */
+    max-width: min(100%, 400px);
+    max-height: 500px;
+    width: auto;
+    height: auto;
     object-fit: contain;
     border-radius: 10px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
@@ -1858,6 +1865,14 @@ body.dark-theme .side-menu.view-thumbnails #slide-list li a.active .slide-thumb-
     overflow: hidden;
 }
 
+.slide-thumb-canvas .split-right img,
+.slide-thumb-canvas .split-layout img,
+.slide-thumb-canvas .two-column img,
+.slide-thumb-canvas .grid-2col img {
+    max-width: min(100%, 260px);
+    max-height: 300px;
+}
+
 .slide-thumb-canvas .code-copy-btn,
 .slide-thumb-canvas .roi-slide-footer {
     display: none !important;
@@ -1916,7 +1931,7 @@ body.dark-theme .error {
     position: absolute;
     left: -99999px;
     top: 0;
-    width: 11in;
+    width: var(--slide-print-width);
     height: auto;
     overflow: hidden;
     pointer-events: none;
@@ -1924,9 +1939,9 @@ body.dark-theme .error {
 }
 
 @media print {
-    /* Full-bleed PDF pages — no paper margins (digital handouts, not printers) */
+    /* 16:9 full-bleed PDF pages (PowerPoint widescreen). Digital handouts, not paper. */
     @page {
-        size: letter landscape;
+        size: 13.333in 7.5in;
         margin: 0;
     }
 
@@ -1970,18 +1985,18 @@ body.dark-theme .error {
         pointer-events: auto !important;
     }
 
-    /* One full-bleed slide per page (landscape letter = 11in × 8.5in) */
+    /* Same 16:9 canvas as on-screen (13.333in × 7.5in = 1280 × 720 at 96dpi) */
     .print-slide-card.slide-card,
     .print-slide-card {
-        width: 11in !important;
-        min-width: 0 !important;
-        max-width: none !important;
-        height: 8.5in !important;
-        min-height: 8.5in !important;
-        max-height: 8.5in !important;
+        width: var(--slide-print-width) !important;
+        min-width: var(--slide-print-width) !important;
+        max-width: var(--slide-print-width) !important;
+        height: var(--slide-print-height) !important;
+        min-height: var(--slide-print-height) !important;
+        max-height: var(--slide-print-height) !important;
         margin: 0 !important;
         box-sizing: border-box !important;
-        padding: 0 !important;
+        padding: 40px 50px 0 50px !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
@@ -2010,7 +2025,6 @@ body.dark-theme .error {
 
     .print-slide-card .slide-top-bar {
         background-color: #003865 !important;
-        margin: 0 !important;
         border-radius: 0 !important;
         flex-shrink: 0 !important;
         -webkit-print-color-adjust: exact !important;
@@ -2018,7 +2032,6 @@ body.dark-theme .error {
     }
 
     .print-slide-card .roi-slide-footer {
-        margin: 0 !important;
         border-radius: 0 !important;
         flex-shrink: 0 !important;
     }
@@ -2030,164 +2043,18 @@ body.dark-theme .error {
         print-color-adjust: exact !important;
     }
 
-    /* Preserve image aspect ratio — never stretch */
+    /* Use the same image/layout CSS as the on-screen 16:9 canvas — do not reflow in inches */
     .print-slide-card img {
-        max-width: 100% !important;
-        width: auto !important;
-        height: auto !important;
-        max-height: 5.4in !important;
-        object-fit: contain !important;
-        object-position: center !important;
-        display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
-    /* Title / chapter logos stay small (don't inherit the large content max-height) */
-    .print-slide-card.layout-title .slide-body img {
-        max-height: 0.7in !important;
-        max-width: 3.2in !important;
-        width: auto !important;
-        height: auto !important;
-        position: absolute !important;
-        top: 0.15in !important;
-        left: 0.15in !important;
-        margin: 0 !important;
-    }
-
-    .print-slide-card .roi-logo-img {
-        max-height: 0.32in !important;
-        max-width: 1.6in !important;
-        width: auto !important;
-        height: auto !important;
-    }
-
-    .print-slide-card .split-layout,
-    .print-slide-card .two-column,
-    .print-slide-card .grid-2col {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: flex-start !important;
-        justify-content: space-between !important;
-        gap: 0.3in !important;
-    }
-
-    .print-slide-card .split-left {
-        flex: 1.25 !important;
-        min-width: 0 !important;
-    }
-
-    .print-slide-card .split-right {
-        flex: 1 !important;
-        min-width: 0 !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-    }
-
-    .print-slide-card .split-right img,
-    .print-slide-card .grid-2col img {
-        max-height: 4.8in !important;
-    }
-
     .print-slide-card .slide-body {
         flex: 1 !important;
         overflow: hidden !important;
         min-height: 0 !important;
-        padding: 0.35in 0.45in 0.25in 0.45in !important;
-        box-sizing: border-box !important;
-    }
-
-    .print-slide-card .three-column-wrapper {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        gap: 0.25in !important;
-        width: 100% !important;
-    }
-
-    .print-slide-card .three-column-wrapper .column {
-        flex: 1 !important;
-        min-width: 0 !important;
-    }
-
-    .print-slide-card .two-column-wrapper {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        gap: 0.3in !important;
-        width: 100% !important;
-    }
-
-    .print-slide-card .two-column-wrapper .column {
-        flex: 1 !important;
-        min-width: 0 !important;
-    }
-
-    .print-slide-card.layout-title-image .slide-body p {
-        display: flex !important;
-        flex: 1 !important;
-        justify-content: center !important;
-        align-items: center !important;
-        height: auto !important;
-        width: 100% !important;
-        overflow: hidden !important;
-    }
-
-    .print-slide-card.layout-title-image .slide-body img {
-        max-width: 100% !important;
-        max-height: 6in !important;
-        width: auto !important;
-        height: auto !important;
-        object-fit: contain !important;
-    }
-
-    .print-slide-card.layout-image-only .slide-body h1 {
-        display: none !important;
-    }
-
-    .print-slide-card.layout-image-only .slide-body p {
-        display: flex !important;
-        flex: 1 !important;
-        justify-content: center !important;
-        align-items: center !important;
-        height: auto !important;
-        width: 100% !important;
-        overflow: hidden !important;
-    }
-
-    .print-slide-card.layout-image-only .slide-body img {
-        max-width: 100% !important;
-        max-height: 6.5in !important;
-        width: auto !important;
-        height: auto !important;
-        object-fit: contain !important;
-    }
-
-    .print-slide-card.layout-stacked .slide-body {
-        display: flex !important;
-        flex-direction: column !important;
-        overflow: hidden !important;
-    }
-
-    .print-slide-card.layout-stacked .stacked-media {
-        display: flex !important;
-        flex: 1 !important;
-        justify-content: center !important;
-        align-items: center !important;
-        overflow: hidden !important;
-        min-height: 0 !important;
-        width: 100% !important;
-    }
-
-    .print-slide-card.layout-stacked .stacked-media img {
-        max-width: 100% !important;
-        max-height: 4.8in !important;
-        width: auto !important;
-        height: auto !important;
-        object-fit: contain !important;
     }
 
     .print-slide-card .code-copy-btn,
