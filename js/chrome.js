@@ -2,7 +2,36 @@
 import { state, els, api, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
 
 export function initChrome() {
-    // Theme initialization & toggle logic
+    const SLIDE_THEMES = ['roi-theme', 'demo-theme'];
+    const SLIDE_THEME_ALIASES = { 'roi-default': 'roi-theme' };
+    const SLIDE_THEME_KEY = 'slides-viewer-slide-theme';
+
+    function applySlideTheme(name, { persist = true } = {}) {
+        const mapped = SLIDE_THEME_ALIASES[name] || name;
+        const theme = SLIDE_THEMES.includes(mapped) ? mapped : 'roi-theme';
+        document.documentElement.setAttribute('data-theme', theme);
+        if (els.slideThemeSelect) els.slideThemeSelect.value = theme;
+        if (persist) localStorage.setItem(SLIDE_THEME_KEY, theme);
+    }
+
+    const themeParam = new URLSearchParams(window.location.search).get('theme');
+    const savedSlideTheme = localStorage.getItem(SLIDE_THEME_KEY);
+    applySlideTheme(themeParam || savedSlideTheme || document.documentElement.getAttribute('data-theme'));
+
+    function focusSlideStage() {
+        if (!els.presentationStage) return;
+        els.presentationStage.focus({ preventScroll: true });
+    }
+
+    if (els.slideThemeSelect) {
+        els.slideThemeSelect.addEventListener('change', () => {
+            applySlideTheme(els.slideThemeSelect.value);
+            api.fitFooterCourseTitle?.();
+            focusSlideStage();
+        });
+    }
+
+    // Light / dark player mode
     const savedTheme = localStorage.getItem('slides-viewer-theme');
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-theme');
@@ -156,4 +185,5 @@ export function initChrome() {
     api.updateFontSize = updateFontSize;
     api.fitFooterCourseTitle = fitFooterCourseTitle;
     api.toggleFullscreen = toggleFullscreen;
+    api.focusSlideStage = focusSlideStage;
 }

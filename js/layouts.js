@@ -67,6 +67,7 @@ export function extractLayoutDirective(slideMarkdown, index) {
         if (layout === '2-column') layout = 'two-column';
         if (layout === 'stack') layout = 'stacked';
         if (layout === 'image' || layout === 'image_only') layout = 'image-only';
+        if (layout === 'card' || layout === 'cards') layout = 'card-layout';
         return layout;
     }
     if (index === 0) return 'title';
@@ -157,6 +158,81 @@ export function processThreeColumnLayout(container) {
 // Automatically format slides with two custom columns (headers and lists)
 export function processTwoColumnLayout(container) {
     processColumnLayout(container, 'two-column-wrapper');
+}
+
+/**
+ * Card layout: each ### (or ## / ####) header becomes a card title.
+ * List items under that header become sentences in the card body (no bullets).
+ */
+export function processCardLayout(container) {
+    if (container.querySelector('.card-layout-wrapper')) {
+        return;
+    }
+
+    const headers = findColumnHeaders(container);
+    if (headers.length < 1) return;
+
+    const children = Array.from(container.children);
+    const firstHeaderIndex = children.indexOf(headers[0]);
+    if (firstHeaderIndex < 0) return;
+
+    const insertReference = children[firstHeaderIndex];
+    const originalParent = insertReference ? insertReference.parentNode : null;
+    if (!originalParent) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'card-layout-wrapper';
+    originalParent.insertBefore(wrapper, insertReference);
+
+    let currentBody = null;
+
+    function startCard(headerEl) {
+        const card = document.createElement('article');
+        card.className = 'content-card';
+        card.appendChild(headerEl);
+        currentBody = document.createElement('div');
+        currentBody.className = 'content-card-body';
+        card.appendChild(currentBody);
+        wrapper.appendChild(card);
+    }
+
+    function listItemToParagraph(li) {
+        const nested = li.querySelector(':scope > ul, :scope > ol');
+        if (nested) nested.remove();
+        const p = document.createElement('p');
+        if (li.children.length === 1 && li.firstElementChild.tagName === 'P') {
+            p.innerHTML = li.firstElementChild.innerHTML;
+        } else {
+            p.innerHTML = li.innerHTML;
+        }
+        return p;
+    }
+
+    function appendBodyContent(node) {
+        if (!currentBody) return;
+        const tag = node.tagName;
+        if (tag === 'UL' || tag === 'OL') {
+            Array.from(node.children).forEach((li) => {
+                if (li.tagName !== 'LI') return;
+                const p = listItemToParagraph(li);
+                if (p.textContent.trim()) currentBody.appendChild(p);
+            });
+            node.remove();
+            return;
+        }
+        currentBody.appendChild(node);
+    }
+
+    for (let i = firstHeaderIndex; i < children.length; i++) {
+        const child = children[i];
+        if (headers.includes(child)) {
+            startCard(child);
+        } else {
+            appendBodyContent(child);
+        }
+    }
+
+    wrapper.dataset.cards = String(wrapper.querySelectorAll('.content-card').length);
 }
 
 export function findColumnHeaders(container) {

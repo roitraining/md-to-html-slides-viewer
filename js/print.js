@@ -6,6 +6,7 @@ import {
     processNavigationLayout,
     processThreeColumnLayout,
     processTwoColumnLayout,
+    processCardLayout,
     processStackedLayout,
     processGitHubAlerts,
     processRelativeImages,
@@ -48,7 +49,7 @@ export function initPrint() {
             processRelativeImages(body);
             if (layoutType === 'stacked') {
                 processStackedLayout(body);
-            } else if (layoutType !== 'image-only') {
+            } else if (layoutType !== 'image-only' && layoutType !== 'card-layout') {
                 processSplitLayouts(body);
             }
             processCodeCopyButtons(body);
@@ -60,6 +61,8 @@ export function initPrint() {
                 processThreeColumnLayout(body);
             } else if (layoutType === 'two-column') {
                 processTwoColumnLayout(body);
+            } else if (layoutType === 'card-layout') {
+                processCardLayout(body);
             }
 
             // Convert all img src in body to absolute URLs so browser print engine loads them 100% reliably

@@ -906,6 +906,8 @@ export function initCourse() {
                 } catch (err) {
                     console.error(err);
                     els.slideBody.innerHTML = `<div class="error"><strong>Failed to load chapter:</strong><br>${err.message}</div>`;
+                } finally {
+                    api.focusSlideStage?.();
                 }
             });
         }

@@ -1,9 +1,12 @@
-/* ROI default slide theme.
-   Add another theme by copying this file (e.g. css/themes/acme.css) and
-   changing the data-theme name plus the values below. Then import that file
-   and set html[data-theme="…"] (a picker can come later). */
+/* ROI slide theme.
+   Add another theme by copying this file, changing the data-theme name,
+   importing it from style.css, and listing it in the toolbar picker. */
 
-html[data-theme="roi-default"] {
+html[data-theme="roi-theme"] {
+    --slide-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --slide-heading-font: var(--slide-font);
+    --slide-heading-weight: 700;
+    --slide-mono-font: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
     --slide-bg: #ffffff;
     --slide-text: #1a1a1a;
     --slide-muted: #555555;
@@ -29,7 +32,7 @@ html[data-theme="roi-default"] {
     --slide-print-num-text: #ffffff;
 }
 
-html[data-theme="roi-default"] body.dark-theme {
+html[data-theme="roi-theme"] body.dark-theme {
     --slide-bg: #1e293b;
     --slide-text: #f8fafc;
     --slide-muted: #94a3b8;

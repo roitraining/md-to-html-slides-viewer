@@ -6,6 +6,7 @@ import {
     processNavigationLayout,
     processThreeColumnLayout,
     processTwoColumnLayout,
+    processCardLayout,
     processStackedLayout,
     processGitHubAlerts,
     processRelativeImages,
@@ -150,13 +151,15 @@ export function initDrawer() {
             processThreeColumnLayout(body);
         } else if (layoutType === 'two-column') {
             processTwoColumnLayout(body);
+        } else if (layoutType === 'card-layout') {
+            processCardLayout(body);
         } else if (layoutType === 'stacked') {
             processStackedLayout(body);
         }
 
         processGitHubAlerts(body);
         processRelativeImages(body);
-        if (layoutType !== 'stacked' && layoutType !== 'image-only') {
+        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'card-layout') {
             processSplitLayouts(body);
         }
         processExternalLinks(body);

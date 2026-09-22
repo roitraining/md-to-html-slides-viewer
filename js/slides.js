@@ -6,6 +6,7 @@ import {
     processNavigationLayout,
     processThreeColumnLayout,
     processTwoColumnLayout,
+    processCardLayout,
     processStackedLayout,
     processGitHubAlerts,
     processRelativeImages,
@@ -41,7 +42,7 @@ export function initSlides() {
         const layoutType = extractLayoutDirective(slideMarkdown, index);
 
         // Remove existing layout classes and add new layout class
-        els.slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-image-only', 'layout-two-column', 'layout-stacked');
+        els.slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-image-only', 'layout-two-column', 'layout-stacked', 'layout-card-layout');
         els.slideCard.classList.add(`layout-${layoutType}`);
     
         // Re-trigger fade animation
@@ -61,6 +62,8 @@ export function initSlides() {
             processThreeColumnLayout(els.slideBody);
         } else if (layoutType === 'two-column') {
             processTwoColumnLayout(els.slideBody);
+        } else if (layoutType === 'card-layout') {
+            processCardLayout(els.slideBody);
         } else if (layoutType === 'stacked') {
             processStackedLayout(els.slideBody);
         }
@@ -72,7 +75,7 @@ export function initSlides() {
         processRelativeImages(els.slideBody);
     
         // Auto-format 2-column layout (bullets left, image right) — skipped for stacked / image-only
-        if (layoutType !== 'stacked' && layoutType !== 'image-only') {
+        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'card-layout') {
             processSplitLayouts(els.slideBody);
         }
     

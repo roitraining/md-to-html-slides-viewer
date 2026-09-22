@@ -195,6 +195,65 @@ body.is-fullscreen .slide-card {
     margin-top: 0;
 }
 
+/* Card layout: each ### header becomes a titled card */
+.layout-card-layout .slide-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.layout-card-layout .slide-body h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.card-layout-wrapper {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+    align-content: start;
+}
+
+.card-layout-wrapper[data-cards="1"] {
+    grid-template-columns: 1fr;
+    max-width: 720px;
+}
+
+.card-layout-wrapper[data-cards="2"] {
+    grid-template-columns: 1fr 1fr;
+}
+
+.card-layout-wrapper[data-cards="3"] {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.card-layout-wrapper[data-cards="4"] {
+    grid-template-columns: 1fr 1fr;
+}
+
+.card-layout-wrapper[data-cards="5"],
+.card-layout-wrapper[data-cards="6"] {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.content-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.content-card-body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
 /* Title-Image Slide Layout (Single Large Image Filling Viewport) */
 .layout-title-image .slide-body {
     display: flex;

@@ -35,6 +35,7 @@ export function bindDom() {
     els.sideMenu = document.getElementById('side-menu');
     els.slideList = document.getElementById('slide-list');
     els.themeToggle = document.getElementById('theme-toggle');
+    els.slideThemeSelect = document.getElementById('slide-theme-select');
     els.fontSizeSlider = document.getElementById('font-size-slider');
     els.fullscreenToggle = document.getElementById('fullscreen-toggle');
     els.presentationStage = document.getElementById('presentation-stage');

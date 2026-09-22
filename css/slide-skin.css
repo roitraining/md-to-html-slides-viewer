@@ -1,6 +1,7 @@
-/* Slide skin: shared rules. Colors come from the active css/themes/*.css file. */
+/* Slide skin: shared rules. Colors and fonts come from css/themes/*.css. */
 
 .slide-card {
+    font-family: var(--slide-font);
     background-color: var(--slide-bg);
     border: 1px solid var(--slide-border);
     border-radius: 12px;
@@ -37,9 +38,16 @@ body.is-fullscreen .slide-card {
 }
 
 /* Slide Typography & Content */
+.slide-body h1,
+.slide-body h2,
+.slide-body h3,
+.slide-body h4 {
+    font-family: var(--slide-heading-font);
+}
+
 .slide-body h1 {
     font-size: 2.2em;
-    font-weight: 700;
+    font-weight: var(--slide-heading-weight, 700);
     text-align: center;
     color: var(--slide-heading);
     margin-top: 0;
@@ -169,6 +177,48 @@ body.is-fullscreen .slide-card {
     margin-bottom: 8px;
 }
 
+.content-card {
+    background-color: var(--slide-bg);
+    border: 1px solid var(--slide-border);
+    border-radius: 14px;
+    box-shadow: var(--slide-image-shadow);
+}
+
+.content-card::before {
+    content: "";
+    display: block;
+    height: 6px;
+    background-color: var(--slide-accent);
+    flex-shrink: 0;
+}
+
+.content-card h2,
+.content-card h3,
+.content-card h4 {
+    margin: 0;
+    padding: 16px 20px 8px 20px;
+    font-size: 1.2em;
+    font-weight: 700;
+    font-family: var(--slide-heading-font);
+    color: var(--slide-heading);
+    border: none;
+}
+
+.content-card-body {
+    padding: 4px 20px 20px 20px;
+}
+
+.content-card-body p {
+    margin: 0 0 12px 0;
+    font-size: 1.05em;
+    line-height: 1.55;
+    color: var(--slide-text);
+}
+
+.content-card-body p:last-child {
+    margin-bottom: 0;
+}
+
 .layout-title-image .slide-body img,
 .layout-image-only .slide-body img,
 .layout-stacked .stacked-media img {
@@ -234,7 +284,7 @@ pre {
 }
 
 code {
-    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+    font-family: var(--slide-mono-font);
     font-size: 0.95em;
 }
 

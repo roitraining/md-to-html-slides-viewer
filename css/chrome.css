@@ -140,6 +140,23 @@ body.dark-theme .toolbar-title {
     gap: 10px;
 }
 
+.theme-select-wrap {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.theme-select {
+    max-width: 148px;
+    padding: 5px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 13px;
+    cursor: pointer;
+}
+
 /* Open Course Modal */
 .modal-overlay {
     position: fixed;
@@ -559,6 +576,10 @@ body.dark-theme .font-size-slider::-moz-range-thumb {
     position: relative;
     overflow: hidden;
     min-height: 0;
+}
+
+.presentation-stage:focus {
+    outline: none;
 }
 
 :fullscreen .presentation-stage,
