@@ -159,7 +159,7 @@ export function initDrawer() {
 
         processGitHubAlerts(body);
         processRelativeImages(body);
-        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'card-layout') {
+        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout') {
             processSplitLayouts(body);
         }
         processExternalLinks(body);

@@ -104,7 +104,7 @@
     }
 
     .print-slide-card .slide-top-bar {
-        background-color: var(--slide-print-accent) !important;
+        background: var(--slide-top-bar, var(--slide-print-accent)) !important;
         border-radius: 0 !important;
         flex-shrink: 0 !important;
         -webkit-print-color-adjust: exact !important;
@@ -135,6 +135,31 @@
         flex: 1 !important;
         overflow: hidden !important;
         min-height: 0 !important;
+    }
+
+    .print-slide-card.layout-full-bleed {
+        padding: 0 !important;
+    }
+
+    .print-slide-card.layout-full-bleed .slide-top-bar,
+    .print-slide-card.layout-full-bleed .roi-slide-footer {
+        display: none !important;
+    }
+
+    .print-slide-card.layout-full-bleed .slide-body {
+        padding: 0 !important;
+    }
+
+    .print-slide-card.layout-full-bleed img {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
 
     .print-slide-card .code-copy-btn,

@@ -47,7 +47,7 @@ Or point `course=` at any reachable Markdown URL, same as on GitHub Pages.
 ### Structure Your Markdown
 Slides are written in Markdown. Use a triple-dash (`---`) on its own line to separate slides. Customize slide properties using HTML comments:
 *   Set course footer title (at top of file): `<!-- course-title: My Slide Course -->`
-*   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, `<!-- layout: card-layout -->`, `<!-- layout: title-image -->`, `<!-- layout: image-only -->`, or `<!-- layout: stacked -->`.
+*   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, `<!-- layout: card-layout -->`, `<!-- layout: title-image -->`, `<!-- layout: image-only -->`, `<!-- layout: full-bleed -->`, or `<!-- layout: stacked -->`.
 
 ---
 
@@ -62,7 +62,8 @@ The presentation engine supports the following layout types:
 6.  **Card Layout (`card-layout`)**: Turns each `###` heading into a card title. Dash list items under that heading become sentences in the card body (no bullets). Three cards sit in a row; four cards use a 2-by-2 grid.
 7.  **Immersive Media (`title-image`)**: Displays a title and scales a single diagram image to fill all remaining vertical viewport space without overflow.
 8.  **Image Only (`image-only`)**: Same full-stage image as title-image, but the Markdown `#` heading is used only for the slide tray label (hidden on the stage).
-9.  **Stacked (`stacked`)**: Keeps title and content on top and places the image below, filling remaining height (disables auto-split).
+9.  **Full Bleed (`full-bleed`)**: Image covers the entire 16:9 slide, including the top accent bar and footer. The heading is tray-only, same as image-only.
+10. **Stacked (`stacked`)**: Keeps title and content on top and places the image below, filling remaining height (disables auto-split).
 
 ---
 
