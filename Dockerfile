@@ -6,6 +6,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Viewer app only (courses are loaded via GitHub / Open Folder)
 COPY index.html app.js style.css sample-course.md /usr/share/nginx/html/
+COPY css/ /usr/share/nginx/html/css/
 COPY images/ /usr/share/nginx/html/images/
 
 EXPOSE 8080

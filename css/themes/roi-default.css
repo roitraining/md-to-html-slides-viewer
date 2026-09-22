@@ -1,0 +1,49 @@
+/* ROI default slide theme.
+   Add another theme by copying this file (e.g. css/themes/acme.css) and
+   changing the data-theme name plus the values below. Then import that file
+   and set html[data-theme="…"] (a picker can come later). */
+
+html[data-theme="roi-default"] {
+    --slide-bg: #ffffff;
+    --slide-text: #1a1a1a;
+    --slide-muted: #555555;
+    --slide-border: #d1d5db;
+    --slide-accent: #003865;
+    --slide-heading: #000000;
+    --slide-title-subtitle: #888d96;
+    --slide-nav-inactive: #a3aab5;
+    --slide-nav-active: #000000;
+    --slide-footer-border: #dcdcdc;
+    --slide-num-bg: #888d96;
+    --slide-num-text: #ffffff;
+    --slide-code-bg: rgba(0, 0, 0, 0.04);
+    --slide-image-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --slide-split-image-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    --slide-table-header-bg: rgba(0, 0, 0, 0.03);
+    --slide-table-stripe: rgba(0, 0, 0, 0.015);
+    /* Print/PDF stays light even if the player is in dark mode */
+    --slide-print-bg: #ffffff;
+    --slide-print-text: #000000;
+    --slide-print-accent: #003865;
+    --slide-print-num-bg: #888d96;
+    --slide-print-num-text: #ffffff;
+}
+
+html[data-theme="roi-default"] body.dark-theme {
+    --slide-bg: #1e293b;
+    --slide-text: #f8fafc;
+    --slide-muted: #94a3b8;
+    --slide-border: #334155;
+    --slide-accent: #3b82f6;
+    --slide-heading: #ffffff;
+    --slide-title-subtitle: #94a3b8;
+    --slide-nav-inactive: #64748b;
+    --slide-nav-active: #ffffff;
+    --slide-footer-border: #334155;
+    --slide-num-bg: #475569;
+    --slide-num-text: #ffffff;
+    --slide-code-bg: #0d1117;
+    --slide-image-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --slide-table-header-bg: rgba(255, 255, 255, 0.05);
+    --slide-table-stripe: rgba(255, 255, 255, 0.02);
+}

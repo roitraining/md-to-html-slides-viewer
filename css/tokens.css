@@ -1,0 +1,38 @@
+/* Design tokens — shared by chrome, toolbox, and slides.
+   Course themes should later override only slide-facing variables
+   (see css/themes/). Chrome keeps the tokens in this file. */
+
+:root {
+    --bg-color: #eef2f6;
+    --card-bg: #ffffff;
+    --text-color: #1a1a1a;
+    --text-muted: #555555;
+    --border-color: #d1d5db;
+    --toolbar-bg: #ffffff;
+    --roi-blue: #003865;
+    --roi-blue-hover: #002545;
+    --roi-footer-border: #dcdcdc;
+    --roi-num-bg: #888d96;
+    --roi-num-text: #ffffff;
+    --shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    /* Fixed design canvas (16:9) — JS scales this to fit the stage */
+    --slide-design-width: 1280px;
+    --slide-design-height: 720px;
+    --slide-design-font: 16px;
+    /* Print/PDF page = PowerPoint 16:9 widescreen (1280×720 at 96dpi) */
+    --slide-print-width: 13.333in;
+    --slide-print-height: 7.5in;
+    --drawer-width: 300px;
+}
+
+body.dark-theme {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-color: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --toolbar-bg: #1e293b;
+    --roi-footer-border: #334155;
+    --roi-num-bg: #475569;
+    --shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.6);
+}

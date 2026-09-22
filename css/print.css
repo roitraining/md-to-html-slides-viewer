@@ -1,0 +1,144 @@
+/* PDF / print: hide chrome and emit 16:9 pages from .print-stage. */
+
+/* PDF Print Styles */
+.print-stage {
+    display: none;
+}
+
+/* Off-screen prep so images can load/layout without flashing on screen */
+.print-stage.is-preparing {
+    display: block !important;
+    position: absolute;
+    left: -99999px;
+    top: 0;
+    width: var(--slide-print-width);
+    height: auto;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@media print {
+    /* 16:9 full-bleed PDF pages (PowerPoint widescreen). Digital handouts, not paper. */
+    @page {
+        size: 13.333in 7.5in;
+        margin: 0;
+    }
+
+    html, body {
+        background-color: var(--slide-print-bg) !important;
+        color: var(--slide-print-text) !important;
+        height: auto !important;
+        width: auto !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body {
+        display: block !important;
+        padding-left: 0 !important;
+    }
+
+    .toolbar,
+    .progress-bar-container,
+    .presentation-stage,
+    .side-menu,
+    .annotation-dock,
+    .slide-pointer {
+        display: none !important;
+    }
+
+    .print-stage,
+    .print-stage.is-preparing {
+        display: block !important;
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        visibility: visible !important;
+        overflow: visible !important;
+        z-index: auto !important;
+        pointer-events: auto !important;
+    }
+
+    /* Same 16:9 canvas as on-screen (13.333in × 7.5in = 1280 × 720 at 96dpi) */
+    .print-slide-card.slide-card,
+    .print-slide-card {
+        width: var(--slide-print-width) !important;
+        min-width: var(--slide-print-width) !important;
+        max-width: var(--slide-print-width) !important;
+        height: var(--slide-print-height) !important;
+        min-height: var(--slide-print-height) !important;
+        max-height: var(--slide-print-height) !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        padding: 40px 50px 0 50px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        position: relative !important;
+        background-color: var(--slide-print-bg) !important;
+        color: var(--slide-print-text) !important;
+        overflow: hidden !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        animation: none !important;
+        transform: none !important;
+        font-size: 16px !important;
+        page-break-after: always;
+        break-after: page;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .print-slide-card:last-child {
+        page-break-after: auto;
+        break-after: auto;
+    }
+
+    .print-slide-card .slide-top-bar {
+        background-color: var(--slide-print-accent) !important;
+        border-radius: 0 !important;
+        flex-shrink: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .print-slide-card .roi-slide-footer {
+        border-radius: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .print-slide-card .footer-number {
+        background-color: var(--slide-print-num-bg) !important;
+        color: var(--slide-print-num-text) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Use the same image/layout CSS as the on-screen 16:9 canvas — do not reflow in inches */
+    .print-slide-card img {
+        visibility: visible !important;
+        opacity: 1 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .print-slide-card .slide-body {
+        flex: 1 !important;
+        overflow: hidden !important;
+        min-height: 0 !important;
+    }
+
+    .print-slide-card .code-copy-btn,
+    .print-slide-card .copy-btn {
+        display: none !important;
+    }
+}
