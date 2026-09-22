@@ -324,6 +324,52 @@ body.is-fullscreen .slide-card {
     display: block !important;
 }
 
+/* Full-bleed: image covers the entire 16:9 slide, including top bar and footer.
+   H1 stays in Markdown for the slide tray and is hidden on stage. */
+.layout-full-bleed {
+    padding: 0;
+}
+
+.layout-full-bleed .slide-top-bar,
+.layout-full-bleed .roi-slide-footer {
+    display: none;
+}
+
+.layout-full-bleed .slide-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+.layout-full-bleed .slide-body h1 {
+    display: none;
+}
+
+.layout-full-bleed .slide-body p {
+    margin: 0;
+    display: flex;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.layout-full-bleed .slide-body img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    margin: 0 !important;
+    display: block !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
 /* Stacked Layout (Content Top, Image Below) */
 .layout-stacked .slide-body {
     display: flex;

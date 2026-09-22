@@ -67,6 +67,7 @@ export function extractLayoutDirective(slideMarkdown, index) {
         if (layout === '2-column') layout = 'two-column';
         if (layout === 'stack') layout = 'stacked';
         if (layout === 'image' || layout === 'image_only') layout = 'image-only';
+        if (layout === 'bleed' || layout === 'full-bleed-image' || layout === 'fullbleed') layout = 'full-bleed';
         if (layout === 'card' || layout === 'cards') layout = 'card-layout';
         return layout;
     }

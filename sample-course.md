@@ -310,7 +310,7 @@ This slide demonstrates the default **content** layout. When no layout directive
 
 ### Stay on theme
 - Card color, type, and the accent bar come from the active slide theme.
-- Switching ROI Theme and Demo Theme restyles the cards without new Markdown.
+- Switching ROI Theme, Demo Theme, and Holcim Theme restyles the cards without new Markdown.
 
 ---
 
@@ -327,6 +327,14 @@ This slide demonstrates the default **content** layout. When no layout directive
 # Architecture Diagram
 
 ![Architecture Diagram](images/sample-diagram.png)
+
+---
+
+<!-- Full-bleed: image covers the entire 16:9 slide, including top bar and footer -->
+<!-- layout: full-bleed -->
+# Full-Bleed Photo
+
+![Full-bleed architecture diagram](images/sample-diagram.png)
 
 ---
 
@@ -377,6 +385,7 @@ function showStatus(message) {
 | **Card Layout** | `layout: card-layout` | `###` titles become cards; list items become sentences (no bullets) |
 | **Title Image** | `layout: title-image` | Visible title; image fills remaining height |
 | **Image Only** | `layout: image-only` | Image fills the stage; H1 labels the tray only |
+| **Full Bleed** | `layout: full-bleed` | Image covers the whole 16:9 slide, including top bar and footer |
 | **Stacked** | `layout: stacked` | Content on top; image below full width |
 
 ---

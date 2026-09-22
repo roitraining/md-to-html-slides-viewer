@@ -2,7 +2,7 @@
 import { state, els, api, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
 
 export function initChrome() {
-    const SLIDE_THEMES = ['roi-theme', 'demo-theme'];
+    const SLIDE_THEMES = ['roi-theme', 'demo-theme', 'holcim-theme'];
     const SLIDE_THEME_ALIASES = { 'roi-default': 'roi-theme' };
     const SLIDE_THEME_KEY = 'slides-viewer-slide-theme';
 

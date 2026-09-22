@@ -49,7 +49,7 @@ export function initPrint() {
             processRelativeImages(body);
             if (layoutType === 'stacked') {
                 processStackedLayout(body);
-            } else if (layoutType !== 'image-only' && layoutType !== 'card-layout') {
+            } else if (layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout') {
                 processSplitLayouts(body);
             }
             processCodeCopyButtons(body);
@@ -78,11 +78,12 @@ export function initPrint() {
                 }
                 img.loading = 'eager';
                 img.decoding = 'sync';
-                // Prefer intrinsic aspect ratio; print CSS caps size without stretching
-                img.style.width = 'auto';
-                img.style.height = 'auto';
-                img.style.maxWidth = '100%';
-                img.style.objectFit = 'contain';
+                if (layoutType !== 'full-bleed') {
+                    img.style.width = 'auto';
+                    img.style.height = 'auto';
+                    img.style.maxWidth = '100%';
+                    img.style.objectFit = 'contain';
+                }
             });
 
             // Create slide footer
