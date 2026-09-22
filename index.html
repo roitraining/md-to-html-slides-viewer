@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="roi-theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROI Training Course Slide Viewer</title>
+    <!-- Demo theme webfonts (Montserrat / Source Code Pro). Unused by roi-theme. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <!-- Slide Viewer Styling -->
-    <link rel="stylesheet" href="style.css?v=29">
+    <link rel="stylesheet" href="style.css?v=37">
     <!-- Highlight.js CSS for Code Blocks -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
 </head>
@@ -30,7 +34,13 @@
             <button id="open-course-btn" class="icon-btn" aria-label="Open course" title="Open course (⌘/Ctrl+O)">📂</button>
             <button id="export-pdf-btn" class="icon-btn" aria-label="Print / Export to PDF" title="Print / Export to PDF">🖨️</button>
             <button id="fullscreen-toggle" class="icon-btn" aria-label="Toggle Fullscreen" title="Toggle Fullscreen (F)">⛶</button>
-            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme" title="Toggle Theme (Light/Dark)">🌙</button>
+            <label class="theme-select-wrap" title="Slide theme">
+                <select id="slide-theme-select" class="theme-select" aria-label="Slide theme">
+                    <option value="roi-theme">ROI Theme</option>
+                    <option value="demo-theme">Demo Theme</option>
+                </select>
+            </label>
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle light and dark mode" title="Light / dark mode">🌙</button>
             <div class="font-controls" title="Text size">
                 <span class="font-slider-label font-slider-label-sm" aria-hidden="true">A</span>
                 <input
@@ -64,7 +74,7 @@
     </div>
 
     <!-- Slide Presentation Stage (fixed design canvas, scaled to fit) -->
-    <main id="presentation-stage" class="presentation-stage">
+    <main id="presentation-stage" class="presentation-stage" tabindex="-1">
         <div id="slide-scale-shell" class="slide-scale-shell">
             <div id="slide-card" class="slide-card">
                 <!-- Annotation Drawing Canvas Overlay -->
@@ -175,6 +185,6 @@
     <!-- html2pdf.js for Direct PDF File Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- Slide Viewer App Logic -->
-    <script src="app.js?v=28"></script>
+    <script type="module" src="js/main.js?v=37"></script>
 </body>
 </html>

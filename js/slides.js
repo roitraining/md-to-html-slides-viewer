@@ -1,0 +1,124 @@
+/* Render the current slide onto the stage. */
+import { state, els, api } from './state.js';
+import {
+    extractLayoutDirective,
+    prepareSlideHtml,
+    processNavigationLayout,
+    processThreeColumnLayout,
+    processTwoColumnLayout,
+    processCardLayout,
+    processStackedLayout,
+    processGitHubAlerts,
+    processRelativeImages,
+    processSplitLayouts,
+    processCodeCopyButtons,
+    processExternalLinks
+} from './layouts.js';
+
+export function initSlides() {
+    function goToSlide(index) {
+        if (state.slides.length === 0) return;
+    
+        // Clamp index bounds
+        state.currentIndex = Math.max(0, Math.min(index, state.slides.length - 1));
+        renderSlide(state.currentIndex);
+    }
+
+    function prevSlide() {
+        if (state.currentIndex > 0) {
+            goToSlide(state.currentIndex - 1);
+        }
+    }
+
+    function nextSlide() {
+        if (state.currentIndex < state.slides.length - 1) {
+            goToSlide(state.currentIndex + 1);
+        }
+    }
+
+    // Render Slide Content
+    function renderSlide(index) {
+        const slideMarkdown = state.slides[index];
+        const layoutType = extractLayoutDirective(slideMarkdown, index);
+
+        // Remove existing layout classes and add new layout class
+        els.slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-image-only', 'layout-two-column', 'layout-stacked', 'layout-card-layout');
+        els.slideCard.classList.add(`layout-${layoutType}`);
+    
+        // Re-trigger fade animation
+        els.slideCard.classList.remove('slide-card');
+        void els.slideCard.offsetWidth; // Trigger reflow
+        els.slideCard.classList.add('slide-card');
+    
+        els.slideBody.innerHTML = prepareSlideHtml(slideMarkdown);
+    
+        // Apply current font scaling
+        api.updateFontSize?.();
+    
+        // Process layout specific styling
+        if (layoutType === 'navigation' || layoutType === 'section') {
+            processNavigationLayout(els.slideBody);
+        } else if (layoutType === 'three-column') {
+            processThreeColumnLayout(els.slideBody);
+        } else if (layoutType === 'two-column') {
+            processTwoColumnLayout(els.slideBody);
+        } else if (layoutType === 'card-layout') {
+            processCardLayout(els.slideBody);
+        } else if (layoutType === 'stacked') {
+            processStackedLayout(els.slideBody);
+        }
+    
+        // Process GitHub Callout Alerts
+        processGitHubAlerts(els.slideBody);
+    
+        // Resolve relative image URLs
+        processRelativeImages(els.slideBody);
+    
+        // Auto-format 2-column layout (bullets left, image right) — skipped for stacked / image-only
+        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'card-layout') {
+            processSplitLayouts(els.slideBody);
+        }
+    
+        // Setup code block copy buttons
+        processCodeCopyButtons(els.slideBody);
+    
+        // Ensure links open in a new tab
+        processExternalLinks(els.slideBody);
+    
+        // Update ROI Slide Footer Counter (e.g. 1 of 12)
+        els.footerSlideNumber.textContent = `${index + 1} of ${state.slides.length}`;
+    
+        // Update Progress Bar
+        const progressPercent = ((index + 1) / state.slides.length) * 100;
+        els.progressBar.style.width = `${progressPercent}%`;
+    
+        setTimeout(() => api.redrawCurrentSlideAnnotations?.(), 50);
+        api.clearSlidePointer?.();
+    
+        // Update Active Item in Side Drawer
+        const drawerLinks = els.slideList.querySelectorAll('a');
+        drawerLinks.forEach((link, idx) => {
+            if (idx === index) {
+                link.classList.add('active');
+                // Keep the active slide visible when the drawer is docked
+                if (document.body.classList.contains('drawer-pinned') || els.sideMenu.classList.contains('open')) {
+                    link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                }
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    
+        // Sync URL Hash without jumping window scroll (preserve ?course=)
+        history.replaceState(
+            null,
+            '',
+            `${window.location.pathname}${window.location.search}#slide-${index + 1}`
+        );
+    }
+
+    api.goToSlide = goToSlide;
+    api.prevSlide = prevSlide;
+    api.nextSlide = nextSlide;
+    api.renderSlide = renderSlide;
+}

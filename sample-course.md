@@ -27,7 +27,7 @@
 # Course Objectives
 
 - **Author polished ROI slide decks in Markdown** using the HTML Slides Viewer layouts and directives
-- Choose the right layout for standard content, auto-split, columns, and large media
+- Choose the right layout for standard content, auto-split, columns, cards, and large media
 - Place notes and warnings inside columns or full-width under them
 - Use the layout reference patterns when building your own courses
 
@@ -37,7 +37,7 @@
 # Agenda
 
 - Chapter 1: Standard and Split Layouts
-- Chapter 2: Columns, Callouts, and Large Media
+- Chapter 2: Columns, Cards, Callouts, and Large Media
 - Layout reference and hands-on practice
 - Questions and Answers
 
@@ -131,7 +131,7 @@ This slide demonstrates the default **content** layout. When no layout directive
 
 123: Sample Course
 
-# Chapter 2: Columns, Callouts, and Large Media
+# Chapter 2: Columns, Cards, Callouts, and Large Media
 
 ---
 
@@ -271,6 +271,49 @@ This slide demonstrates the default **content** layout. When no layout directive
 
 ---
 
+<!-- Card layout: ### headers become card titles; list items become sentences -->
+<!-- layout: card-layout -->
+# Idea Cards from Simple Markdown
+
+### When to use cards
+- Use cards when each idea needs a title and a short explanation.
+- Keep three or four cards so they stay readable on the 16:9 canvas.
+- Write each list item as a complete sentence, not a fragment.
+
+### How the Markdown maps
+- Each `###` heading becomes the card title.
+- Each dash list item under that heading becomes a sentence in the card body.
+- The viewer removes the bullets so the body reads as ordinary prose.
+
+### What to avoid
+- Do not pack a full paragraph of teaching into a single card.
+- Do not mix images into this layout. Use auto-split or stacked instead.
+- If you need a comparison table, use columns or a table, not cards.
+
+---
+
+<!-- Four cards wrap to a 2x2 grid -->
+<!-- layout: card-layout -->
+# Four Cards on One Slide
+
+### Name the idea
+- Give every card a short title that an instructor can point to.
+- The title should be the claim, not a category label.
+
+### Write sentences
+- Body text is sentences, even though you author them as a dash list.
+- One thought per line keeps the card scannable from the back of the room.
+
+### Limit the set
+- Four cards fill a 2 by 2 grid on the design canvas.
+- If a fifth idea appears, start a new slide rather than shrinking the type.
+
+### Stay on theme
+- Card color, type, and the accent bar come from the active slide theme.
+- Switching ROI Theme and Demo Theme restyles the cards without new Markdown.
+
+---
+
 <!-- Title + large image filling remaining height -->
 <!-- layout: title-image -->
 # High-Resolution Immersive Image
@@ -331,6 +374,7 @@ function showStatus(message) {
 | **Auto-Split** | *(automatic)* | List left, image right when both are present |
 | **Two Column** | `layout: 2-column` | Text columns from `###` headers; optional below-columns marker |
 | **Three Column** | `layout: three-column` | Three parallel text columns |
+| **Card Layout** | `layout: card-layout` | `###` titles become cards; list items become sentences (no bullets) |
 | **Title Image** | `layout: title-image` | Visible title; image fills remaining height |
 | **Image Only** | `layout: image-only` | Image fills the stage; H1 labels the tray only |
 | **Stacked** | `layout: stacked` | Content on top; image below full width |
@@ -356,7 +400,7 @@ function showStatus(message) {
 
 ### Key Concepts Covered
 1. Author slides with Markdown and HTML comment directives
-2. Choose the layout that matches the teaching shape
+2. Choose the layout that matches the teaching shape, including cards for titled ideas
 3. Use code blocks, tables, and callouts where they help
 4. Place notes and warnings inside columns or full-width under them
 

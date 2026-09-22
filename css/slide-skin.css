@@ -1,0 +1,392 @@
+/* Slide skin: shared rules. Colors and fonts come from css/themes/*.css. */
+
+.slide-card {
+    font-family: var(--slide-font);
+    background-color: var(--slide-bg);
+    border: 1px solid var(--slide-border);
+    border-radius: 12px;
+    box-shadow: none;
+    animation: slideFadeIn 0.22s ease-out;
+}
+
+:fullscreen .slide-card,
+body.is-fullscreen .slide-card {
+    border-radius: 12px;
+}
+
+/* Opacity-only: must not override the JS scale-to-fit transform */
+@keyframes slideFadeIn {
+    from {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Top accent bar */
+.slide-top-bar {
+    height: 8px;
+    background-color: var(--slide-accent);
+    margin: -40px -50px 24px -50px;
+    border-radius: 12px 12px 0 0;
+    flex-shrink: 0;
+}
+
+.slide-loading {
+    color: var(--slide-muted);
+}
+
+/* Slide Typography & Content */
+.slide-body h1,
+.slide-body h2,
+.slide-body h3,
+.slide-body h4 {
+    font-family: var(--slide-heading-font);
+}
+
+.slide-body h1 {
+    font-size: 2.2em;
+    font-weight: var(--slide-heading-weight, 700);
+    text-align: center;
+    color: var(--slide-heading);
+    margin-top: 0;
+    margin-bottom: 36px;
+    letter-spacing: -0.5px;
+}
+
+.slide-body h2 {
+    font-size: 1.6em;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    color: var(--slide-text);
+}
+
+.slide-body h3 {
+    font-size: 1.3em;
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+.slide-body p {
+    font-size: 1.15em;
+    line-height: 1.7;
+    color: var(--slide-text);
+}
+
+.slide-body ul, .slide-body ol {
+    padding-left: 32px;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+.slide-body li {
+    font-size: 1.15em;
+    line-height: 1.7;
+    color: var(--slide-text);
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+.slide-body li:first-child {
+    margin-top: 0;
+}
+
+/* Nested bullets: same type as parent; no extra gap before each sub-item */
+.slide-body li ul,
+.slide-body li ol {
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+.slide-body li li {
+    font-size: 1em;
+    margin-top: 0;
+}
+
+.slide-body img {
+    border-radius: 8px;
+}
+
+.layout-title .slide-body img {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.layout-title .slide-body p,
+.layout-title .slide-body h2,
+.layout-title .slide-body h3 {
+    font-size: 1.45em;
+    font-weight: 700;
+    color: var(--slide-title-subtitle);
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+
+.layout-title .slide-body h1 {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--slide-heading);
+}
+
+.layout-navigation .slide-body h1,
+.layout-section .slide-body h1 {
+    font-size: 2.1em;
+    font-weight: 700;
+}
+
+.layout-navigation .slide-body li,
+.layout-section .slide-body li {
+    font-size: 1.25em;
+    border-bottom: 1px solid var(--slide-border);
+}
+
+.layout-navigation .nav-item-inactive,
+.layout-section .nav-item-inactive {
+    color: var(--slide-nav-inactive);
+    font-weight: 400;
+}
+
+.layout-navigation .nav-item-active,
+.layout-section .nav-item-active,
+.layout-navigation .nav-item-active strong,
+.layout-section .nav-item-active strong {
+    color: var(--slide-nav-active);
+    font-weight: 700;
+}
+
+.two-column-wrapper .column h2,
+.two-column-wrapper .column h3,
+.two-column-wrapper .column h4,
+.three-column-wrapper .column h2,
+.three-column-wrapper .column h3,
+.three-column-wrapper .column h4 {
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--slide-accent);
+    border-bottom: 2px solid var(--slide-accent);
+    padding-bottom: 8px;
+}
+
+.two-column-wrapper .column li,
+.three-column-wrapper .column li {
+    font-size: 1.05em;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.content-card {
+    background-color: var(--slide-bg);
+    border: 1px solid var(--slide-border);
+    border-radius: 14px;
+    box-shadow: var(--slide-image-shadow);
+}
+
+.content-card::before {
+    content: "";
+    display: block;
+    height: 6px;
+    background-color: var(--slide-accent);
+    flex-shrink: 0;
+}
+
+.content-card h2,
+.content-card h3,
+.content-card h4 {
+    margin: 0;
+    padding: 16px 20px 8px 20px;
+    font-size: 1.2em;
+    font-weight: 700;
+    font-family: var(--slide-heading-font);
+    color: var(--slide-heading);
+    border: none;
+}
+
+.content-card-body {
+    padding: 4px 20px 20px 20px;
+}
+
+.content-card-body p {
+    margin: 0 0 12px 0;
+    font-size: 1.05em;
+    line-height: 1.55;
+    color: var(--slide-text);
+}
+
+.content-card-body p:last-child {
+    margin-bottom: 0;
+}
+
+.layout-title-image .slide-body img,
+.layout-image-only .slide-body img,
+.layout-stacked .stacked-media img {
+    border-radius: 8px;
+    box-shadow: var(--slide-image-shadow);
+}
+
+.split-right img,
+.split-layout img,
+.two-column img,
+.grid-2col img {
+    border-radius: 10px;
+    box-shadow: var(--slide-split-image-shadow);
+}
+
+/* Slide footer */
+.roi-slide-footer {
+    border-top: 1px solid var(--slide-footer-border);
+    background-color: var(--slide-bg);
+    border-radius: 0 0 12px 12px;
+}
+
+.footer-cell {
+    border-right: 1px solid var(--slide-footer-border);
+}
+
+.footer-course {
+    font-size: 0.9rem; /* max size; JS may shrink to fit long titles */
+    font-weight: 600;
+    color: var(--slide-text);
+}
+
+.footer-copyright {
+    font-size: 0.68rem;
+    color: var(--slide-muted);
+}
+
+.footer-logo {
+    /* rem keeps this immune to A+/A− (which scales the slide card via %) */
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--slide-text);
+}
+
+.footer-number {
+    border-right: none;
+    background-color: var(--slide-num-bg);
+    color: var(--slide-num-text);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+/* Code Blocks */
+pre {
+    background-color: var(--slide-code-bg);
+    border: 1px solid var(--slide-border);
+    border-radius: 8px;
+    padding: 16px;
+    padding-top: 40px;
+    position: relative;
+    overflow-x: auto;
+    font-size: 1em; /* em so A/text-size slider scales code with slide content */
+}
+
+code {
+    font-family: var(--slide-mono-font);
+    font-size: 0.95em;
+}
+
+.slide-body pre code {
+    font-size: 1em;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--slide-bg);
+    border: 1px solid var(--slide-border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--slide-text);
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.copy-btn:hover {
+    opacity: 1;
+    background: var(--slide-accent);
+    color: white;
+    border-color: var(--slide-accent);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1.05rem;
+}
+
+table th, table td {
+    padding: 10px 14px;
+    border: 1px solid var(--slide-border);
+    text-align: left;
+}
+
+table th {
+    background-color: var(--slide-table-header-bg);
+    font-weight: 600;
+}
+
+table tr:nth-child(even) {
+    background-color: var(--slide-table-stripe);
+}
+
+/* GitHub Callout Alerts (not brand-themed) */
+.markdown-alert {
+    padding: 12px 18px;
+    margin: 20px 0;
+    border-left: 4px solid #d0d7de;
+    border-radius: 0 8px 8px 0;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+body.dark-theme .markdown-alert {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.markdown-alert-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.octicon {
+    display: inline-block;
+    vertical-align: text-bottom;
+    fill: currentColor;
+    margin-right: 8px;
+}
+
+.markdown-alert-note { border-left-color: #0969da; }
+.markdown-alert-note .markdown-alert-title { color: #0969da; }
+body.dark-theme .markdown-alert-note { border-left-color: #2f81f7; }
+body.dark-theme .markdown-alert-note .markdown-alert-title { color: #2f81f7; }
+
+.markdown-alert-tip { border-left-color: #1a7f37; }
+.markdown-alert-tip .markdown-alert-title { color: #1a7f37; }
+body.dark-theme .markdown-alert-tip { border-left-color: #3fb950; }
+body.dark-theme .markdown-alert-tip .markdown-alert-title { color: #3fb950; }
+
+.markdown-alert-important { border-left-color: #8250df; }
+.markdown-alert-important .markdown-alert-title { color: #8250df; }
+body.dark-theme .markdown-alert-important { border-left-color: #a371f7; }
+body.dark-theme .markdown-alert-important .markdown-alert-title { color: #a371f7; }
+
+.markdown-alert-warning { border-left-color: #9a6700; }
+.markdown-alert-warning .markdown-alert-title { color: #9a6700; }
+body.dark-theme .markdown-alert-warning { border-left-color: #d29922; }
+body.dark-theme .markdown-alert-warning .markdown-alert-title { color: #d29922; }
+
+.markdown-alert-caution { border-left-color: #cf222e; }
+.markdown-alert-caution .markdown-alert-title { color: #cf222e; }
+body.dark-theme .markdown-alert-caution { border-left-color: #f85149; }
+body.dark-theme .markdown-alert-caution .markdown-alert-title { color: #f85149; }

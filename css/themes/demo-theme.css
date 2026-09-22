@@ -1,0 +1,51 @@
+/* Demo slide theme (Holcim-inspired colors and Montserrat).
+   Not an official customer skin — for showing theme switching.
+   Fonts are loaded from index.html. */
+
+html[data-theme="demo-theme"] {
+    --slide-font: "Montserrat", system-ui, sans-serif;
+    --slide-heading-font: "Montserrat", system-ui, sans-serif;
+    --slide-heading-weight: 800;
+    --slide-mono-font: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --slide-bg: #ffffff;
+    --slide-text: #041434;
+    --slide-muted: #5a6478;
+    --slide-border: #d5d9e0;
+    --slide-accent: #00a8d4;
+    --slide-heading: #041434;
+    --slide-title-subtitle: #00a8d4;
+    --slide-nav-inactive: #8b93a3;
+    --slide-nav-active: #041434;
+    --slide-footer-border: #d5d9e0;
+    --slide-num-bg: #041434;
+    --slide-num-text: #ffffff;
+    --slide-code-bg: rgba(4, 20, 52, 0.04);
+    --slide-image-shadow: 0 4px 12px rgba(4, 20, 52, 0.10);
+    --slide-split-image-shadow: 0 8px 20px rgba(4, 20, 52, 0.14);
+    --slide-table-header-bg: rgba(4, 20, 52, 0.04);
+    --slide-table-stripe: rgba(4, 20, 52, 0.02);
+    --slide-print-bg: #ffffff;
+    --slide-print-text: #041434;
+    --slide-print-accent: #00a8d4;
+    --slide-print-num-bg: #041434;
+    --slide-print-num-text: #ffffff;
+}
+
+html[data-theme="demo-theme"] body.dark-theme {
+    --slide-bg: #04163a;
+    --slide-text: #f4f6f8;
+    --slide-muted: #9aa6ba;
+    --slide-border: #1a2e55;
+    --slide-accent: #00b0e8;
+    --slide-heading: #ffffff;
+    --slide-title-subtitle: #7ed4f0;
+    --slide-nav-inactive: #7b879c;
+    --slide-nav-active: #ffffff;
+    --slide-footer-border: #1a2e55;
+    --slide-num-bg: #00a8d4;
+    --slide-num-text: #041434;
+    --slide-code-bg: #021028;
+    --slide-image-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+    --slide-table-header-bg: rgba(255, 255, 255, 0.06);
+    --slide-table-stripe: rgba(255, 255, 255, 0.03);
+}

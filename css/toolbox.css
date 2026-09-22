@@ -1,0 +1,160 @@
+/* Annotation toolbox: canvas overlay, presenter pointer, floating dock.
+   Stays with the viewer; not part of a course theme. */
+
+/* Annotation Canvas Overlay */
+.annotation-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+    pointer-events: none;
+    border-radius: 12px;
+    mix-blend-mode: multiply;
+}
+
+body.dark-theme .annotation-canvas {
+    mix-blend-mode: screen;
+}
+
+.annotation-canvas.active-tool {
+    pointer-events: auto;
+    cursor: crosshair;
+}
+
+/* Pointer mode: keep the normal cursor and let the slide scroll underneath */
+.annotation-canvas.active-tool.pointer-mode {
+    pointer-events: none;
+    cursor: default;
+}
+
+/* Presenter pointing hand — fingertip sits on the click point */
+.slide-pointer {
+    position: absolute;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    font-size: 52px;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    /* 👈 fingertip is on the left edge of the glyph */
+    transform: translate(-8%, -50%);
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+.slide-pointer[hidden] {
+    display: none !important;
+}
+
+/* Floating Right-Side Annotation Dock — etched glass when idle */
+.annotation-dock {
+    position: fixed;
+    right: 14px;
+    top: 72px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 8px;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.14) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    opacity: 0.28;
+    transition: opacity 0.22s ease, background-color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+body:not(.dark-theme) .annotation-dock {
+    background-color: rgba(241, 245, 249, 0.22) !important;
+    border: 1px solid rgba(148, 163, 184, 0.28) !important;
+}
+
+.annotation-dock:hover,
+.annotation-dock:focus-within,
+.annotation-dock:has(.tool-btn.active) {
+    opacity: 1;
+    background-color: rgba(241, 245, 249, 0.92) !important;
+    border-color: rgba(203, 213, 225, 0.95) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.22);
+}
+
+body.dark-theme .annotation-dock {
+    background-color: rgba(30, 41, 59, 0.2) !important;
+    border: 1px solid rgba(148, 163, 184, 0.2) !important;
+}
+
+body.dark-theme .annotation-dock:hover,
+body.dark-theme .annotation-dock:focus-within,
+body.dark-theme .annotation-dock:has(.tool-btn.active) {
+    background-color: rgba(30, 41, 59, 0.92) !important;
+    border-color: rgba(71, 85, 105, 0.95) !important;
+}
+
+:fullscreen .annotation-dock,
+body.is-fullscreen .annotation-dock {
+    top: 20px;
+}
+
+.annotation-dock .tool-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    color: #1e293b !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.annotation-dock .tool-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 52px;
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+}
+
+.annotation-dock .tool-btn:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.annotation-dock .tool-btn svg {
+    fill: #1e293b !important;
+}
+
+.annotation-dock .tool-btn:hover {
+    background-color: #e2e8f0;
+}
+
+.annotation-dock .tool-btn.active {
+    background-color: #003865 !important;
+    color: #ffffff !important;
+    border-color: #003865 !important;
+    box-shadow: 0 2px 8px rgba(0, 56, 101, 0.4);
+}
+
+.annotation-dock .tool-btn.active svg {
+    fill: #ffffff !important;
+}
