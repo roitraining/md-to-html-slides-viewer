@@ -131,8 +131,8 @@ body.is-fullscreen .slide-card {
 
 .layout-navigation .slide-body h1,
 .layout-section .slide-body h1 {
-    font-size: 2.1em;
-    font-weight: 700;
+    font-size: 2.2em;
+    font-weight: var(--slide-heading-weight, 700);
 }
 
 .layout-navigation .slide-body li,
@@ -222,11 +222,6 @@ body.is-fullscreen .slide-card {
 .slide-panel img {
     border-radius: 18px;
     box-shadow: none;
-}
-
-.slide-panel-main h1 {
-    font-size: 2.6em;
-    font-weight: var(--slide-heading-weight, 800);
 }
 
 .layout-title-image .slide-body img,

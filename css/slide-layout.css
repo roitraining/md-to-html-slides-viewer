@@ -442,13 +442,12 @@ body.is-fullscreen .slide-card {
     justify-content: flex-start;
     min-width: 0;
     min-height: 0;
-    padding: 72px 56px 24px;
+    padding: 24px 56px 24px;
     overflow: hidden;
 }
 
 .slide-panel-main h1 {
-    margin-top: 12px;
-    margin-bottom: 20px;
+    margin-top: 0;
 }
 
 .slide-thumb-canvas.layout-panel-left,
@@ -456,6 +455,11 @@ body.is-fullscreen .slide-card {
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
+}
+
+.slide-thumb-canvas.layout-panel-left .slide-panel-main,
+.slide-thumb-canvas.layout-panel-right .slide-panel-main {
+    padding-top: 16px;
 }
 
 /* Stacked Layout (Content Top, Image Below) */
