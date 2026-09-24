@@ -7,13 +7,14 @@ import {
     processThreeColumnLayout,
     processTwoColumnLayout,
     processCardLayout,
+    processPanelLayout,
     processStackedLayout,
     processGitHubAlerts,
     processRelativeImages,
     processSplitLayouts,
     processCodeCopyButtons,
     processExternalLinks
-} from './layouts.js';
+} from './layouts.js?v=45';
 
 export function initDrawer() {
     // Side Menu Drawer interactions (open / pin / close)
@@ -153,13 +154,15 @@ export function initDrawer() {
             processTwoColumnLayout(body);
         } else if (layoutType === 'card-layout') {
             processCardLayout(body);
+        } else if (layoutType === 'panel-left' || layoutType === 'panel-right') {
+            processPanelLayout(body, layoutType === 'panel-left' ? 'left' : 'right');
         } else if (layoutType === 'stacked') {
             processStackedLayout(body);
         }
 
         processGitHubAlerts(body);
         processRelativeImages(body);
-        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout') {
+        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout' && layoutType !== 'panel-left' && layoutType !== 'panel-right') {
             processSplitLayouts(body);
         }
         processExternalLinks(body);

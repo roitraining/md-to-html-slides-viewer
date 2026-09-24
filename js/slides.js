@@ -7,13 +7,14 @@ import {
     processThreeColumnLayout,
     processTwoColumnLayout,
     processCardLayout,
+    processPanelLayout,
     processStackedLayout,
     processGitHubAlerts,
     processRelativeImages,
     processSplitLayouts,
     processCodeCopyButtons,
     processExternalLinks
-} from './layouts.js';
+} from './layouts.js?v=45';
 
 export function initSlides() {
     function goToSlide(index) {
@@ -42,7 +43,7 @@ export function initSlides() {
         const layoutType = extractLayoutDirective(slideMarkdown, index);
 
         // Remove existing layout classes and add new layout class
-        els.slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-image-only', 'layout-full-bleed', 'layout-two-column', 'layout-stacked', 'layout-card-layout');
+        els.slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-image-only', 'layout-full-bleed', 'layout-two-column', 'layout-stacked', 'layout-card-layout', 'layout-panel-left', 'layout-panel-right');
         els.slideCard.classList.add(`layout-${layoutType}`);
     
         // Re-trigger fade animation
@@ -64,6 +65,8 @@ export function initSlides() {
             processTwoColumnLayout(els.slideBody);
         } else if (layoutType === 'card-layout') {
             processCardLayout(els.slideBody);
+        } else if (layoutType === 'panel-left' || layoutType === 'panel-right') {
+            processPanelLayout(els.slideBody, layoutType === 'panel-left' ? 'left' : 'right');
         } else if (layoutType === 'stacked') {
             processStackedLayout(els.slideBody);
         }
@@ -75,7 +78,7 @@ export function initSlides() {
         processRelativeImages(els.slideBody);
     
         // Auto-format 2-column layout (bullets left, image right) — skipped for stacked / image-only
-        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout') {
+        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout' && layoutType !== 'panel-left' && layoutType !== 'panel-right') {
             processSplitLayouts(els.slideBody);
         }
     

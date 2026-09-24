@@ -219,6 +219,16 @@ body.is-fullscreen .slide-card {
     margin-bottom: 0;
 }
 
+.slide-panel img {
+    border-radius: 18px;
+    box-shadow: none;
+}
+
+.slide-panel-main h1 {
+    font-size: 2.6em;
+    font-weight: var(--slide-heading-weight, 800);
+}
+
 .layout-title-image .slide-body img,
 .layout-image-only .slide-body img,
 .layout-stacked .stacked-media img {

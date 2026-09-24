@@ -58,9 +58,10 @@ export function processRelativeImages(container) {
     });
 }
 
-// Extract layout directive from slide markdown (e.g. <!-- layout: navigation -->)
+// Extract a layout directive only when it is the whole line.
+// A mention inside a sentence or quiz option must not change the slide layout.
 export function extractLayoutDirective(slideMarkdown, index) {
-    const match = slideMarkdown.match(/<!--\s*layout:\s*([a-z0-9_-]+)\s*-->/i);
+    const match = slideMarkdown.match(/^[ \t]*<!--\s*layout:\s*([a-z0-9_-]+)\s*-->[ \t]*$/im);
     if (match) {
         let layout = match[1].toLowerCase();
         if (layout === '3-column') layout = 'three-column';
@@ -69,6 +70,8 @@ export function extractLayoutDirective(slideMarkdown, index) {
         if (layout === 'image' || layout === 'image_only') layout = 'image-only';
         if (layout === 'bleed' || layout === 'full-bleed-image' || layout === 'fullbleed') layout = 'full-bleed';
         if (layout === 'card' || layout === 'cards') layout = 'card-layout';
+        if (layout === 'left-panel' || layout === 'panel_left') layout = 'panel-left';
+        if (layout === 'right-panel' || layout === 'panel_right') layout = 'panel-right';
         return layout;
     }
     if (index === 0) return 'title';
@@ -298,6 +301,43 @@ export function processColumnLayout(container, wrapperClassName) {
 
     if (breakEl && breakEl.parentNode) {
         breakEl.remove();
+    }
+}
+
+/**
+ * Panel layouts: a theme-colored third on the left or right.
+ * The title (and any other text) stays in the light area. An image is centered in the panel.
+ */
+export function processPanelLayout(container, side) {
+    if (container.querySelector('.slide-panel')) return;
+
+    const panel = document.createElement('div');
+    panel.className = 'slide-panel';
+
+    const main = document.createElement('div');
+    main.className = 'slide-panel-main';
+
+    const img = container.querySelector('img');
+    if (img) {
+        const parent = img.parentElement;
+        const onlyImage = parent
+            && parent !== container
+            && parent.tagName === 'P'
+            && parent.textContent.trim() === ''
+            && parent.querySelectorAll('img').length === 1;
+        panel.appendChild(onlyImage ? parent : img);
+    }
+
+    while (container.firstChild) {
+        main.appendChild(container.firstChild);
+    }
+
+    if (side === 'left') {
+        container.appendChild(panel);
+        container.appendChild(main);
+    } else {
+        container.appendChild(main);
+        container.appendChild(panel);
     }
 }
 

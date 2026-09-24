@@ -27,6 +27,8 @@ html[data-theme="roi-theme"] {
     /* Print/PDF stays light even if the player is in dark mode */
     --slide-print-bg: #ffffff;
     --slide-print-text: #000000;
+    --slide-panel-bg: #003865;
+    --slide-print-panel-bg: #003865;
     --slide-print-accent: #003865;
     --slide-print-num-bg: #888d96;
     --slide-print-num-text: #ffffff;
@@ -38,6 +40,7 @@ html[data-theme="roi-theme"] body.dark-theme {
     --slide-muted: #94a3b8;
     --slide-border: #334155;
     --slide-accent: #3b82f6;
+    --slide-panel-bg: #0c4a7a;
     --slide-heading: #ffffff;
     --slide-title-subtitle: #94a3b8;
     --slide-nav-inactive: #64748b;

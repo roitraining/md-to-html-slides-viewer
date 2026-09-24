@@ -25,6 +25,15 @@ html[data-theme="holcim-theme"] {
     --slide-table-stripe: rgba(4, 20, 52, 0.02);
     --slide-print-bg: #ffffff;
     --slide-print-text: #041434;
+    --slide-panel-bg: linear-gradient(
+        180deg,
+        #93bf34 0%,
+        #4fbd8c 28%,
+        #14bbdb 48%,
+        #168bb6 68%,
+        #1d426c 100%
+    );
+    --slide-print-panel-bg: var(--slide-panel-bg);
     --slide-print-accent: #00a8d4;
     --slide-print-num-bg: #041434;
     --slide-print-num-text: #ffffff;

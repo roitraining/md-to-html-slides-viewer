@@ -47,7 +47,7 @@ Or point `course=` at any reachable Markdown URL, same as on GitHub Pages.
 ### Structure Your Markdown
 Slides are written in Markdown. Use a triple-dash (`---`) on its own line to separate slides. Customize slide properties using HTML comments:
 *   Set course footer title (at top of file): `<!-- course-title: My Slide Course -->`
-*   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, `<!-- layout: card-layout -->`, `<!-- layout: title-image -->`, `<!-- layout: image-only -->`, `<!-- layout: full-bleed -->`, or `<!-- layout: stacked -->`.
+*   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, `<!-- layout: card-layout -->`, `<!-- layout: panel-left -->`, `<!-- layout: panel-right -->`, `<!-- layout: title-image -->`, `<!-- layout: image-only -->`, `<!-- layout: full-bleed -->`, or `<!-- layout: stacked -->`.
 
 ---
 
@@ -64,6 +64,8 @@ The presentation engine supports the following layout types:
 8.  **Image Only (`image-only`)**: Same full-stage image as title-image, but the Markdown `#` heading is used only for the slide tray label (hidden on the stage).
 9.  **Full Bleed (`full-bleed`)**: Image covers the entire 16:9 slide, including the top accent bar and footer. The heading is tray-only, same as image-only.
 10. **Stacked (`stacked`)**: Keeps title and content on top and places the image below, filling remaining height (disables auto-split).
+11. **Panel Left (`panel-left`)**: Theme color fills the left third, from under the top bar to the footer. The title stays in the light area. An image is centered in the colored third.
+12. **Panel Right (`panel-right`)**: Same as panel left, with the colored third on the right.
 
 ---
 
