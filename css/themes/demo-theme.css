@@ -1,52 +1,283 @@
-/* Demo slide theme (Holcim-inspired colors and Montserrat).
+/* Demo slide theme.
    theme-label: Demo Theme
-   Not an official customer skin — for showing theme switching.
-   Fonts are loaded from index.html. */
+   An editorial deck: warm paper, ink, and vermilion.
+   Cover slides are charcoal posters. Teaching slides stay on ivory.
+   Fonts: Fraunces for headlines, Outfit for body. Loaded from index.html. */
 
 html[data-theme="demo-theme"] {
-    --slide-font: "Montserrat", system-ui, sans-serif;
-    --slide-heading-font: "Montserrat", system-ui, sans-serif;
-    --slide-heading-weight: 800;
+    --slide-font: "Outfit", system-ui, sans-serif;
+    --slide-heading-font: "Fraunces", "Iowan Old Style", Palatino, serif;
+    --slide-heading-weight: 600;
     --slide-mono-font: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    --slide-bg: #ffffff;
-    --slide-text: #041434;
-    --slide-muted: #5a6478;
-    --slide-border: #d5d9e0;
-    --slide-accent: #00a8d4;
-    --slide-heading: #041434;
-    --slide-title-subtitle: #00a8d4;
-    --slide-nav-inactive: #8b93a3;
-    --slide-nav-active: #041434;
-    --slide-footer-border: #d5d9e0;
-    --slide-num-bg: #041434;
-    --slide-num-text: #ffffff;
-    --slide-code-bg: rgba(4, 20, 52, 0.04);
-    --slide-image-shadow: 0 4px 12px rgba(4, 20, 52, 0.10);
-    --slide-split-image-shadow: 0 8px 20px rgba(4, 20, 52, 0.14);
-    --slide-table-header-bg: rgba(4, 20, 52, 0.04);
-    --slide-table-stripe: rgba(4, 20, 52, 0.02);
-    --slide-print-bg: #ffffff;
-    --slide-print-text: #041434;
-    --slide-print-accent: #00a8d4;
-    --slide-print-num-bg: #041434;
-    --slide-print-num-text: #ffffff;
+    --slide-bg: #f6f1e8;
+    --slide-text: #1c1915;
+    --slide-muted: #6f675c;
+    --slide-border: #e6dfd3;
+    --slide-accent: #e23d28;
+    --slide-heading: #1a1814;
+    --slide-title-subtitle: #d9cfc2;
+    --slide-nav-inactive: #8a8174;
+    --slide-nav-active: #1a1814;
+    --slide-footer-border: #e4dcd0;
+    --slide-num-bg: #e23d28;
+    --slide-num-text: #fffaf4;
+    --slide-code-bg: #efe6d8;
+    --slide-image-shadow: 0 12px 28px rgba(26, 24, 20, 0.12);
+    --slide-split-image-shadow: 0 16px 36px rgba(26, 24, 20, 0.16);
+    --slide-table-header-bg: #f3e8dc;
+    --slide-table-stripe: rgba(226, 61, 40, 0.04);
+    --slide-print-bg: #fffaf4;
+    --slide-print-text: #1c1915;
+    --slide-panel-bg: linear-gradient(168deg, #3a221c 0%, #161411 58%, #2a1612 100%);
+    --slide-print-panel-bg: var(--slide-panel-bg);
+    --slide-print-accent: #e23d28;
+    --slide-print-num-bg: #e23d28;
+    --slide-print-num-text: #fffaf4;
+    --slide-top-bar: #e23d28;
+    --demo-ink: #1a1814;
+    --demo-paper: #f6f1e8;
+    --demo-vermilion: #e23d28;
+    --demo-cream: #fffaf4;
+}
+
+html[data-theme="demo-theme"] .slide-card {
+    border-color: #e7e0d4;
+    border-radius: 4px;
+    box-shadow: 0 18px 44px rgba(26, 24, 20, 0.08);
+}
+
+html[data-theme="demo-theme"] .slide-top-bar {
+    height: 5px;
+    border-radius: 4px 4px 0 0;
+    background: var(--demo-vermilion);
+}
+
+html[data-theme="demo-theme"] .roi-slide-footer {
+    border-radius: 0 0 4px 4px;
+    background-color: var(--demo-cream);
+}
+
+html[data-theme="demo-theme"] .slide-body h1,
+html[data-theme="demo-theme"] .slide-body h2,
+html[data-theme="demo-theme"] .slide-body h3 {
+    letter-spacing: -0.03em;
+}
+
+html[data-theme="demo-theme"] .slide-body h1 {
+    font-weight: 600;
+}
+
+html[data-theme="demo-theme"] .slide-body li::marker {
+    color: var(--demo-vermilion);
+}
+
+html[data-theme="demo-theme"] .slide-body strong {
+    color: var(--demo-vermilion);
+    font-weight: 600;
+}
+
+html[data-theme="demo-theme"] .slide-body a {
+    color: var(--demo-vermilion);
+    text-underline-offset: 3px;
+}
+
+html[data-theme="demo-theme"] .slide-body blockquote {
+    margin: 12px 0;
+    padding: 2px 0 2px 16px;
+    border-left: 3px solid var(--demo-vermilion);
+    font-family: var(--slide-heading-font);
+    font-style: italic;
+    font-size: 1.35em;
+    line-height: 1.35;
+    color: var(--demo-ink);
+}
+
+html[data-theme="demo-theme"] .footer-number {
+    background: var(--demo-vermilion);
+    letter-spacing: 0.04em;
+}
+
+html[data-theme="demo-theme"] .two-column-wrapper .column h2,
+html[data-theme="demo-theme"] .two-column-wrapper .column h3,
+html[data-theme="demo-theme"] .two-column-wrapper .column h4,
+html[data-theme="demo-theme"] .three-column-wrapper .column h2,
+html[data-theme="demo-theme"] .three-column-wrapper .column h3,
+html[data-theme="demo-theme"] .three-column-wrapper .column h4 {
+    color: var(--demo-ink);
+    font-style: italic;
+    font-weight: 600;
+    border-bottom: none;
+    background-image: linear-gradient(var(--demo-vermilion), var(--demo-vermilion));
+    background-size: 36px 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+}
+
+html[data-theme="demo-theme"] .content-card {
+    position: relative;
+    background-color: var(--demo-cream);
+    border-color: #eadfd0;
+    border-radius: 3px;
+    box-shadow: 0 10px 24px rgba(26, 24, 20, 0.06);
+    overflow: hidden;
+}
+
+html[data-theme="demo-theme"] .content-card::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    height: auto;
+    background: var(--demo-vermilion);
+}
+
+html[data-theme="demo-theme"] .content-card h2,
+html[data-theme="demo-theme"] .content-card h3,
+html[data-theme="demo-theme"] .content-card h4 {
+    padding-left: 24px;
+}
+
+html[data-theme="demo-theme"] .content-card-body {
+    padding-left: 24px;
+}
+
+html[data-theme="demo-theme"] .layout-navigation .nav-item-active,
+html[data-theme="demo-theme"] .layout-section .nav-item-active {
+    box-shadow: inset 3px 0 0 var(--demo-vermilion);
+    padding-left: 14px;
+}
+
+html[data-theme="demo-theme"] pre {
+    border-color: #e3d7c6;
+    border-left: 4px solid var(--demo-vermilion);
+    border-radius: 2px;
+}
+
+html[data-theme="demo-theme"] table th {
+    color: var(--demo-ink);
+    font-family: var(--slide-heading-font);
+}
+
+/* Cover: a charcoal poster with a vermilion edge and a quiet circle. */
+html[data-theme="demo-theme"] .layout-title.slide-card {
+    background-color: #161411;
+    background-image:
+        linear-gradient(90deg, #e23d28 0 8px, transparent 8px),
+        radial-gradient(420px 420px at 100% 0%, rgba(226, 61, 40, 0.42), transparent 62%);
+    border-color: #161411;
+    box-shadow: 0 22px 50px rgba(22, 20, 17, 0.35);
+}
+
+html[data-theme="demo-theme"] .layout-title .slide-top-bar {
+    height: 0;
+    margin-bottom: 0;
+    background: transparent;
+}
+
+html[data-theme="demo-theme"] .layout-title .slide-body::after {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    right: -70px;
+    top: 8px;
+    border: 1px solid rgba(255, 250, 244, 0.16);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+html[data-theme="demo-theme"] .layout-title .slide-body h1 {
+    color: var(--demo-cream);
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: -0.035em;
+}
+
+html[data-theme="demo-theme"] .layout-title .slide-body h1 + h1 {
+    font-style: normal;
+    font-weight: 700;
+    color: #ff5a3c;
+    -webkit-text-fill-color: #ff5a3c;
+}
+
+html[data-theme="demo-theme"] .layout-title .slide-body h2,
+html[data-theme="demo-theme"] .layout-title .slide-body h3,
+html[data-theme="demo-theme"] .layout-title .slide-body p {
+    color: #d9cfc2;
+    font-family: var(--slide-font);
+    font-style: normal;
+    font-weight: 500;
+    -webkit-text-fill-color: #d9cfc2;
+}
+
+html[data-theme="demo-theme"] .layout-title .slide-body strong {
+    color: inherit;
+}
+
+html[data-theme="demo-theme"] .layout-title .slide-body img {
+    background: var(--demo-cream);
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+html[data-theme="demo-theme"] .layout-title .roi-slide-footer {
+    background: transparent;
+    border-top-color: rgba(255, 250, 244, 0.14);
+}
+
+html[data-theme="demo-theme"] .layout-title .footer-cell {
+    border-right-color: rgba(255, 250, 244, 0.14);
+}
+
+html[data-theme="demo-theme"] .layout-title .footer-course,
+html[data-theme="demo-theme"] .layout-title .footer-logo {
+    color: var(--demo-cream);
+}
+
+html[data-theme="demo-theme"] .layout-title .footer-copyright {
+    color: rgba(255, 250, 244, 0.62);
+}
+
+html[data-theme="demo-theme"] .layout-title .roi-logo-img {
+    background: var(--demo-cream);
+    border-radius: 4px;
+    padding: 3px 8px;
 }
 
 html[data-theme="demo-theme"] body.dark-theme {
-    --slide-bg: #04163a;
-    --slide-text: #f4f6f8;
-    --slide-muted: #9aa6ba;
-    --slide-border: #1a2e55;
-    --slide-accent: #00b0e8;
-    --slide-heading: #ffffff;
-    --slide-title-subtitle: #7ed4f0;
-    --slide-nav-inactive: #7b879c;
-    --slide-nav-active: #ffffff;
-    --slide-footer-border: #1a2e55;
-    --slide-num-bg: #00a8d4;
-    --slide-num-text: #041434;
-    --slide-code-bg: #021028;
-    --slide-image-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
-    --slide-table-header-bg: rgba(255, 255, 255, 0.06);
-    --slide-table-stripe: rgba(255, 255, 255, 0.03);
+    --slide-bg: #141210;
+    --slide-text: #f3eee6;
+    --slide-muted: #a3998c;
+    --slide-border: #2c2823;
+    --slide-accent: #ff5a3c;
+    --slide-heading: #fffaf4;
+    --slide-title-subtitle: #d9cfc2;
+    --slide-nav-inactive: #8d8478;
+    --slide-nav-active: #fffaf4;
+    --slide-footer-border: #2c2823;
+    --slide-num-bg: #e23d28;
+    --slide-num-text: #fffaf4;
+    --slide-code-bg: #1c1916;
+    --slide-image-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    --slide-table-header-bg: rgba(226, 61, 40, 0.14);
+    --slide-table-stripe: rgba(255, 250, 244, 0.03);
+}
+
+html[data-theme="demo-theme"] body.dark-theme .roi-slide-footer {
+    background-color: #141210;
+}
+
+html[data-theme="demo-theme"] body.dark-theme .slide-body strong {
+    color: #ff6a4d;
+}
+
+html[data-theme="demo-theme"] body.dark-theme .content-card {
+    background-color: #1c1916;
+    border-color: #2c2823;
+}
+
+html[data-theme="demo-theme"] body.dark-theme .slide-body blockquote {
+    color: #fffaf4;
 }
