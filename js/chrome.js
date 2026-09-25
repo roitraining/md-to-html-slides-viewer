@@ -1,22 +1,29 @@
 /* Feature module */
 import { state, els, api, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
+import { loadSlideThemes, resolveThemeName } from './themes.js';
 
 export function initChrome() {
-    const SLIDE_THEMES = ['roi-theme', 'demo-theme', 'holcim-theme'];
-    const SLIDE_THEME_ALIASES = { 'roi-default': 'roi-theme' };
     const SLIDE_THEME_KEY = 'slides-viewer-slide-theme';
+    let availableThemes = ['roi-theme'];
 
     function applySlideTheme(name, { persist = true } = {}) {
-        const mapped = SLIDE_THEME_ALIASES[name] || name;
-        const theme = SLIDE_THEMES.includes(mapped) ? mapped : 'roi-theme';
+        const theme = resolveThemeName(name, availableThemes);
         document.documentElement.setAttribute('data-theme', theme);
-        if (els.slideThemeSelect) els.slideThemeSelect.value = theme;
+        if (els.slideThemeSelect && els.slideThemeSelect.querySelector(`option[value="${theme}"]`)) {
+            els.slideThemeSelect.value = theme;
+        }
         if (persist) localStorage.setItem(SLIDE_THEME_KEY, theme);
     }
 
     const themeParam = new URLSearchParams(window.location.search).get('theme');
     const savedSlideTheme = localStorage.getItem(SLIDE_THEME_KEY);
-    applySlideTheme(themeParam || savedSlideTheme || document.documentElement.getAttribute('data-theme'));
+    loadSlideThemes(els.slideThemeSelect).then((ids) => {
+        if (ids.length) availableThemes = ids;
+        applySlideTheme(themeParam || savedSlideTheme || document.documentElement.getAttribute('data-theme'), { persist: false });
+    }).catch((err) => {
+        console.error(err);
+        applySlideTheme(themeParam || savedSlideTheme || document.documentElement.getAttribute('data-theme'), { persist: false });
+    });
 
     function focusSlideStage() {
         if (!els.presentationStage) return;

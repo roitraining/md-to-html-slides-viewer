@@ -1,0 +1,15 @@
+# Static Markdown slide editor for a separate Google Cloud Run service.
+# Build with: docker build -f Dockerfile.editor -t slide-editor .
+FROM nginx:alpine
+
+COPY nginx.editor.conf /etc/nginx/conf.d/default.conf
+
+# Editor page and the shared slide renderer. The instructor viewer is not included.
+COPY editor.html style.css /usr/share/nginx/html/
+COPY css/ /usr/share/nginx/html/css/
+COPY js/editor.js js/editor-model.js js/render-slide.js js/layouts.js js/state.js js/themes.js /usr/share/nginx/html/js/
+COPY images/ /usr/share/nginx/html/images/
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]

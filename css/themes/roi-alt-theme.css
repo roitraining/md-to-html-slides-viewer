@@ -1,0 +1,216 @@
+/* Alternate ROI slide theme, drawn from roitraining.com.
+   theme-label: ROI Alt Theme
+   Navy field, Inter, and the site's blue-to-purple gradient.
+   Cover slides (layout: title) use the dark hero. Teaching slides stay light. */
+
+html[data-theme="roi-alt-theme"] {
+    --slide-font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --slide-heading-font: "Inter", system-ui, sans-serif;
+    --slide-heading-weight: 700;
+    --slide-mono-font: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+    --slide-bg: #f4f8fc;
+    --slide-text: #1c1d1f;
+    --slide-muted: #495f7a;
+    --slide-border: #e3eaf3;
+    --slide-accent: #1e71d6;
+    --slide-heading: #082445;
+    --slide-title-subtitle: #9eb6d4;
+    --slide-nav-inactive: #8b9bb0;
+    --slide-nav-active: #082445;
+    --slide-footer-border: #e3eaf3;
+    --slide-num-bg: #1e71d6;
+    --slide-num-text: #ffffff;
+    --slide-code-bg: #f2f8ff;
+    --slide-image-shadow: 0 10px 24px rgba(8, 36, 69, 0.1);
+    --slide-split-image-shadow: 0 14px 32px rgba(8, 36, 69, 0.14);
+    --slide-table-header-bg: #f2f8ff;
+    --slide-table-stripe: rgba(30, 113, 214, 0.04);
+    --slide-print-bg: #ffffff;
+    --slide-print-text: #1c1d1f;
+    --slide-panel-bg: linear-gradient(128deg, #1e71d6 0%, #3d62e4 46%, #8d45d4 78%, #bd35c2 100%);
+    --slide-print-panel-bg: var(--slide-panel-bg);
+    --slide-print-accent: #1e71d6;
+    --slide-print-num-bg: #1e71d6;
+    --slide-print-num-text: #ffffff;
+    --slide-top-bar: linear-gradient(90deg, #1e71d6 0%, #5a62e6 52%, #bd35c2 100%);
+    --roi-alt-gradient: linear-gradient(90deg, #1e71d6 0%, #6a55e4 48%, #bd35c2 100%);
+    --roi-alt-navy: #082445;
+}
+
+html[data-theme="roi-alt-theme"] .slide-card {
+    border-color: #d7e3f0;
+    box-shadow: 0 16px 40px rgba(8, 36, 69, 0.08);
+}
+
+html[data-theme="roi-alt-theme"] .slide-top-bar {
+    height: 7px;
+    background: var(--slide-top-bar);
+}
+
+html[data-theme="roi-alt-theme"] .slide-body h1 {
+    letter-spacing: -0.03em;
+}
+
+html[data-theme="roi-alt-theme"] .slide-body li::marker {
+    color: #1e71d6;
+}
+
+html[data-theme="roi-alt-theme"] .slide-body strong {
+    color: var(--roi-alt-navy);
+    font-weight: 700;
+}
+
+html[data-theme="roi-alt-theme"] .slide-body a {
+    color: #1e71d6;
+    text-underline-offset: 3px;
+}
+
+html[data-theme="roi-alt-theme"] .footer-number {
+    background: var(--roi-alt-gradient);
+}
+
+html[data-theme="roi-alt-theme"] .two-column-wrapper .column h2,
+html[data-theme="roi-alt-theme"] .two-column-wrapper .column h3,
+html[data-theme="roi-alt-theme"] .two-column-wrapper .column h4,
+html[data-theme="roi-alt-theme"] .three-column-wrapper .column h2,
+html[data-theme="roi-alt-theme"] .three-column-wrapper .column h3,
+html[data-theme="roi-alt-theme"] .three-column-wrapper .column h4 {
+    color: var(--roi-alt-navy);
+    border-bottom: none;
+    background-image: var(--roi-alt-gradient);
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+}
+
+html[data-theme="roi-alt-theme"] .content-card {
+    background-color: #ffffff;
+    border-color: #e7eef6;
+    box-shadow: 0 8px 22px rgba(8, 36, 69, 0.06);
+}
+
+html[data-theme="roi-alt-theme"] .content-card::before {
+    height: 5px;
+    background: var(--roi-alt-gradient);
+}
+
+html[data-theme="roi-alt-theme"] .layout-navigation .nav-item-active,
+html[data-theme="roi-alt-theme"] .layout-section .nav-item-active {
+    background: linear-gradient(90deg, rgba(30, 113, 214, 0.16), rgba(189, 53, 194, 0.05) 72%, transparent);
+    border-radius: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-left: -16px;
+}
+
+html[data-theme="roi-alt-theme"] pre {
+    border-color: #d5e4f5;
+    border-left: 4px solid #1e71d6;
+}
+
+html[data-theme="roi-alt-theme"] table th {
+    color: var(--roi-alt-navy);
+}
+
+/* Cover slides echo the site hero: navy field, contour glow, gradient title. */
+html[data-theme="roi-alt-theme"] .layout-title.slide-card {
+    background-color: var(--roi-alt-navy);
+    background-image:
+        radial-gradient(980px 460px at 112% -8%, rgba(30, 113, 214, 0.5), transparent 58%),
+        radial-gradient(640px 380px at 88% 118%, rgba(189, 53, 194, 0.32), transparent 60%),
+        repeating-radial-gradient(circle at 118% -12%, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 46px);
+    border-color: #082445;
+    box-shadow: 0 18px 44px rgba(8, 36, 69, 0.28);
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .slide-body h1 {
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .slide-body h1 + h1 {
+    font-weight: 700;
+    background: linear-gradient(90deg, #9ec8ff 0%, #c9a0ff 58%, #f0b0ea 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .slide-body h2,
+html[data-theme="roi-alt-theme"] .layout-title .slide-body h3,
+html[data-theme="roi-alt-theme"] .layout-title .slide-body p {
+    background: linear-gradient(90deg, #8eb6ff 0%, #d09bff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #b9d4ff;
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .slide-body strong {
+    color: inherit;
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .slide-body img {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 8px 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .roi-slide-footer {
+    background: transparent;
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .footer-cell {
+    border-right-color: rgba(255, 255, 255, 0.14);
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .footer-course,
+html[data-theme="roi-alt-theme"] .layout-title .footer-logo {
+    color: #ffffff;
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .footer-copyright {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+html[data-theme="roi-alt-theme"] .layout-title .roi-logo-img {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 3px 8px;
+}
+
+html[data-theme="roi-alt-theme"] body.dark-theme {
+    --slide-bg: #07182f;
+    --slide-text: #e8eef6;
+    --slide-muted: #9aadc4;
+    --slide-border: #1c3358;
+    --slide-accent: #5b9bff;
+    --slide-heading: #ffffff;
+    --slide-title-subtitle: #b7c7dc;
+    --slide-nav-inactive: #7e93ad;
+    --slide-nav-active: #ffffff;
+    --slide-footer-border: #1c3358;
+    --slide-num-bg: #1e71d6;
+    --slide-num-text: #ffffff;
+    --slide-code-bg: #04101f;
+    --slide-image-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+    --slide-table-header-bg: rgba(91, 155, 255, 0.12);
+    --slide-table-stripe: rgba(255, 255, 255, 0.03);
+}
+
+html[data-theme="roi-alt-theme"] body.dark-theme .slide-body strong {
+    color: #d6e6ff;
+}
+
+html[data-theme="roi-alt-theme"] body.dark-theme .content-card {
+    background-color: #0c2244;
+    border-color: #1c3358;
+}
+
+html[data-theme="roi-alt-theme"] body.dark-theme .layout-navigation .nav-item-active,
+html[data-theme="roi-alt-theme"] body.dark-theme .layout-section .nav-item-active {
+    background: linear-gradient(90deg, rgba(91, 155, 255, 0.22), rgba(189, 53, 194, 0.08) 72%, transparent);
+}

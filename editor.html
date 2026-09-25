@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="roi-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Training Slide Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=48">
+    <link rel="stylesheet" href="css/editor.css?v=48">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+</head>
+<body class="editor-app">
+    <header class="toolbar">
+        <button id="menu-toggle" class="hamburger" aria-label="Open slide list" title="Slide list">&#9776;</button>
+        <div class="toolbar-title-group">
+            <div id="course-title-label" class="toolbar-title">Slide Editor</div>
+            <label class="chapter-select-wrap" id="chapter-select-wrap" hidden>
+                <span class="chapter-select-label">Chapter</span>
+                <select id="chapter-select" class="chapter-select" aria-label="Course chapter"></select>
+            </label>
+        </div>
+        <div class="toolbar-controls">
+            <button type="button" id="open-folder-btn" class="btn-primary">Open folder</button>
+            <button type="button" id="save-btn" class="btn-primary" disabled>Save</button>
+            <span id="save-status" class="editor-save-status" role="status"></span>
+            <label class="theme-select-wrap" title="Slide theme">
+                <select id="slide-theme-select" class="theme-select" aria-label="Slide theme"></select>
+            </label>
+        </div>
+    </header>
+
+    <nav id="side-menu" class="side-menu view-thumbnails" aria-label="Slide list">
+        <div class="menu-header">
+            <h2>Slides</h2>
+            <div class="menu-header-actions">
+                <button type="button" id="pin-menu" class="pin-btn" aria-label="Pin slide list open" aria-pressed="false" title="Pin slide list open">&#128204;</button>
+                <button type="button" id="close-menu" class="close-btn" aria-label="Close slide list" title="Close slide list">&times;</button>
+            </div>
+        </div>
+        <ul id="slide-list"></ul>
+    </nav>
+
+    <div id="slide-context-menu" class="editor-context-menu" hidden role="menu">
+        <button type="button" data-action="add" role="menuitem">Add slide</button>
+        <button type="button" data-action="duplicate" role="menuitem">Duplicate slide</button>
+        <button type="button" data-action="delete" role="menuitem">Delete slide</button>
+    </div>
+
+    <main id="presentation-stage" class="presentation-stage">
+        <div id="course-picker" class="editor-course-picker" hidden></div>
+        <div id="slide-scale-shell" class="slide-scale-shell">
+            <div id="slide-card" class="slide-card">
+                <div class="slide-top-bar"></div>
+                <div id="slide-body" class="slide-body">
+                    <div class="slide-loading">Open a course folder to edit its slides.</div>
+                </div>
+                <footer class="roi-slide-footer">
+                    <div id="footer-course-title" class="footer-cell footer-course"></div>
+                    <div class="footer-cell footer-copyright">
+                        © 2026 Copyright ROI Training, Inc.<br>
+                        All rights reserved. Not to be reproduced without prior written consent.
+                    </div>
+                    <div class="footer-cell footer-logo">
+                        <img src="images/roi-logo-with-name.png" alt="ROI Training" class="roi-logo-img">
+                    </div>
+                    <div id="footer-slide-number" class="footer-cell footer-number"></div>
+                </footer>
+            </div>
+        </div>
+    </main>
+
+    <aside class="editor-inspector" aria-label="Slide editor">
+        <label class="editor-field">
+            <span class="editor-field-label">Course title</span>
+            <input type="text" id="course-title-input" class="editor-text-input" disabled>
+        </label>
+        <label class="editor-field">
+            <span class="editor-field-label">Layout</span>
+            <select id="layout-select" class="editor-text-input" disabled></select>
+        </label>
+        <div class="editor-field">
+            <span class="editor-field-label">Image</span>
+            <div class="editor-image-row">
+                <select id="image-select" class="editor-text-input" disabled>
+                    <option value="">No images yet</option>
+                </select>
+                <button type="button" id="use-image-btn" class="btn-secondary" disabled>Use</button>
+            </div>
+            <button type="button" id="add-image-btn" class="btn-secondary editor-add-image" disabled>Add image…</button>
+        </div>
+        <label class="editor-field editor-markdown-field">
+            <span class="editor-field-label">Slide Markdown</span>
+            <textarea id="slide-markdown" class="editor-markdown" spellcheck="true" disabled placeholder="Open a folder, then edit this slide’s Markdown. The preview updates as you type."></textarea>
+        </label>
+    </aside>
+
+    <div id="unsaved-dialog" class="modal-overlay" hidden>
+        <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="unsaved-title">
+            <div class="modal-header">
+                <h2 id="unsaved-title">Unsaved changes</h2>
+            </div>
+            <div class="modal-body">
+                <p>Save this chapter before leaving it?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="unsaved-save" class="btn-primary">Save</button>
+                <button type="button" id="unsaved-discard" class="btn-secondary">Discard</button>
+                <button type="button" id="unsaved-cancel" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script type="module" src="js/editor.js?v=47"></script>
+</body>
+</html>
