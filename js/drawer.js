@@ -1,20 +1,6 @@
 /* Feature module */
-import { state, els, api, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
-import {
-    extractLayoutDirective,
-    prepareSlideHtml,
-    processNavigationLayout,
-    processThreeColumnLayout,
-    processTwoColumnLayout,
-    processCardLayout,
-    processPanelLayout,
-    processStackedLayout,
-    processGitHubAlerts,
-    processRelativeImages,
-    processSplitLayouts,
-    processCodeCopyButtons,
-    processExternalLinks
-} from './layouts.js?v=45';
+import { state, els, api } from './state.js';
+import { renderSlideInto } from './render-slide.js?v=46';
 
 export function initDrawer() {
     // Side Menu Drawer interactions (open / pin / close)
@@ -139,33 +125,10 @@ export function initDrawer() {
         if (!canvasEl || canvasEl.dataset.rendered === 'true' || !state.slides[index]) return;
 
         const slideMarkdown = state.slides[index];
-        const layoutType = extractLayoutDirective(slideMarkdown, index);
         const body = canvasEl.querySelector('.slide-body');
         if (!body) return;
 
-        canvasEl.classList.add(`layout-${layoutType}`);
-        body.innerHTML = prepareSlideHtml(slideMarkdown);
-
-        if (layoutType === 'navigation' || layoutType === 'section') {
-            processNavigationLayout(body);
-        } else if (layoutType === 'three-column') {
-            processThreeColumnLayout(body);
-        } else if (layoutType === 'two-column') {
-            processTwoColumnLayout(body);
-        } else if (layoutType === 'card-layout') {
-            processCardLayout(body);
-        } else if (layoutType === 'panel-left' || layoutType === 'panel-right') {
-            processPanelLayout(body, layoutType === 'panel-left' ? 'left' : 'right');
-        } else if (layoutType === 'stacked') {
-            processStackedLayout(body);
-        }
-
-        processGitHubAlerts(body);
-        processRelativeImages(body);
-        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout' && layoutType !== 'panel-left' && layoutType !== 'panel-right') {
-            processSplitLayouts(body);
-        }
-        processExternalLinks(body);
+        renderSlideInto(canvasEl, body, slideMarkdown, index, { copyButtons: false });
 
         const placeholder = canvasEl.parentElement && canvasEl.parentElement.querySelector('.slide-thumb-placeholder');
         if (placeholder) placeholder.remove();

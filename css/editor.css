@@ -1,0 +1,245 @@
+/* Visual editor chrome. Slide appearance stays in the shared viewer styles. */
+
+body.editor-app {
+    --drawer-width: 176px;
+    --editor-inspector-width: 360px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--editor-inspector-width);
+    grid-template-rows: auto minmax(0, 1fr);
+    padding-right: 0;
+}
+
+body.editor-app .toolbar {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    height: auto;
+    min-height: 60px;
+    width: auto;
+    gap: 12px;
+    z-index: 1000;
+}
+
+body.editor-app .presentation-stage {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+    min-height: 0;
+}
+
+body.editor-app .toolbar .btn-primary {
+    padding: 6px 12px;
+}
+
+body.editor-app .toolbar-title-group {
+    margin-left: 4px;
+}
+
+body.editor-app .menu-header {
+    padding: 10px 6px 10px 12px;
+}
+
+body.editor-app .menu-header h2 {
+    font-size: 15px;
+}
+
+body.editor-app .side-menu.view-thumbnails #slide-list {
+    padding: 8px 8px 12px;
+    gap: 8px;
+}
+
+body.editor-app .side-menu.view-thumbnails .slide-nav-label {
+    font-size: 11px;
+    padding-top: 4px;
+}
+
+#slide-list button.editor-slide-btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-color);
+    font: inherit;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+}
+
+#slide-list button.editor-slide-btn:hover {
+    background: transparent;
+}
+
+#slide-list button.editor-slide-btn:hover .slide-thumb-viewport {
+    border-color: var(--roi-blue);
+}
+
+#slide-list button.editor-slide-btn.active {
+    background: transparent;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+#slide-list button.editor-slide-btn.active .slide-nav-label {
+    color: var(--roi-blue);
+}
+
+#slide-list button.editor-slide-btn.active .slide-thumb-viewport {
+    border-color: var(--roi-blue);
+    box-shadow: 0 0 0 2px rgba(0, 56, 101, 0.2);
+}
+
+#slide-list li.is-drop-target .slide-thumb-viewport {
+    outline: 2px solid var(--roi-blue);
+    outline-offset: 1px;
+}
+
+.editor-context-menu {
+    position: fixed;
+    z-index: 1300;
+    min-width: 168px;
+    margin: 0;
+    padding: 4px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.editor-context-menu[hidden] {
+    display: none;
+}
+
+.editor-context-menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.editor-context-menu button:hover {
+    background: rgba(0, 56, 101, 0.08);
+}
+
+.editor-context-menu button[data-action="delete"] {
+    color: #9f1239;
+}
+
+.editor-save-status {
+    font-size: 13px;
+    color: var(--text-muted);
+    min-width: 7rem;
+    white-space: nowrap;
+}
+
+.editor-save-status.is-dirty {
+    color: var(--roi-blue);
+    font-weight: 600;
+}
+
+.editor-inspector {
+    position: relative;
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    min-height: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 16px 20px;
+    background: var(--card-bg);
+    border-left: 1px solid var(--border-color);
+    overflow: auto;
+}
+
+.editor-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 0;
+}
+
+.editor-markdown-field {
+    flex: 1;
+}
+
+.editor-field-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.editor-text-input,
+.editor-markdown {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font: inherit;
+    font-size: 14px;
+    padding: 8px 10px;
+}
+
+.editor-markdown {
+    flex: 1;
+    min-height: 220px;
+    resize: none;
+    font-family: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.editor-image-row {
+    display: flex;
+    gap: 8px;
+}
+
+.editor-image-row .editor-text-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.editor-add-image {
+    align-self: flex-start;
+}
+
+.editor-course-picker {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    padding: 32px;
+    background: var(--bg-color);
+}
+
+.editor-course-picker[hidden] {
+    display: none;
+}
+
+.editor-course-picker p {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+.btn-secondary:disabled,
+.btn-primary:disabled,
+.editor-text-input:disabled,
+.editor-markdown:disabled {
+    opacity: 0.55;
+    cursor: default;
+}

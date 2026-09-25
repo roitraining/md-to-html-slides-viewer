@@ -1,20 +1,6 @@
 /* Render the current slide onto the stage. */
 import { state, els, api } from './state.js';
-import {
-    extractLayoutDirective,
-    prepareSlideHtml,
-    processNavigationLayout,
-    processThreeColumnLayout,
-    processTwoColumnLayout,
-    processCardLayout,
-    processPanelLayout,
-    processStackedLayout,
-    processGitHubAlerts,
-    processRelativeImages,
-    processSplitLayouts,
-    processCodeCopyButtons,
-    processExternalLinks
-} from './layouts.js?v=45';
+import { renderSlideInto } from './render-slide.js?v=46';
 
 export function initSlides() {
     function goToSlide(index) {
@@ -40,53 +26,16 @@ export function initSlides() {
     // Render Slide Content
     function renderSlide(index) {
         const slideMarkdown = state.slides[index];
-        const layoutType = extractLayoutDirective(slideMarkdown, index);
 
-        // Remove existing layout classes and add new layout class
-        els.slideCard.classList.remove('layout-title', 'layout-navigation', 'layout-section', 'layout-split', 'layout-content', 'layout-three-column', 'layout-title-image', 'layout-image-only', 'layout-full-bleed', 'layout-two-column', 'layout-stacked', 'layout-card-layout', 'layout-panel-left', 'layout-panel-right');
-        els.slideCard.classList.add(`layout-${layoutType}`);
-    
         // Re-trigger fade animation
         els.slideCard.classList.remove('slide-card');
         void els.slideCard.offsetWidth; // Trigger reflow
         els.slideCard.classList.add('slide-card');
-    
-        els.slideBody.innerHTML = prepareSlideHtml(slideMarkdown);
-    
+
+        renderSlideInto(els.slideCard, els.slideBody, slideMarkdown, index);
+
         // Apply current font scaling
         api.updateFontSize?.();
-    
-        // Process layout specific styling
-        if (layoutType === 'navigation' || layoutType === 'section') {
-            processNavigationLayout(els.slideBody);
-        } else if (layoutType === 'three-column') {
-            processThreeColumnLayout(els.slideBody);
-        } else if (layoutType === 'two-column') {
-            processTwoColumnLayout(els.slideBody);
-        } else if (layoutType === 'card-layout') {
-            processCardLayout(els.slideBody);
-        } else if (layoutType === 'panel-left' || layoutType === 'panel-right') {
-            processPanelLayout(els.slideBody, layoutType === 'panel-left' ? 'left' : 'right');
-        } else if (layoutType === 'stacked') {
-            processStackedLayout(els.slideBody);
-        }
-    
-        // Process GitHub Callout Alerts
-        processGitHubAlerts(els.slideBody);
-    
-        // Resolve relative image URLs
-        processRelativeImages(els.slideBody);
-    
-        // Auto-format 2-column layout (bullets left, image right) — skipped for stacked / image-only
-        if (layoutType !== 'stacked' && layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout' && layoutType !== 'panel-left' && layoutType !== 'panel-right') {
-            processSplitLayouts(els.slideBody);
-        }
-    
-        // Setup code block copy buttons
-        processCodeCopyButtons(els.slideBody);
-    
-        // Ensure links open in a new tab
-        processExternalLinks(els.slideBody);
     
         // Update ROI Slide Footer Counter (e.g. 1 of 12)
         els.footerSlideNumber.textContent = `${index + 1} of ${state.slides.length}`;

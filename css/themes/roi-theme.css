@@ -1,6 +1,8 @@
 /* ROI slide theme.
-   Add another theme by copying this file, changing the data-theme name,
-   importing it from style.css, and listing it in the toolbar picker. */
+   theme-label: ROI Theme
+   To add a theme: copy this file, set theme-label and data-theme, then
+   @import the file from style.css. The viewer and editor pickers load every
+   css/themes import. Do not edit the HTML dropdowns. */
 
 html[data-theme="roi-theme"] {
     --slide-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

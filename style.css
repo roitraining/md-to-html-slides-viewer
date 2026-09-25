@@ -1,11 +1,14 @@
 /* Viewer stylesheet entry point. Files under css/ are split by concern:
-   tokens, chrome, toolbox, slide layout, theme, shared slide skin, print. */
+   tokens, chrome, toolbox, slide layout, theme, shared slide skin, print.
+   Theme pickers are built from the css/themes imports below. */
 @import url('css/tokens.css');
 @import url('css/chrome.css');
 @import url('css/toolbox.css');
 @import url('css/slide-layout.css?v=44');
 @import url('css/themes/roi-theme.css');
-@import url('css/themes/demo-theme.css');
+@import url('css/themes/roi-alt-theme.css');
+@import url('css/themes/demo-theme.css?v=3');
+@import url('css/themes/demo-2-theme.css?v=2');
 @import url('css/themes/holcim-theme.css');
 @import url('css/slide-skin.css?v=45');
 @import url('css/print.css');

@@ -40,6 +40,24 @@ http://localhost:8000/index.html?course=sample-course.md
 ```
 Or point `course=` at any reachable Markdown URL, same as on GitHub Pages.
 
+### Edit a course on your machine
+
+The editor is a separate app for editing staff. It is not linked from the instructor viewer. Locally, with the same static server:
+
+```
+http://localhost:8000/editor.html
+```
+
+Choose a course folder in Chrome or Edge. Save writes the Markdown file in that folder. The editor does not open GitHub courses.
+
+Deploy it as its own Cloud Run service:
+
+```bash
+docker build -f Dockerfile.editor -t slide-editor .
+```
+
+That image uses [nginx.editor.conf](nginx.editor.conf) and serves `editor.html`. The instructor service keeps [Dockerfile](Dockerfile) and [nginx.conf](nginx.conf).
+
 ---
 
 ## Getting Started

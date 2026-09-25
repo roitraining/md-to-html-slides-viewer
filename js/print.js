@@ -1,20 +1,6 @@
 /* Feature module */
-import { state, els, api, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
-import {
-    extractLayoutDirective,
-    prepareSlideHtml,
-    processNavigationLayout,
-    processThreeColumnLayout,
-    processTwoColumnLayout,
-    processCardLayout,
-    processPanelLayout,
-    processStackedLayout,
-    processGitHubAlerts,
-    processRelativeImages,
-    processSplitLayouts,
-    processCodeCopyButtons,
-    processExternalLinks
-} from './layouts.js?v=45';
+import { state, els } from './state.js';
+import { renderSlideInto } from './render-slide.js?v=46';
 
 export function initPrint() {
     // PDF Export Functionality (Native Print PDF)
@@ -32,41 +18,15 @@ export function initPrint() {
 
         // Render each slide sequentially into els.printStage
         state.slides.forEach((slideMarkdown, index) => {
-            const layoutType = extractLayoutDirective(slideMarkdown, index);
-            const html = prepareSlideHtml(slideMarkdown);
-
             const card = document.createElement('div');
-            card.className = `slide-card print-slide-card layout-${layoutType}`;
+            card.className = 'slide-card print-slide-card';
 
             const topBar = document.createElement('div');
             topBar.className = 'slide-top-bar';
 
             const body = document.createElement('div');
             body.className = 'slide-body';
-            body.innerHTML = html;
-
-            // Apply post-processing
-            processGitHubAlerts(body);
-            processRelativeImages(body);
-            if (layoutType === 'stacked') {
-                processStackedLayout(body);
-            } else if (layoutType !== 'image-only' && layoutType !== 'full-bleed' && layoutType !== 'card-layout' && layoutType !== 'panel-left' && layoutType !== 'panel-right') {
-                processSplitLayouts(body);
-            }
-            processCodeCopyButtons(body);
-            processExternalLinks(body);
-
-            if (layoutType === 'navigation' || layoutType === 'section') {
-                processNavigationLayout(body);
-            } else if (layoutType === 'three-column') {
-                processThreeColumnLayout(body);
-            } else if (layoutType === 'two-column') {
-                processTwoColumnLayout(body);
-            } else if (layoutType === 'card-layout') {
-                processCardLayout(body);
-            } else if (layoutType === 'panel-left' || layoutType === 'panel-right') {
-                processPanelLayout(body, layoutType === 'panel-left' ? 'left' : 'right');
-            }
+            const layoutType = renderSlideInto(card, body, slideMarkdown, index);
 
             // Convert all img src in body to absolute URLs so browser print engine loads them 100% reliably
             const bodyImgs = body.querySelectorAll('img');
