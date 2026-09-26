@@ -90,6 +90,7 @@ export function initChrome() {
         localStorage.setItem('slides-viewer-font-size', state.currentFontSize);
         syncFontControls();
         fitFooterCourseTitle();
+        api.layoutImageZoom?.();
     }
 
     function stepFontSize(delta) {
@@ -178,6 +179,7 @@ export function initChrome() {
 
         api.resizeCanvas?.();
         fitFooterCourseTitle();
+        api.layoutImageZoom?.();
     }
 
     window.addEventListener('resize', scaleSlideToFit);

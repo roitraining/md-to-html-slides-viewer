@@ -36,6 +36,7 @@ export function initSlides() {
 
         // Apply current font scaling
         api.updateFontSize?.();
+        api.syncImageZoom?.();
     
         // Update ROI Slide Footer Counter (e.g. 1 of 12)
         els.footerSlideNumber.textContent = `${index + 1} of ${state.slides.length}`;
