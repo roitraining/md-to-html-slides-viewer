@@ -503,10 +503,12 @@ body.dark-theme .icon-btn:hover {
 }
 
 .font-size-btn {
-    width: 32px;
+    width: auto;
+    min-width: 42px;
     height: 32px;
-    padding: 0;
-    font-size: 18px;
+    padding: 0 8px;
+    font-size: 15px;
+    font-weight: 700;
     line-height: 1;
     display: inline-flex;
     align-items: center;
