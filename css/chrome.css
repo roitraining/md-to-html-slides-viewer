@@ -499,71 +499,28 @@ body.dark-theme .icon-btn:hover {
 .font-controls {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 0 4px;
+    gap: 4px;
 }
 
-.font-slider-label {
-    font-weight: 700;
-    color: var(--text-muted);
+.font-size-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    font-size: 18px;
     line-height: 1;
-    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.font-slider-label-sm {
-    font-size: 11px;
+.font-size-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 
-.font-slider-label-lg {
-    font-size: 16px;
-}
-
-.font-size-slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100px;
-    height: 4px;
-    border-radius: 999px;
-    background: var(--border-color);
-    outline: none;
-    cursor: pointer;
-    accent-color: var(--roi-blue);
-}
-
-.font-size-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--roi-blue);
-    border: 2px solid #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-}
-
-.font-size-slider::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--roi-blue);
-    border: 2px solid #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-}
-
-body.dark-theme .font-size-slider {
-    accent-color: #3b82f6;
-}
-
-body.dark-theme .font-size-slider::-webkit-slider-thumb {
-    background: #3b82f6;
-    border-color: #1e293b;
-}
-
-body.dark-theme .font-size-slider::-moz-range-thumb {
-    background: #3b82f6;
-    border-color: #1e293b;
+.font-size-btn:disabled:hover {
+    background-color: transparent;
+    border-color: var(--border-color);
 }
 
 /* Main Presentation Stage — letterbox around a fixed design canvas */

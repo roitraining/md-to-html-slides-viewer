@@ -1,5 +1,5 @@
 /* Visual editor: local course folder, live preview, Markdown pane, save in place. */
-import { state, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT } from './state.js';
+import { state, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
 import { renderSlideInto } from './render-slide.js?v=46';
 import {
     LAYOUT_OPTIONS,
@@ -14,6 +14,10 @@ import {
 import { loadSlideThemes, resolveThemeName } from './themes.js';
 
 const THEME_KEY = 'slides-viewer-slide-theme';
+const FONT_SIZE_KEY = 'slides-viewer-font-size';
+const FONT_SIZE_MIN = 50;
+const FONT_SIZE_MAX = 200;
+const FONT_SIZE_STEP = 25;
 const MEDIA_DIRS = new Set(['images', 'image', 'img', 'assets']);
 const SKIP_DIRS = new Set([
     'node_modules', '.git', '.github', '.agents', '.vscode', 'css', 'js', 'scripts', 'fonts', 'static'
@@ -132,6 +136,45 @@ function setEditingEnabled(enabled) {
 }
 
 let availableThemes = ['roi-theme'];
+
+function snapFontSize(value) {
+    const n = parseInt(value, 10);
+    if (Number.isNaN(n)) return 100;
+    const snapped = Math.round(n / FONT_SIZE_STEP) * FONT_SIZE_STEP;
+    return Math.min(FONT_SIZE_MAX, Math.max(FONT_SIZE_MIN, snapped));
+}
+
+function syncFontControls() {
+    const size = state.currentFontSize;
+    const atMin = size <= FONT_SIZE_MIN;
+    const atMax = size >= FONT_SIZE_MAX;
+    if (els.fontSizeDecrease) {
+        els.fontSizeDecrease.disabled = atMin;
+        els.fontSizeDecrease.title = atMin
+            ? `Text size ${size}% (minimum)`
+            : `Decrease text size (currently ${size}%)`;
+    }
+    if (els.fontSizeIncrease) {
+        els.fontSizeIncrease.disabled = atMax;
+        els.fontSizeIncrease.title = atMax
+            ? `Text size ${size}% (maximum)`
+            : `Increase text size (currently ${size}%)`;
+    }
+}
+
+function updateFontSize() {
+    state.currentFontSize = snapFontSize(state.currentFontSize);
+    if (els.card) {
+        els.card.style.fontSize = `${(SLIDE_DESIGN_FONT_PX * state.currentFontSize) / 100}px`;
+    }
+    localStorage.setItem(FONT_SIZE_KEY, state.currentFontSize);
+    syncFontControls();
+}
+
+function stepFontSize(delta) {
+    state.currentFontSize = snapFontSize(state.currentFontSize + delta);
+    updateFontSize();
+}
 
 function applyTheme(name, { persist = true } = {}) {
     const theme = resolveThemeName(name, availableThemes);
@@ -716,6 +759,8 @@ function bind() {
     els.saveBtn = $('save-btn');
     els.saveStatus = $('save-status');
     els.themeSelect = $('slide-theme-select');
+    els.fontSizeDecrease = $('font-size-decrease');
+    els.fontSizeIncrease = $('font-size-increase');
     els.slideList = $('slide-list');
     els.sideMenu = $('side-menu');
     els.menuToggle = $('menu-toggle');
@@ -746,6 +791,16 @@ function bind() {
         console.error(err);
         applyTheme(savedTheme || document.documentElement.getAttribute('data-theme'), { persist: false });
     });
+
+    const savedFontSize = localStorage.getItem(FONT_SIZE_KEY);
+    if (savedFontSize) state.currentFontSize = snapFontSize(savedFontSize);
+    updateFontSize();
+    if (els.fontSizeDecrease) {
+        els.fontSizeDecrease.addEventListener('click', () => stepFontSize(-FONT_SIZE_STEP));
+    }
+    if (els.fontSizeIncrease) {
+        els.fontSizeIncrease.addEventListener('click', () => stepFontSize(FONT_SIZE_STEP));
+    }
 
     els.themeSelect.addEventListener('change', () => applyTheme(els.themeSelect.value));
     els.openFolderBtn.addEventListener('click', () => {

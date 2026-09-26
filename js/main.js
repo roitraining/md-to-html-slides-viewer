@@ -3,7 +3,7 @@ import { bindDom, api } from './state.js';
 import { initChrome } from './chrome.js?v=47';
 import { initDrawer } from './drawer.js?v=46';
 import { initSlides } from './slides.js?v=46';
-import { initAnnotations } from './annotations.js';
+import { initAnnotations } from './annotations.js?v=49';
 import { initPrint } from './print.js?v=46';
 import { initCourse } from './course.js';
 import { initKeyboard } from './keyboard.js';

@@ -24,7 +24,7 @@
 
 # Course Objectives
 
-- **Choose the right HTML Slides Viewer layout** for each teaching moment in an ROI course
+- Choose the right HTML Slides Viewer layout for each teaching moment in an ROI course
 - Build the standard introduction and the core layouts: default content, auto-split, and columns
 - Use cards, panels, and large-media layouts, then close a chapter the standard way
 

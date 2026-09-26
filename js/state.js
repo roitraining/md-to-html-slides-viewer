@@ -36,7 +36,8 @@ export function bindDom() {
     els.slideList = document.getElementById('slide-list');
     els.themeToggle = document.getElementById('theme-toggle');
     els.slideThemeSelect = document.getElementById('slide-theme-select');
-    els.fontSizeSlider = document.getElementById('font-size-slider');
+    els.fontSizeDecrease = document.getElementById('font-size-decrease');
+    els.fontSizeIncrease = document.getElementById('font-size-increase');
     els.fullscreenToggle = document.getElementById('fullscreen-toggle');
     els.presentationStage = document.getElementById('presentation-stage');
     els.slideScaleShell = document.getElementById('slide-scale-shell');
@@ -58,4 +59,8 @@ export function bindDom() {
     els.clearBtn = document.getElementById('clear-canvas-btn');
     els.slidePointer = document.getElementById('slide-pointer');
     els.deleteAllBtn = document.getElementById('delete-all-canvas-btn');
+    els.flipchartBtn = document.getElementById('flipchart-btn');
+    els.flipchartSheet = document.getElementById('flipchart-sheet');
+    els.flipchartCanvas = document.getElementById('flipchart-canvas');
+    els.flipchartClose = document.getElementById('flipchart-close');
 }

@@ -4,12 +4,27 @@ import { state, els, api, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_
 export function initAnnotations() {
     const canvasEl = els.annotationCanvas;
     const ctx = canvasEl ? canvasEl.getContext('2d') : null;
+    const flipchartCtx = els.flipchartCanvas ? els.flipchartCanvas.getContext('2d') : null;
     // ==========================================
     // Slide Annotation System (Pen, Highlighter & Pointer)
     // ==========================================
     let currentTool = 'none'; // 'none' | 'pen' | 'highlighter' | 'pointer'
     let isDrawing = false;
     let currentStroke = null;
+    let drawSurface = null; // 'slide' | 'flipchart'
+    let flipchartOpen = false;
+    // Session-only. Not written to storage. Trash clears it.
+    let flipchartStrokes = [];
+    let penColor = '#4169E1';
+    let highlightColor = '#ffe14a';
+    const penColors = document.getElementById('pen-colors');
+    const highlightColors = document.getElementById('highlight-colors');
+    const HIGHLIGHT_ON_PAPER = {
+        '#ffeb3b': 'rgba(202, 138, 4, 0.55)',
+        '#ffe14a': 'rgba(202, 138, 4, 0.55)',
+        '#86efac': 'rgba(22, 163, 74, 0.5)',
+        '#7dd3fc': 'rgba(37, 99, 235, 0.5)'
+    };
 
     // Persistent storage of strokes per slide index (keyed by state.courseUrl via saveAnnotationsToStorage)
     // state.slideAnnotations is declared in application state and reloaded in applyCourseMarkdown
@@ -48,14 +63,7 @@ export function initAnnotations() {
             ctx.scale(dpr, dpr);
         }
         redrawCurrentSlideAnnotations();
-    }
-
-    function getCanvasLayoutSize() {
-        if (!els.annotationCanvas) return { width: SLIDE_DESIGN_WIDTH, height: SLIDE_DESIGN_HEIGHT };
-        return {
-            width: els.annotationCanvas.offsetWidth || SLIDE_DESIGN_WIDTH,
-            height: els.annotationCanvas.offsetHeight || SLIDE_DESIGN_HEIGHT
-        };
+        resizeFlipchartCanvas();
     }
 
     window.addEventListener('resize', resizeCanvas);
@@ -110,6 +118,21 @@ export function initAnnotations() {
             localStorage.removeItem(`slides-annotations-${state.courseUrl || 'default'}`);
             clearCanvas();
             clearSlidePointer();
+            clearFlipchartDrawing();
+        });
+    }
+
+    if (els.flipchartBtn) {
+        els.flipchartBtn.addEventListener('click', () => {
+            if (flipchartOpen) closeFlipchart();
+            else openFlipchart();
+        });
+    }
+
+    if (els.flipchartClose) {
+        els.flipchartClose.addEventListener('click', (event) => {
+            event.stopPropagation();
+            closeFlipchart();
         });
     }
 
@@ -123,20 +146,58 @@ export function initAnnotations() {
             els.annotationCanvas.classList.toggle('active-tool', tool !== 'none');
             els.annotationCanvas.classList.toggle('pointer-mode', tool === 'pointer');
         }
+        if (els.flipchartCanvas) {
+            const drawing = tool === 'pen' || tool === 'highlighter';
+            els.flipchartCanvas.classList.toggle('drawable', drawing && flipchartOpen);
+        }
 
         // Pointer is only visible while the pointer tool is active
         if (tool !== 'pointer') {
             clearSlidePointer();
         }
+        syncColorPickers();
     }
+
+    function markSelectedSwatch(group, color) {
+        if (!group) return;
+        group.querySelectorAll('.color-swatch').forEach((swatch) => {
+            const on = (swatch.dataset.color || '').toLowerCase() === color.toLowerCase();
+            swatch.classList.toggle('is-selected', on);
+            swatch.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+    }
+
+    function syncColorPickers() {
+        if (penColors) penColors.hidden = currentTool !== 'pen';
+        if (highlightColors) highlightColors.hidden = currentTool !== 'highlighter';
+        markSelectedSwatch(penColors, penColor);
+        markSelectedSwatch(highlightColors, highlightColor);
+    }
+
+    function bindColorPicker(group, choose) {
+        if (!group) return;
+        group.addEventListener('click', (event) => {
+            const swatch = event.target.closest('.color-swatch');
+            if (!swatch || !swatch.dataset.color) return;
+            choose(swatch.dataset.color);
+            syncColorPickers();
+        });
+    }
+
+    bindColorPicker(penColors, (color) => {
+        penColor = color;
+    });
+    bindColorPicker(highlightColors, (color) => {
+        highlightColor = color;
+    });
 
     function clearCanvas() {
         if (!els.annotationCanvas || !ctx) return;
         ctx.clearRect(0, 0, els.annotationCanvas.width, els.annotationCanvas.height);
     }
 
-    function getCanvasCoords(e) {
-        const rect = els.annotationCanvas.getBoundingClientRect();
+    function getCanvasCoords(e, canvas) {
+        const rect = canvas.getBoundingClientRect();
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
         return {
@@ -145,56 +206,71 @@ export function initAnnotations() {
         };
     }
 
-    if (els.annotationCanvas) {
-        const startDraw = (e) => {
-            if (currentTool === 'none' || currentTool === 'pointer') return;
-            e.preventDefault();
-            const pt = getCanvasCoords(e);
-
-            isDrawing = true;
-            currentStroke = {
-                tool: currentTool,
-                color: currentTool === 'pen' ? '#003865' : '#ffeb3b',
-                lineWidth: currentTool === 'pen' ? 3 : 20,
-                points: [pt]
-            };
+    function startDraw(e, surface) {
+        if (currentTool === 'none' || currentTool === 'pointer') return;
+        if (e.target && e.target.closest && e.target.closest('.flipchart-close')) return;
+        const canvas = surface === 'flipchart' ? els.flipchartCanvas : els.annotationCanvas;
+        if (!canvas) return;
+        e.preventDefault();
+        isDrawing = true;
+        drawSurface = surface;
+        currentStroke = {
+            tool: currentTool,
+            color: currentTool === 'pen' ? penColor : highlightColor,
+            lineWidth: currentTool === 'pen' ? 3 : 20,
+            points: [getCanvasCoords(e, canvas)]
         };
+    }
 
-        const drawMove = (e) => {
-            if (!isDrawing || !currentStroke) return;
-            e.preventDefault();
-            const pt = getCanvasCoords(e);
-            currentStroke.points.push(pt);
-            renderStroke(currentStroke);
-        };
+    function drawMove(e) {
+        if (!isDrawing || !currentStroke) return;
+        const canvas = drawSurface === 'flipchart' ? els.flipchartCanvas : els.annotationCanvas;
+        if (!canvas) return;
+        e.preventDefault();
+        currentStroke.points.push(getCanvasCoords(e, canvas));
+        renderStroke(currentStroke, drawSurface);
+    }
 
-        const stopDraw = (e) => {
-            if (!isDrawing || !currentStroke) return;
-            isDrawing = false;
-        
+    function stopDraw() {
+        if (!isDrawing || !currentStroke) return;
+        isDrawing = false;
+        if (drawSurface === 'flipchart') {
+            flipchartStrokes.push(currentStroke);
+        } else {
             if (!state.slideAnnotations[state.currentIndex]) {
                 state.slideAnnotations[state.currentIndex] = [];
             }
             state.slideAnnotations[state.currentIndex].push(currentStroke);
-            currentStroke = null;
             api.saveAnnotationsToStorage?.();
-        };
+        }
+        currentStroke = null;
+        drawSurface = null;
+    }
 
-        els.annotationCanvas.addEventListener('mousedown', startDraw);
+    if (els.annotationCanvas) {
+        els.annotationCanvas.addEventListener('mousedown', (e) => startDraw(e, 'slide'));
         els.annotationCanvas.addEventListener('mousemove', drawMove);
-        window.addEventListener('mouseup', stopDraw);
-
-        els.annotationCanvas.addEventListener('touchstart', startDraw, { passive: false });
+        els.annotationCanvas.addEventListener('touchstart', (e) => startDraw(e, 'slide'), { passive: false });
         els.annotationCanvas.addEventListener('touchmove', drawMove, { passive: false });
         els.annotationCanvas.addEventListener('touchend', stopDraw);
     }
+
+    if (els.flipchartCanvas) {
+        els.flipchartCanvas.addEventListener('mousedown', (e) => startDraw(e, 'flipchart'));
+        els.flipchartCanvas.addEventListener('mousemove', drawMove);
+        els.flipchartCanvas.addEventListener('touchstart', (e) => startDraw(e, 'flipchart'), { passive: false });
+        els.flipchartCanvas.addEventListener('touchmove', drawMove, { passive: false });
+        els.flipchartCanvas.addEventListener('touchend', stopDraw);
+    }
+
+    window.addEventListener('mouseup', stopDraw);
 
     // Place/move pointer on slide click without blocking scroll (els.annotationCanvas is pointer-events: none in pointer mode)
     if (els.slideCard) {
         els.slideCard.addEventListener('click', (e) => {
             if (currentTool !== 'pointer') return;
             // Ignore clicks on the annotation dock tools if they somehow bubble here
-            if (e.target.closest && e.target.closest('.annotation-dock')) return;
+            if (e.target.closest && e.target.closest('.annotation-dock, .flipchart-sheet')) return;
 
             const rect = els.slideCard.getBoundingClientRect();
             if (!rect.width || !rect.height) return;
@@ -204,33 +280,101 @@ export function initAnnotations() {
         });
     }
 
-    function renderStroke(stroke) {
-        if (!els.annotationCanvas || !ctx || !stroke.points || stroke.points.length === 0) return;
-        const { width, height } = getCanvasLayoutSize();
+    function renderStroke(stroke, surface) {
+        const onFlipchart = surface === 'flipchart';
+        const canvas = onFlipchart ? els.flipchartCanvas : els.annotationCanvas;
+        const context = onFlipchart ? flipchartCtx : ctx;
+        if (!canvas || !context || !stroke.points || stroke.points.length === 0) return;
+        const width = canvas.offsetWidth || (onFlipchart ? 0 : SLIDE_DESIGN_WIDTH);
+        const height = canvas.offsetHeight || (onFlipchart ? 0 : SLIDE_DESIGN_HEIGHT);
+        if (!width || !height) return;
 
-        ctx.save();
-        ctx.beginPath();
-    
+        context.save();
+        context.beginPath();
+
         let strokeColor = stroke.color;
         if (stroke.tool === 'highlighter') {
-            strokeColor = '#ffeb3b';
+            const stored = stroke.color || '#ffeb3b';
+            // Light marker colors multiply onto slide content. On blank paper they need a visible wash.
+            strokeColor = onFlipchart
+                ? (HIGHLIGHT_ON_PAPER[stored.toLowerCase()] || 'rgba(202, 138, 4, 0.55)')
+                : stored;
         } else if (stroke.tool === 'pen' && (strokeColor === '#ff3b30' || !strokeColor)) {
             strokeColor = '#003865';
         }
 
-        ctx.strokeStyle = strokeColor;
-        ctx.lineWidth = stroke.lineWidth;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.globalCompositeOperation = 'source-over';
+        context.strokeStyle = strokeColor;
+        context.lineWidth = stroke.lineWidth;
+        context.lineCap = 'round';
+        context.lineJoin = 'round';
+        context.globalCompositeOperation = 'source-over';
 
         const pts = stroke.points;
-        ctx.moveTo(pts[0].x * width, pts[0].y * height);
+        context.moveTo(pts[0].x * width, pts[0].y * height);
         for (let i = 1; i < pts.length; i++) {
-            ctx.lineTo(pts[i].x * width, pts[i].y * height);
+            context.lineTo(pts[i].x * width, pts[i].y * height);
         }
-        ctx.stroke();
-        ctx.restore();
+        context.stroke();
+        context.restore();
+    }
+
+    function clearFlipchartCanvas() {
+        if (!els.flipchartCanvas || !flipchartCtx) return;
+        flipchartCtx.clearRect(0, 0, els.flipchartCanvas.width, els.flipchartCanvas.height);
+    }
+
+    function redrawFlipchart() {
+        clearFlipchartCanvas();
+        flipchartStrokes.forEach((stroke) => renderStroke(stroke, 'flipchart'));
+    }
+
+    function resizeFlipchartCanvas() {
+        if (!flipchartOpen || !els.flipchartCanvas || !flipchartCtx) return;
+        const width = els.flipchartCanvas.offsetWidth;
+        const height = els.flipchartCanvas.offsetHeight;
+        if (!width || !height) return;
+
+        const dpr = window.devicePixelRatio || 1;
+        els.flipchartCanvas.width = Math.round(width * dpr);
+        els.flipchartCanvas.height = Math.round(height * dpr);
+        if (flipchartCtx.resetTransform) {
+            flipchartCtx.resetTransform();
+        } else {
+            flipchartCtx.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        flipchartCtx.scale(dpr, dpr);
+        redrawFlipchart();
+    }
+
+    function clearFlipchartDrawing() {
+        flipchartStrokes = [];
+        clearFlipchartCanvas();
+    }
+
+    function openFlipchart() {
+        if (!els.flipchartSheet) return;
+        flipchartOpen = true;
+        els.flipchartSheet.hidden = false;
+        if (els.flipchartBtn) {
+            els.flipchartBtn.classList.add('active');
+            els.flipchartBtn.setAttribute('aria-pressed', 'true');
+        }
+        if (els.flipchartCanvas) {
+            const drawing = currentTool === 'pen' || currentTool === 'highlighter';
+            els.flipchartCanvas.classList.toggle('drawable', drawing);
+        }
+        requestAnimationFrame(resizeFlipchartCanvas);
+    }
+
+    function closeFlipchart() {
+        flipchartOpen = false;
+        if (isDrawing && drawSurface === 'flipchart') stopDraw();
+        if (els.flipchartSheet) els.flipchartSheet.hidden = true;
+        if (els.flipchartBtn) {
+            els.flipchartBtn.classList.remove('active');
+            els.flipchartBtn.setAttribute('aria-pressed', 'false');
+        }
+        if (els.flipchartCanvas) els.flipchartCanvas.classList.remove('drawable');
     }
 
     function redrawCurrentSlideAnnotations() {

@@ -51,7 +51,7 @@ export function initChrome() {
         localStorage.setItem('slides-viewer-theme', isDark ? 'dark' : 'light');
     });
 
-    // Font Scaling: 50%–200% in 25% steps (slider starts at 100% / middle)
+    // Font Scaling: 50%–200% in 25% steps (starts at 100%)
     const FONT_SIZE_MIN = 50;
     const FONT_SIZE_MAX = 200;
     const FONT_SIZE_STEP = 25;
@@ -63,12 +63,22 @@ export function initChrome() {
         return Math.min(FONT_SIZE_MAX, Math.max(FONT_SIZE_MIN, snapped));
     }
 
-    function syncFontSlider() {
-        if (!els.fontSizeSlider) return;
-        els.fontSizeSlider.value = String(state.currentFontSize);
-        els.fontSizeSlider.setAttribute('aria-valuenow', String(state.currentFontSize));
-        els.fontSizeSlider.setAttribute('aria-valuetext', `${state.currentFontSize} percent`);
-        els.fontSizeSlider.title = `Text size: ${state.currentFontSize}%`;
+    function syncFontControls() {
+        const size = state.currentFontSize;
+        const atMin = size <= FONT_SIZE_MIN;
+        const atMax = size >= FONT_SIZE_MAX;
+        if (els.fontSizeDecrease) {
+            els.fontSizeDecrease.disabled = atMin;
+            els.fontSizeDecrease.title = atMin
+                ? `Text size ${size}% (minimum)`
+                : `Decrease text size (currently ${size}%)`;
+        }
+        if (els.fontSizeIncrease) {
+            els.fontSizeIncrease.disabled = atMax;
+            els.fontSizeIncrease.title = atMax
+                ? `Text size ${size}% (maximum)`
+                : `Increase text size (currently ${size}%)`;
+        }
     }
 
     function updateFontSize() {
@@ -78,8 +88,14 @@ export function initChrome() {
             els.slideCard.style.fontSize = `${(SLIDE_DESIGN_FONT_PX * state.currentFontSize) / 100}px`;
         }
         localStorage.setItem('slides-viewer-font-size', state.currentFontSize);
-        syncFontSlider();
+        syncFontControls();
         fitFooterCourseTitle();
+    }
+
+    function stepFontSize(delta) {
+        state.currentFontSize = snapFontSize(state.currentFontSize + delta);
+        updateFontSize();
+        focusSlideStage();
     }
 
     const savedFontSize = localStorage.getItem('slides-viewer-font-size');
@@ -88,11 +104,11 @@ export function initChrome() {
     }
     updateFontSize();
 
-    if (els.fontSizeSlider) {
-        els.fontSizeSlider.addEventListener('input', () => {
-            state.currentFontSize = snapFontSize(els.fontSizeSlider.value);
-            updateFontSize();
-        });
+    if (els.fontSizeDecrease) {
+        els.fontSizeDecrease.addEventListener('click', () => stepFontSize(-FONT_SIZE_STEP));
+    }
+    if (els.fontSizeIncrease) {
+        els.fontSizeIncrease.addEventListener('click', () => stepFontSize(FONT_SIZE_STEP));
     }
 
     /**

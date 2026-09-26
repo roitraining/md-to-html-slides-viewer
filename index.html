@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <!-- Slide Viewer Styling -->
-    <link rel="stylesheet" href="style.css?v=52">
+    <link rel="stylesheet" href="style.css?v=55">
     <!-- Highlight.js CSS for Code Blocks -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
 </head>
@@ -38,34 +38,38 @@
                 <select id="slide-theme-select" class="theme-select" aria-label="Slide theme"></select>
             </label>
             <button id="theme-toggle" class="icon-btn" aria-label="Toggle light and dark mode" title="Light / dark mode">🌙</button>
-            <div class="font-controls" title="Text size">
-                <span class="font-slider-label font-slider-label-sm" aria-hidden="true">A</span>
-                <input
-                    type="range"
-                    id="font-size-slider"
-                    class="font-size-slider"
-                    min="50"
-                    max="200"
-                    step="25"
-                    value="100"
-                    aria-label="Text size"
-                    aria-valuemin="50"
-                    aria-valuemax="200"
-                    aria-valuenow="100"
-                    aria-valuetext="100 percent"
-                >
-                <span class="font-slider-label font-slider-label-lg" aria-hidden="true">A</span>
+            <div class="font-controls" role="group" aria-label="Text size">
+                <button id="font-size-decrease" class="icon-btn font-size-btn" type="button" aria-label="Decrease text size" title="Decrease text size">−</button>
+                <button id="font-size-increase" class="icon-btn font-size-btn" type="button" aria-label="Increase text size" title="Increase text size">+</button>
             </div>
         </div>
     </header>
 
     <!-- Floating Right-Side Annotation Dock (Visible in Fullscreen Mode) -->
     <div id="annotation-dock" class="annotation-dock" aria-label="Annotation Controls">
-        <button id="pen-tool-btn" class="icon-btn tool-btn" aria-label="Pen Tool" title="Pen (P)" data-tooltip="Pen (P)">✏️</button>
-        <button id="highlighter-tool-btn" class="icon-btn tool-btn" aria-label="Highlighter Tool" title="Highlighter (H)" data-tooltip="Highlighter (H)">
+        <div class="tool-with-colors">
+            <div id="pen-colors" class="color-picker" role="group" aria-label="Pen color" hidden>
+                <button type="button" class="color-swatch" data-color="#111111" style="--swatch:#111111" aria-label="Black" aria-pressed="false"></button>
+                <button type="button" class="color-swatch is-selected" data-color="#4169E1" style="--swatch:#4169E1" aria-label="Royal blue" aria-pressed="true"></button>
+                <button type="button" class="color-swatch" data-color="#15803d" style="--swatch:#15803d" aria-label="Green" aria-pressed="false"></button>
+                <button type="button" class="color-swatch" data-color="#dc2626" style="--swatch:#dc2626" aria-label="Red" aria-pressed="false"></button>
+            </div>
+            <button id="pen-tool-btn" class="icon-btn tool-btn" aria-label="Pen Tool" title="Pen (P)" data-tooltip="Pen (P)">✏️</button>
+        </div>
+        <div class="tool-with-colors">
+            <div id="highlight-colors" class="color-picker" role="group" aria-label="Highlighter color" hidden>
+                <button type="button" class="color-swatch is-selected" data-color="#ffe14a" style="--swatch:#ffe14a" aria-label="Yellow" aria-pressed="true"></button>
+                <button type="button" class="color-swatch" data-color="#86efac" style="--swatch:#86efac" aria-label="Green" aria-pressed="false"></button>
+                <button type="button" class="color-swatch" data-color="#7dd3fc" style="--swatch:#7dd3fc" aria-label="Blue" aria-pressed="false"></button>
+            </div>
+            <button id="highlighter-tool-btn" class="icon-btn tool-btn" aria-label="Highlighter Tool" title="Highlighter (H)" data-tooltip="Highlighter (H)">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M15.245 2.227a1.5 1.5 0 0 1 2.121 0l4.407 4.407a1.5 1.5 0 0 1 0 2.121l-9.193 9.193a1.5 1.5 0 0 1-.74.405l-4.502 1.125a.75.75 0 0 1-.91-.91l1.125-4.502a1.5 1.5 0 0 1 .405-.74l9.193-9.193zM3.75 21h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1 0-1.5z"/></svg>
-        </button>
+            </button>
+        </div>
         <button id="pointer-tool-btn" class="icon-btn tool-btn" aria-label="Pointer Tool" title="Pointer (O)" data-tooltip="Pointer (O)">👈</button>
+        <button id="flipchart-btn" class="icon-btn tool-btn" type="button" aria-label="Flipchart" title="Flipchart" data-tooltip="Flipchart" aria-pressed="false">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 2.2h10.2A1.3 1.3 0 0 1 18.5 3.5V13H5.5V3.5A1.3 1.3 0 0 1 7 2.2zM4.6 14.2h14.8V15.6H4.6v-1.4zM12 16.1 7.6 22h1.9l2.5-4.2 2.5 4.2h1.9L12 16.1z"/></svg>
+        </button>
         <button id="clear-canvas-btn" class="icon-btn tool-btn" aria-label="Clear Slide" title="Clear Slide (C)" data-tooltip="Clear Slide (C)">🧹</button>
         <button id="delete-all-canvas-btn" class="icon-btn tool-btn" aria-label="Delete All" title="Delete All" data-tooltip="Delete All">🗑️</button>
     </div>
@@ -78,6 +82,10 @@
                 <canvas id="annotation-canvas" class="annotation-canvas"></canvas>
                 <!-- Presenter pointer (one at a time) -->
                 <div id="slide-pointer" class="slide-pointer" hidden aria-hidden="true">👈</div>
+                <div id="flipchart-sheet" class="flipchart-sheet" hidden>
+                    <canvas id="flipchart-canvas" class="flipchart-canvas"></canvas>
+                    <button type="button" id="flipchart-close" class="flipchart-close" aria-label="Close flipchart" title="Close flipchart">&times;</button>
+                </div>
 
                 <!-- Top Dark Blue Accent Line -->
                 <div class="slide-top-bar"></div>
@@ -181,6 +189,6 @@
     <!-- html2pdf.js for Direct PDF File Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- Slide Viewer App Logic -->
-    <script type="module" src="js/main.js?v=47"></script>
+    <script type="module" src="js/main.js?v=49"></script>
 </body>
 </html>

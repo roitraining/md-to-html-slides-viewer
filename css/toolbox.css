@@ -158,3 +158,119 @@ body.is-fullscreen .annotation-dock {
 .annotation-dock .tool-btn.active svg {
     fill: #ffffff !important;
 }
+
+.tool-with-colors {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.annotation-dock .tool-with-colors:has(.color-picker:not([hidden])) .tool-btn::after {
+    display: none;
+}
+
+.color-picker {
+    position: absolute;
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 6px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+    z-index: 1002;
+}
+
+.color-picker[hidden] {
+    display: none !important;
+}
+
+body.dark-theme .color-picker {
+    background: #1e293b;
+    border-color: #475569;
+}
+
+.color-swatch {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background: var(--swatch);
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.18);
+    cursor: pointer;
+}
+
+body.dark-theme .color-swatch {
+    border-color: #1e293b;
+}
+
+.color-swatch.is-selected {
+    box-shadow: 0 0 0 2px #003865;
+}
+
+body.dark-theme .color-swatch.is-selected {
+    box-shadow: 0 0 0 2px #f8fafc;
+}
+
+/* Flipchart: one plain sheet over the slide. Ink stays in memory until the trash can. */
+.flipchart-sheet {
+    position: absolute;
+    z-index: 30;
+    top: 32px;
+    left: 44px;
+    right: 44px;
+    bottom: 32px;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.08),
+        0 14px 32px rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+}
+
+.flipchart-sheet[hidden] {
+    display: none !important;
+}
+
+.flipchart-close {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #64748b;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.flipchart-close:hover {
+    background: rgba(15, 23, 42, 0.06);
+    color: #0f172a;
+}
+
+.flipchart-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    touch-action: none;
+}
+
+.flipchart-canvas.drawable {
+    pointer-events: auto;
+    cursor: crosshair;
+}

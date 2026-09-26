@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=52">
+    <link rel="stylesheet" href="style.css?v=53">
     <link rel="stylesheet" href="css/editor.css?v=48">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 </head>
@@ -28,6 +28,10 @@
             <label class="theme-select-wrap" title="Slide theme">
                 <select id="slide-theme-select" class="theme-select" aria-label="Slide theme"></select>
             </label>
+            <div class="font-controls" role="group" aria-label="Text size">
+                <button id="font-size-decrease" class="icon-btn font-size-btn" type="button" aria-label="Decrease text size" title="Decrease text size">−</button>
+                <button id="font-size-increase" class="icon-btn font-size-btn" type="button" aria-label="Increase text size" title="Increase text size">+</button>
+            </div>
         </div>
     </header>
 
@@ -114,6 +118,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script type="module" src="js/editor.js?v=47"></script>
+    <script type="module" src="js/editor.js?v=48"></script>
 </body>
 </html>

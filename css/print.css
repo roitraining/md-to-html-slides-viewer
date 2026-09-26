@@ -45,7 +45,8 @@
     .presentation-stage,
     .side-menu,
     .annotation-dock,
-    .slide-pointer {
+    .slide-pointer,
+    .flipchart-sheet {
         display: none !important;
     }
 
