@@ -1,4 +1,5 @@
 <!-- course-title: 123: Sample Course -->
+<!-- course-theme: roi-alt-theme -->
 
 <!-- layout: title -->
 ![ROI Logo](images/roi-logo-with-name.png)

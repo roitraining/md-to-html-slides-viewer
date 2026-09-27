@@ -10,8 +10,8 @@ import {
     setLayoutLine,
     setSlideImage,
     slideTitle
-} from './editor-model.js';
-import { loadSlideThemes, resolveThemeName } from './themes.js';
+} from './editor-model.js?v=1';
+import { loadSlideThemes, knownThemeId, resolveThemeName } from './themes.js';
 
 const THEME_KEY = 'slides-viewer-slide-theme';
 const FONT_SIZE_KEY = 'slides-viewer-font-size';
@@ -29,6 +29,7 @@ const THUMB_BASE_WIDTH = 960;
 const els = {};
 const doc = {
     courseTitle: '',
+    courseTheme: '',
     slides: [],
     index: 0,
     chapters: [],
@@ -100,7 +101,7 @@ function setStatus(message, isDirty) {
 }
 
 function currentSnapshot() {
-    return serializeChapter(doc.courseTitle, doc.slides);
+    return serializeChapter(doc.courseTitle, doc.courseTheme, doc.slides);
 }
 
 function isDirty() {
@@ -128,6 +129,7 @@ function commitPane() {
 function setEditingEnabled(enabled) {
     canEdit = enabled;
     els.courseTitleInput.disabled = !enabled;
+    els.courseThemeSelect.disabled = !enabled;
     els.layoutSelect.disabled = !enabled;
     els.markdown.disabled = !enabled;
     els.addImageBtn.disabled = !enabled;
@@ -183,6 +185,41 @@ function applyTheme(name, { persist = true } = {}) {
         els.themeSelect.value = theme;
     }
     if (persist) localStorage.setItem(THEME_KEY, theme);
+}
+
+let themesReady = false;
+
+function fillCourseThemeSelect() {
+    if (!els.courseThemeSelect) return;
+    const previous = els.courseThemeSelect.value;
+    els.courseThemeSelect.innerHTML = '';
+    const fallback = document.createElement('option');
+    fallback.value = '';
+    fallback.textContent = 'Default';
+    els.courseThemeSelect.appendChild(fallback);
+    availableThemes.forEach((id) => {
+        const source = els.themeSelect && els.themeSelect.querySelector(`option[value="${id}"]`);
+        const option = document.createElement('option');
+        option.value = id;
+        option.textContent = source ? source.textContent : id;
+        els.courseThemeSelect.appendChild(option);
+    });
+    if (previous && [...els.courseThemeSelect.options].some((option) => option.value === previous)) {
+        els.courseThemeSelect.value = previous;
+    }
+}
+
+function syncCourseThemeControl() {
+    if (!els.courseThemeSelect) return;
+    const known = knownThemeId(doc.courseTheme, availableThemes);
+    els.courseThemeSelect.value = known || '';
+}
+
+function applyDocumentTheme() {
+    if (!themesReady || !doc.chapterId) return;
+    const known = knownThemeId(doc.courseTheme, availableThemes);
+    applyTheme(known || 'roi-theme', { persist: false });
+    syncCourseThemeControl();
 }
 
 function scaleSlideToFit() {
@@ -349,6 +386,7 @@ function showSlide() {
     els.markdown.value = markdown;
     els.layoutSelect.value = readLayoutId(markdown, doc.index);
     els.courseTitleInput.value = doc.courseTitle;
+    syncCourseThemeControl();
     buildTray();
     renderPreview();
     refreshDirty();
@@ -522,13 +560,15 @@ async function loadChapter(chapterId) {
     const file = await chapter.handle.getFile();
     const parsed = parseChapter(await file.text());
     doc.courseTitle = parsed.courseTitle;
+    doc.courseTheme = parsed.courseTheme;
     doc.slides = parsed.slides.length ? parsed.slides : [NEW_SLIDE_MARKDOWN];
     doc.index = 0;
     doc.chapterId = chapter.id;
-    doc.savedSnapshot = serializeChapter(doc.courseTitle, doc.slides);
+    doc.savedSnapshot = serializeChapter(doc.courseTitle, doc.courseTheme, doc.slides);
     els.courseTitleInput.value = doc.courseTitle;
     fillChapterSelect();
     showSlide();
+    applyDocumentTheme();
 }
 
 async function openCourse(course) {
@@ -775,6 +815,7 @@ function bind() {
     els.footerNumber = $('footer-slide-number');
     els.coursePicker = $('course-picker');
     els.courseTitleInput = $('course-title-input');
+    els.courseThemeSelect = $('course-theme-select');
     els.layoutSelect = $('layout-select');
     els.imageSelect = $('image-select');
     els.useImageBtn = $('use-image-btn');
@@ -786,9 +827,21 @@ function bind() {
     const savedTheme = localStorage.getItem(THEME_KEY);
     loadSlideThemes(els.themeSelect).then((ids) => {
         if (ids.length) availableThemes = ids;
+        themesReady = true;
+        fillCourseThemeSelect();
+        if (doc.chapterId) {
+            applyDocumentTheme();
+            return;
+        }
         applyTheme(savedTheme || document.documentElement.getAttribute('data-theme'), { persist: false });
     }).catch((err) => {
         console.error(err);
+        themesReady = true;
+        fillCourseThemeSelect();
+        if (doc.chapterId) {
+            applyDocumentTheme();
+            return;
+        }
         applyTheme(savedTheme || document.documentElement.getAttribute('data-theme'), { persist: false });
     });
 
@@ -815,6 +868,11 @@ function bind() {
     els.courseTitleInput.addEventListener('input', () => {
         doc.courseTitle = els.courseTitleInput.value;
         renderPreview();
+        refreshDirty();
+    });
+    els.courseThemeSelect.addEventListener('change', () => {
+        doc.courseTheme = els.courseThemeSelect.value;
+        applyTheme(doc.courseTheme || 'roi-theme', { persist: false });
         refreshDirty();
     });
     els.layoutSelect.addEventListener('change', onLayoutChange);

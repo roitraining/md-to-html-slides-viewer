@@ -1,5 +1,5 @@
 /* Feature module */
-import { state, els, api, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
+import { state, els, api, courseThemeIdentity, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
 
 export function initCourse() {
     // ─── Course loading ───────────────────────────────────────────────
@@ -208,6 +208,17 @@ export function initCourse() {
             /<!--\s*(?:course-title|course_title|course|footer-title|footer_title):\s*(.*?)\s*-->/i
         );
         const customCourseTitle = commentMatch ? commentMatch[1].trim() : '';
+        const themeMatch = markdownText.match(
+            /<!--\s*(?:course-theme|course_theme):\s*(.*?)\s*-->/i
+        );
+        const requestedTheme = themeMatch ? themeMatch[1].trim() : '';
+        const themeIdentity = courseThemeIdentity(state.courseUrl);
+        if (state.themeChosenForCourse && state.themeChosenForCourse !== themeIdentity) {
+            state.themeChosenForCourse = null;
+        }
+        if (state.themeChosenForCourse !== themeIdentity) {
+            api.applyCourseTheme?.(requestedTheme);
+        }
 
         if (customCourseTitle) {
             if (els.footerCourseTitle) els.footerCourseTitle.textContent = customCourseTitle;

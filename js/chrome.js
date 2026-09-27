@@ -1,10 +1,14 @@
 /* Feature module */
-import { state, els, api, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
-import { loadSlideThemes, resolveThemeName } from './themes.js';
+import { state, els, api, courseThemeIdentity, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
+import { loadSlideThemes, knownThemeId, resolveThemeName } from './themes.js';
 
 export function initChrome() {
     const SLIDE_THEME_KEY = 'slides-viewer-slide-theme';
-    let availableThemes = ['roi-theme'];
+    const DEFAULT_THEME = 'roi-theme';
+    let availableThemes = [DEFAULT_THEME];
+    let themesReady = false;
+    let courseThemeRequested = false;
+    let pendingCourseTheme = '';
 
     function applySlideTheme(name, { persist = true } = {}) {
         const theme = resolveThemeName(name, availableThemes);
@@ -16,13 +20,41 @@ export function initChrome() {
     }
 
     const themeParam = new URLSearchParams(window.location.search).get('theme');
-    const savedSlideTheme = localStorage.getItem(SLIDE_THEME_KEY);
-    loadSlideThemes(els.slideThemeSelect).then((ids) => {
-        if (ids.length) availableThemes = ids;
-        applySlideTheme(themeParam || savedSlideTheme || document.documentElement.getAttribute('data-theme'), { persist: false });
-    }).catch((err) => {
+
+    // Course directive wins. A valid ?theme= applies only when the course
+    // does not name a known theme. Anything else stays on the default theme.
+    function applyPendingCourseTheme() {
+        const fromCourse = knownThemeId(pendingCourseTheme, availableThemes);
+        const fromUrl = knownThemeId(themeParam, availableThemes);
+        applySlideTheme(fromCourse || fromUrl || DEFAULT_THEME, { persist: false });
+    }
+
+    api.applyCourseTheme = (requested) => {
+        courseThemeRequested = true;
+        pendingCourseTheme = String(requested || '').trim();
+        if (themesReady) applyPendingCourseTheme();
+    };
+
+    function onThemesReady(ids) {
+        if (ids && ids.length) availableThemes = ids;
+        themesReady = true;
+        if (courseThemeRequested) {
+            const chosen = state.themeChosenForCourse;
+            const identity = courseThemeIdentity(state.courseUrl);
+            if (!chosen || chosen !== identity) {
+                applyPendingCourseTheme();
+            } else {
+                applySlideTheme(document.documentElement.getAttribute('data-theme'), { persist: false });
+            }
+            return;
+        }
+        const fromUrl = knownThemeId(themeParam, availableThemes);
+        applySlideTheme(fromUrl || DEFAULT_THEME, { persist: false });
+    }
+
+    loadSlideThemes(els.slideThemeSelect).then(onThemesReady).catch((err) => {
         console.error(err);
-        applySlideTheme(themeParam || savedSlideTheme || document.documentElement.getAttribute('data-theme'), { persist: false });
+        onThemesReady(null);
     });
 
     function focusSlideStage() {
@@ -33,6 +65,7 @@ export function initChrome() {
     if (els.slideThemeSelect) {
         els.slideThemeSelect.addEventListener('change', () => {
             applySlideTheme(els.slideThemeSelect.value);
+            state.themeChosenForCourse = courseThemeIdentity(state.courseUrl);
             api.fitFooterCourseTitle?.();
             focusSlideStage();
         });

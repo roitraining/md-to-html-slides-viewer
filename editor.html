@@ -25,8 +25,8 @@
             <button type="button" id="open-folder-btn" class="btn-primary">Open folder</button>
             <button type="button" id="save-btn" class="btn-primary" disabled>Save</button>
             <span id="save-status" class="editor-save-status" role="status"></span>
-            <label class="theme-select-wrap" title="Slide theme">
-                <select id="slide-theme-select" class="theme-select" aria-label="Slide theme"></select>
+            <label class="theme-select-wrap" title="Preview theme">
+                <select id="slide-theme-select" class="theme-select" aria-label="Preview theme"></select>
             </label>
             <div class="font-controls" role="group" aria-label="Text size">
                 <button id="font-size-decrease" class="icon-btn font-size-btn" type="button" aria-label="Decrease text size" title="Decrease text size">A-</button>
@@ -81,6 +81,12 @@
             <input type="text" id="course-title-input" class="editor-text-input" disabled>
         </label>
         <label class="editor-field">
+            <span class="editor-field-label">Course theme</span>
+            <select id="course-theme-select" class="editor-text-input" title="Saved in the course file as course-theme" disabled>
+                <option value="">Default</option>
+            </select>
+        </label>
+        <label class="editor-field">
             <span class="editor-field-label">Layout</span>
             <select id="layout-select" class="editor-text-input" disabled></select>
         </label>
@@ -118,6 +124,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script type="module" src="js/editor.js?v=48"></script>
+    <script type="module" src="js/editor.js?v=49"></script>
 </body>
 </html>

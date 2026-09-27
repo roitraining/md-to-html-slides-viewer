@@ -14,8 +14,23 @@ export const state = {
     currentChapterId: null,
     currentShareUrl: null,
     openModalOpen: false,
-    slideAnnotations: {}
+    slideAnnotations: {},
+    // Set when the viewer picks a theme from the toolbar for the open course.
+    themeChosenForCourse: null
 };
+
+/** Folder identity for a course URL or local source key, ignoring the chapter file. */
+export function courseThemeIdentity(sourceKey) {
+    const key = String(sourceKey || '');
+    if (!key) return '';
+    if (key.startsWith('local:')) {
+        const rest = key.slice('local:'.length);
+        const slash = rest.lastIndexOf('/');
+        return slash === -1 ? `local:${rest}` : `local:${rest.slice(0, slash)}`;
+    }
+    const slash = key.lastIndexOf('/');
+    return slash === -1 ? key : key.slice(0, slash);
+}
 
 /** DOM nodes — filled by bindDom() before any init() runs. */
 export const els = {};

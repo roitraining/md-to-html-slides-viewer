@@ -71,10 +71,15 @@ export async function loadSlideThemes(selectEl) {
     return unique.map((theme) => theme.id);
 }
 
+export function knownThemeId(name, available) {
+    const ids = available && available.length ? available : ['roi-theme'];
+    const raw = String(name || '').trim().toLowerCase();
+    if (!raw) return '';
+    const mapped = THEME_ALIASES[raw] || raw;
+    return ids.includes(mapped) ? mapped : '';
+}
+
 export function resolveThemeName(name, available) {
     const ids = available && available.length ? available : ['roi-theme'];
-    const mapped = THEME_ALIASES[name] || name;
-    if (ids.includes(mapped)) return mapped;
-    if (ids.includes('roi-theme')) return 'roi-theme';
-    return ids[0];
+    return knownThemeId(name, ids) || (ids.includes('roi-theme') ? 'roi-theme' : ids[0]);
 }

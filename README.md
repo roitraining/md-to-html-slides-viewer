@@ -65,6 +65,7 @@ That image uses [nginx.editor.conf](nginx.editor.conf) and serves `editor.html`.
 ### Structure Your Markdown
 Slides are written in Markdown. Use a triple-dash (`---`) on its own line to separate slides. Customize slide properties using HTML comments:
 *   Set course footer title (at top of file): `<!-- course-title: My Slide Course -->`
+*   Set course theme (at top of file): `<!-- course-theme: roi-theme -->`. Use a theme id from the viewer (`roi-theme`, `roi-alt-theme`, `demo-theme`, `demo-2-theme`, `holcim-theme`). If the comment is missing or names an unknown theme, the viewer uses the default theme. The theme menu can still switch themes for the current session.
 *   Set slide layouts: `<!-- layout: title -->`, `<!-- layout: navigation -->`, `<!-- layout: 2-column -->`, `<!-- layout: 3-column -->`, `<!-- layout: card-layout -->`, `<!-- layout: panel-left -->`, `<!-- layout: panel-right -->`, `<!-- layout: title-image -->`, `<!-- layout: image-only -->`, `<!-- layout: full-bleed -->`, or `<!-- layout: stacked -->`.
 
 ---

@@ -1,6 +1,7 @@
 /* Parse and update slide Markdown without reformatting unrelated lines. */
 
 const COURSE_TITLE_RE = /<!--\s*(?:course-title|course_title|course|footer-title|footer_title):\s*(.*?)\s*-->/i;
+const COURSE_THEME_RE = /<!--\s*(?:course-theme|course_theme):\s*(.*?)\s*-->/i;
 const LAYOUT_LINE_RE = /^[ \t]*<!--\s*layout:\s*([a-z0-9_-]+)\s*-->[ \t]*$/i;
 
 export const LAYOUT_OPTIONS = [
@@ -53,26 +54,29 @@ export const NEW_SLIDE_MARKDOWN = '# New Slide\n\n- ';
 export function parseChapter(markdownText) {
     const source = String(markdownText || '').replace(/^\uFEFF/, '');
     const titleMatch = source.match(COURSE_TITLE_RE);
+    const themeMatch = source.match(COURSE_THEME_RE);
     const courseTitle = titleMatch ? titleMatch[1].trim() : '';
+    const courseTheme = themeMatch ? themeMatch[1].trim() : '';
     let body = source;
-    if (titleMatch) {
-        body = source.replace(titleMatch[0], '');
-    }
+    if (titleMatch) body = body.replace(titleMatch[0], '');
+    if (themeMatch) body = body.replace(themeMatch[0], '');
     body = body.replace(/^\s+/, '');
     const slides = body
         .split(/\r?\n---\r?\n/)
         .map((slide) => slide.trim())
         .filter((slide) => slide.length > 0);
-    return { courseTitle, slides };
+    return { courseTitle, courseTheme, slides };
 }
 
-export function serializeChapter(courseTitle, slides) {
+export function serializeChapter(courseTitle, courseTheme, slides) {
     const body = (slides || []).join('\n---\n');
     const title = String(courseTitle || '').trim();
-    if (title) {
-        return `<!-- course-title: ${title} -->\n\n${body}\n`;
-    }
-    return body ? `${body}\n` : '';
+    const theme = String(courseTheme || '').trim();
+    const header = [];
+    if (title) header.push(`<!-- course-title: ${title} -->`);
+    if (theme) header.push(`<!-- course-theme: ${theme} -->`);
+    if (!header.length) return body ? `${body}\n` : '';
+    return body ? `${header.join('\n')}\n\n${body}\n` : `${header.join('\n')}\n`;
 }
 
 export function slideTitle(markdown, index) {
