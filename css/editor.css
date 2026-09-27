@@ -12,10 +12,8 @@ body.editor-app {
 body.editor-app .toolbar {
     grid-column: 1 / -1;
     grid-row: 1;
-    height: auto;
-    min-height: 60px;
+    height: 60px;
     width: auto;
-    gap: 12px;
     z-index: 1000;
 }
 
@@ -26,12 +24,52 @@ body.editor-app .presentation-stage {
     min-height: 0;
 }
 
-body.editor-app .toolbar .btn-primary {
-    padding: 6px 12px;
+body.editor-app .toolbar-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 32px;
+    padding: 0 8px;
+    font-size: 16px;
+    line-height: 1;
+}
+
+body.editor-app .toolbar-action img {
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+body.editor-app .toolbar-action:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+body.editor-app .toolbar-action:disabled:hover {
+    background-color: transparent;
+    border-color: var(--border-color);
 }
 
 body.editor-app .toolbar-title-group {
     margin-left: 4px;
+    flex: 1 1 auto;
+    min-width: min-content;
+}
+
+body.editor-app .toolbar-title {
+    flex: 0 1 auto;
+    min-width: 2rem;
+}
+
+body.editor-app .chapter-select-wrap {
+    max-width: none;
+    flex-shrink: 0;
+}
+
+body.editor-app .toolbar-controls {
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 body.editor-app .menu-header {
@@ -135,8 +173,11 @@ body.editor-app .side-menu.view-thumbnails .slide-nav-label {
 .editor-save-status {
     font-size: 13px;
     color: var(--text-muted);
-    min-width: 7rem;
     white-space: nowrap;
+}
+
+.editor-save-status:empty {
+    display: none;
 }
 
 .editor-save-status.is-dirty {
@@ -234,6 +275,68 @@ body.editor-app .side-menu.view-thumbnails .slide-nav-label {
 .editor-course-picker p {
     margin: 0 0 8px;
     font-size: 16px;
+}
+
+.export-dialog {
+    width: min(480px, 100%);
+}
+
+.export-dialog .modal-footer:not(:has(button:not([hidden]))) {
+    display: none;
+}
+
+#export-message {
+    margin: 0;
+    line-height: 1.45;
+}
+
+.export-progress-wrap {
+    margin-top: 16px;
+}
+
+.export-progress-track {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--border-color);
+    overflow: hidden;
+}
+
+.export-progress-bar {
+    height: 100%;
+    width: 0;
+    background: var(--roi-blue);
+    border-radius: 999px;
+    transition: width 0.2s ease;
+}
+
+.export-progress-label {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.pptx-export-host {
+    position: fixed;
+    left: -10000px;
+    top: 0;
+    width: 1280px;
+    height: auto;
+    overflow: visible;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.pptx-export-host .slide-card {
+    transform: none !important;
+    font-size: 16px !important;
+    animation: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.pptx-export-host pre {
+    padding-top: 16px;
 }
 
 .btn-secondary:disabled,
