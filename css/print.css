@@ -104,6 +104,22 @@
         break-after: auto;
     }
 
+    /* Dark cover slides keep their on-screen field. A white print page hides the light type. */
+    html[data-theme="roi-alt-theme"] .print-slide-card.layout-title {
+        background-color: var(--roi-alt-navy) !important;
+        color: #ffffff !important;
+    }
+
+    html[data-theme="demo-theme"] .print-slide-card.layout-title {
+        background-color: #161411 !important;
+        color: var(--demo-cream) !important;
+    }
+
+    html[data-theme="demo-2-theme"] .print-slide-card.layout-title {
+        background-color: #161918 !important;
+        color: #f8f9fa !important;
+    }
+
     .print-slide-card .slide-top-bar {
         background: var(--slide-top-bar, var(--slide-print-accent)) !important;
         border-radius: 0 !important;
