@@ -6,25 +6,24 @@ A lightweight, modern, responsive presentation viewer that renders structured Ma
 
 ## How to View the Slides
 
-### GitHub Pages (recommended)
-
 The viewer is published at:
 
-**[https://roitraining.github.io/md-to-html-slides-viewer/](https://roitraining.github.io/md-to-html-slides-viewer/)**
+**[https://slidesv.roitraining.com/](https://slidesv.roitraining.com/)**
 
 Open that link and it will load the built-in sample course (`sample-course.md`) by default.
 
-### Open a course from another GitHub repo
+### Open a course
 
-Pass a Markdown file URL with the `course` query parameter. Use the **raw** GitHub URL (not the normal `github.com/.../blob/...` page).
+Click the folder icon in the toolbar (**Open course**, or Command+O / Ctrl+O).
 
-Example — LangChain slide course:
+*   **Local:** Choose a course folder (chapter `.md` files plus `images/`). Several Markdown files in that folder appear as chapters.
+*   **GitHub:** Paste a GitHub repo, folder, or Markdown file URL. A normal `github.com` link is fine; the viewer rewrites it to the raw form when it can. This works for a single course file and for a repo that contains several course folders.
+
+You can also open a course with a share link. Put the GitHub URL in the `course` query parameter:
 
 ```
-https://roitraining.github.io/md-to-html-slides-viewer/?course=https://raw.githubusercontent.com/roitraining/markdown-slide-authoring-course/main/course-langchain.md
+https://slidesv.roitraining.com/?course=https://github.com/roitraining/roi-course-authoring-template/tree/main/introducing-the-roi-course-factory/course
 ```
-
-You can also paste a standard GitHub file URL; the viewer will rewrite it to the raw form when possible.
 
 ### Run the Viewer Locally
 
@@ -38,7 +37,7 @@ Then open:
 ```
 http://localhost:8000/index.html?course=sample-course.md
 ```
-Or point `course=` at any reachable Markdown URL, same as on GitHub Pages.
+Or point `course=` at any reachable Markdown URL, same as on the hosted viewer.
 
 ### Edit a course on your machine
 
