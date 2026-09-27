@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=61">
-    <link rel="stylesheet" href="css/editor.css?v=48">
+    <link rel="stylesheet" href="css/editor.css?v=56">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 </head>
 <body class="editor-app">
@@ -22,8 +22,11 @@
             </label>
         </div>
         <div class="toolbar-controls">
-            <button type="button" id="open-folder-btn" class="btn-primary">Open folder</button>
-            <button type="button" id="save-btn" class="btn-primary" disabled>Save</button>
+            <button type="button" id="open-folder-btn" class="icon-btn toolbar-action" aria-label="Open folder" title="Open folder">📂</button>
+            <button type="button" id="save-btn" class="icon-btn toolbar-action" disabled aria-label="Save" title="Save">💾</button>
+            <button type="button" id="export-pptx-btn" class="icon-btn toolbar-action" disabled aria-label="Export" title="Export each chapter as a PowerPoint file">
+                <img src="images/powerpoint-icon.png" width="16" height="16" alt="">
+            </button>
             <span id="save-status" class="editor-save-status" role="status"></span>
             <label class="theme-select-wrap" title="Preview theme">
                 <select id="slide-theme-select" class="theme-select" aria-label="Preview theme"></select>
@@ -106,6 +109,27 @@
         </label>
     </aside>
 
+    <div id="export-dialog" class="modal-overlay" hidden>
+        <div class="modal-dialog export-dialog" role="dialog" aria-modal="true" aria-labelledby="export-title">
+            <div class="modal-header">
+                <h2 id="export-title">Export PowerPoint</h2>
+            </div>
+            <div class="modal-body">
+                <p id="export-message"></p>
+                <div id="export-progress-wrap" class="export-progress-wrap" hidden>
+                    <div id="export-progress-track" class="export-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Export progress">
+                        <div id="export-progress-bar" class="export-progress-bar"></div>
+                    </div>
+                    <p id="export-progress-label" class="export-progress-label"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="export-ok" class="btn-primary">OK</button>
+                <button type="button" id="export-cancel" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <div id="unsaved-dialog" class="modal-overlay" hidden>
         <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="unsaved-title">
             <div class="modal-header">
@@ -124,6 +148,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script type="module" src="js/editor.js?v=49"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+    <script type="module" src="js/editor.js?v=55"></script>
 </body>
 </html>

@@ -12,6 +12,7 @@ import {
     slideTitle
 } from './editor-model.js?v=1';
 import { loadSlideThemes, knownThemeId, resolveThemeName } from './themes.js';
+import { buildChapterPptx } from './pptx-export.js?v=4';
 
 const THEME_KEY = 'slides-viewer-slide-theme';
 const FONT_SIZE_KEY = 'slides-viewer-font-size';
@@ -20,7 +21,7 @@ const FONT_SIZE_MAX = 200;
 const FONT_SIZE_STEP = 25;
 const MEDIA_DIRS = new Set(['images', 'image', 'img', 'assets']);
 const SKIP_DIRS = new Set([
-    'node_modules', '.git', '.github', '.agents', '.vscode', 'css', 'js', 'scripts', 'fonts', 'static'
+    'node_modules', '.git', '.github', '.agents', '.vscode', 'css', 'js', 'scripts', 'fonts', 'static', 'powerpoint'
 ]);
 const IMAGE_EXT = /\.(png|jpe?g|gif|webp|svg)$/i;
 const DRAWER_PIN_KEY = 'slides-editor-drawer-pinned';
@@ -117,7 +118,7 @@ function refreshDirty() {
         return;
     }
     const dirty = currentSnapshot() !== doc.savedSnapshot;
-    setStatus(dirty ? 'Unsaved changes' : 'Saved', dirty);
+    setStatus('');
     els.saveBtn.disabled = !dirty;
 }
 
@@ -135,9 +136,14 @@ function setEditingEnabled(enabled) {
     els.addImageBtn.disabled = !enabled;
     els.imageSelect.disabled = !enabled || doc.images.length === 0;
     els.useImageBtn.disabled = !enabled || !els.imageSelect.value;
+    if (els.exportPptxBtn) els.exportPptxBtn.disabled = !enabled || exporting;
 }
 
 let availableThemes = ['roi-theme'];
+let exporting = false;
+let exportDialogOpen = false;
+let exportPhase = 'confirm';
+let exportChoice = null;
 
 function snapFontSize(value) {
     const n = parseInt(value, 10);
@@ -589,7 +595,7 @@ async function openCourse(course) {
     const defaultName = pickDefaultChapter(names);
     await loadChapter(defaultName);
     setEditingEnabled(true);
-    setStatus('Saved');
+    refreshDirty();
 }
 
 async function openFolder() {
@@ -628,6 +634,108 @@ async function openFolder() {
     setEditingEnabled(false);
     showCoursePicker(courses);
     setStatus('Choose a course.');
+}
+
+function pptxFileName(markdownName) {
+    return String(markdownName || 'chapter').replace(/\.(md|markdown)$/i, '') + '.pptx';
+}
+
+function powerpointFolderLabel() {
+    const root = doc.rootHandle && doc.rootHandle.name ? doc.rootHandle.name : '';
+    const relative = doc.courseDir ? `${doc.courseDir}/powerpoint` : 'powerpoint';
+    return root ? `${root}/${relative}` : relative;
+}
+
+function fileWord(count) {
+    return count === 1 ? 'file' : 'files';
+}
+
+function setExportProgress(percent, label) {
+    const value = Math.max(0, Math.min(100, Math.round(percent)));
+    els.exportProgressBar.style.width = `${value}%`;
+    els.exportProgressTrack.setAttribute('aria-valuenow', String(value));
+    els.exportProgressLabel.textContent = label || '';
+}
+
+function setExportPhase(phase) {
+    exportPhase = phase;
+    const busy = phase === 'progress';
+    els.exportOk.hidden = busy;
+    els.exportCancel.hidden = phase !== 'confirm';
+    els.exportProgressWrap.hidden = !busy;
+}
+
+function askExportChoice() {
+    return new Promise((resolve) => {
+        exportChoice = resolve;
+    });
+}
+
+function closeExportChoice(choice) {
+    const resolve = exportChoice;
+    exportChoice = null;
+    if (resolve) resolve(choice);
+}
+
+async function exportPowerPoint() {
+    if (exporting || exportDialogOpen || !doc.courseDirHandle || !doc.chapters.length) return;
+    exportDialogOpen = true;
+    const count = doc.chapters.length;
+    const folder = powerpointFolderLabel();
+    const previousTheme = document.documentElement.getAttribute('data-theme');
+    els.exportTitle.textContent = 'Export PowerPoint';
+    els.exportMessage.textContent = `This will export ${count} ${fileWord(count)} to the '${folder}' folder. Are you sure?`;
+    setExportProgress(0, '');
+    setExportPhase('confirm');
+    els.exportDialog.hidden = false;
+    try {
+        const choice = await askExportChoice();
+        if (choice !== 'ok') return;
+        exporting = true;
+        if (els.exportPptxBtn) els.exportPptxBtn.disabled = true;
+        setExportPhase('progress');
+        els.exportMessage.textContent = `Exporting ${count} ${fileWord(count)}…`;
+        setExportProgress(0, 'Preparing…');
+        if (isDirty()) {
+            setExportProgress(0, 'Saving…');
+            const saved = await saveChapter();
+            if (!saved) throw new Error('Could not save the chapter.');
+        }
+        const dir = await doc.courseDirHandle.getDirectoryHandle('powerpoint', { create: true });
+        for (let i = 0; i < count; i += 1) {
+            const chapter = doc.chapters[i];
+            setExportProgress((i / count) * 100, `${i + 1} of ${count}: ${chapter.label}`);
+            const file = await chapter.handle.getFile();
+            const parsed = parseChapter(await file.text());
+            const themeId = knownThemeId(parsed.courseTheme, availableThemes) || 'roi-theme';
+            applyTheme(themeId, { persist: false });
+            const blob = await buildChapterPptx({
+                slides: parsed.slides.length ? parsed.slides : [NEW_SLIDE_MARKDOWN],
+                courseTitle: parsed.courseTitle || 'ROI Training'
+            });
+            const dest = await dir.getFileHandle(pptxFileName(chapter.id), { create: true });
+            const writable = await dest.createWritable();
+            await writable.write(blob);
+            await writable.close();
+            setExportProgress(((i + 1) / count) * 100, `${i + 1} of ${count}: ${chapter.label}`);
+        }
+        applyTheme(previousTheme, { persist: false });
+        setExportPhase('done');
+        els.exportMessage.textContent = `Exported ${count} PowerPoint ${fileWord(count)} to the '${folder}' folder.`;
+        await askExportChoice();
+    } catch (err) {
+        applyTheme(previousTheme, { persist: false });
+        setExportPhase('done');
+        els.exportTitle.textContent = 'Export failed';
+        els.exportMessage.textContent = err.message || 'Could not export PowerPoint.';
+        await askExportChoice();
+    } finally {
+        applyTheme(previousTheme, { persist: false });
+        els.exportDialog.hidden = true;
+        exporting = false;
+        exportDialogOpen = false;
+        if (els.exportPptxBtn) els.exportPptxBtn.disabled = !canEdit;
+    }
 }
 
 async function saveChapter() {
@@ -797,6 +905,7 @@ function bind() {
     els.chapterSelect = $('chapter-select');
     els.openFolderBtn = $('open-folder-btn');
     els.saveBtn = $('save-btn');
+    els.exportPptxBtn = $('export-pptx-btn');
     els.saveStatus = $('save-status');
     els.themeSelect = $('slide-theme-select');
     els.fontSizeDecrease = $('font-size-decrease');
@@ -822,6 +931,15 @@ function bind() {
     els.addImageBtn = $('add-image-btn');
     els.markdown = $('slide-markdown');
     els.unsavedDialog = $('unsaved-dialog');
+    els.exportDialog = $('export-dialog');
+    els.exportTitle = $('export-title');
+    els.exportMessage = $('export-message');
+    els.exportProgressWrap = $('export-progress-wrap');
+    els.exportProgressTrack = $('export-progress-track');
+    els.exportProgressBar = $('export-progress-bar');
+    els.exportProgressLabel = $('export-progress-label');
+    els.exportOk = $('export-ok');
+    els.exportCancel = $('export-cancel');
 
     fillLayoutSelect();
     const savedTheme = localStorage.getItem(THEME_KEY);
@@ -862,6 +980,11 @@ function bind() {
     els.saveBtn.addEventListener('click', () => {
         saveChapter().catch((err) => setStatus(err.message || String(err), true));
     });
+    if (els.exportPptxBtn) {
+        els.exportPptxBtn.addEventListener('click', () => {
+            exportPowerPoint().catch((err) => setStatus(err.message || String(err), true));
+        });
+    }
     els.chapterSelect.addEventListener('change', () => {
         changeChapter(els.chapterSelect.value).catch((err) => setStatus(err.message || String(err), true));
     });
@@ -923,6 +1046,14 @@ function bind() {
     });
     els.imageSelect.addEventListener('change', () => {
         els.useImageBtn.disabled = !els.imageSelect.value;
+    });
+    $('export-ok').addEventListener('click', () => closeExportChoice('ok'));
+    $('export-cancel').addEventListener('click', () => closeExportChoice('cancel'));
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || !els.exportDialog || els.exportDialog.hidden) return;
+        if (exportPhase === 'progress') return;
+        event.preventDefault();
+        closeExportChoice(exportPhase === 'confirm' ? 'cancel' : 'ok');
     });
     $('unsaved-save').addEventListener('click', () => closeUnsaved('save'));
     $('unsaved-discard').addEventListener('click', () => closeUnsaved('discard'));
