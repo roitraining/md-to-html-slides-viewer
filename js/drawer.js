@@ -1,6 +1,6 @@
 /* Feature module */
-import { state, els, api } from './state.js';
-import { renderSlideInto } from './render-slide.js?v=46';
+import { state, els, api } from './state.js?v=2';
+import { renderSlideInto } from './render-slide.js?v=47';
 
 export function initDrawer() {
     // Side Menu Drawer interactions (open / pin / close)

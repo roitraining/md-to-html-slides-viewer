@@ -1,5 +1,5 @@
 /* Slide HTML post-processing: alerts, images, layout directives, columns. */
-import { state } from './state.js';
+import { state } from './state.js?v=2';
 
 export function processGitHubAlerts(container) {
     const blockquotes = container.querySelectorAll('blockquote');

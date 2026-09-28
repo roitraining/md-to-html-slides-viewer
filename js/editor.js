@@ -1,6 +1,6 @@
 /* Visual editor: local course folder, live preview, Markdown pane, save in place. */
-import { state, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
-import { renderSlideInto } from './render-slide.js?v=46';
+import { state, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js?v=2';
+import { renderSlideInto } from './render-slide.js?v=47';
 import {
     LAYOUT_OPTIONS,
     NEW_SLIDE_MARKDOWN,
@@ -12,7 +12,7 @@ import {
     slideTitle
 } from './editor-model.js?v=1';
 import { loadSlideThemes, knownThemeId, resolveThemeName } from './themes.js';
-import { buildChapterPptx } from './pptx-export.js?v=4';
+import { buildChapterPptx } from './pptx-export.js?v=5';
 
 const THEME_KEY = 'slides-viewer-slide-theme';
 const FONT_SIZE_KEY = 'slides-viewer-font-size';

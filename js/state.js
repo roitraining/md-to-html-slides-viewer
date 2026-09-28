@@ -1,6 +1,6 @@
 export const SLIDE_DESIGN_WIDTH = 1280;
 export const SLIDE_DESIGN_HEIGHT = 720;
-export const SLIDE_DESIGN_FONT_PX = 16;
+export const SLIDE_DESIGN_FONT_PX = 20;
 
 export const state = {
     slideFitScale: 1,

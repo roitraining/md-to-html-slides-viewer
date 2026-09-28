@@ -1,7 +1,7 @@
 /* Viewer stylesheet entry point. Files under css/ are split by concern:
    tokens, chrome, toolbox, slide layout, theme, shared slide skin, print.
    Theme pickers are built from the css/themes imports below. */
-@import url('css/tokens.css');
+@import url('css/tokens.css?v=2');
 @import url('css/chrome.css?v=60');
 @import url('css/toolbox.css?v=57');
 @import url('css/slide-layout.css?v=44');
@@ -11,4 +11,4 @@
 @import url('css/themes/demo-2-theme.css?v=2');
 @import url('css/themes/holcim-theme.css');
 @import url('css/slide-skin.css?v=45');
-@import url('css/print.css?v=56');
+@import url('css/print.css?v=57');

@@ -1,6 +1,6 @@
 /* Feature module */
-import { state, els } from './state.js';
-import { renderSlideInto } from './render-slide.js?v=46';
+import { state, els } from './state.js?v=2';
+import { renderSlideInto } from './render-slide.js?v=47';
 
 export function initPrint() {
     // PDF Export Functionality (Native Print PDF)
