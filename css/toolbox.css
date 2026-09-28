@@ -66,6 +66,13 @@ body.dark-theme .annotation-canvas {
     -webkit-backdrop-filter: blur(12px) saturate(1.2);
     opacity: 0.28;
     transition: opacity 0.22s ease, background-color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    max-height: calc(100dvh - 88px);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.annotation-dock::-webkit-scrollbar {
+    display: none;
 }
 
 body:not(.dark-theme) .annotation-dock {
@@ -97,6 +104,7 @@ body.dark-theme .annotation-dock:has(.tool-btn.active) {
 :fullscreen .annotation-dock,
 body.is-fullscreen .annotation-dock {
     top: 20px;
+    max-height: calc(100dvh - 36px);
 }
 
 /* Phones and tablets never hover, so the dock has to stay tappable. */
@@ -123,6 +131,8 @@ body.is-fullscreen .annotation-dock {
     margin-top: 4px;
     padding-top: 12px;
     border-top: 1px solid rgba(148, 163, 184, 0.45);
+    position: sticky;
+    bottom: 0;
 }
 
 .annotation-dock .dock-nav .tool-btn {
