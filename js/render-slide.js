@@ -13,7 +13,7 @@ import {
     processSplitLayouts,
     processCodeCopyButtons,
     processExternalLinks
-} from './layouts.js?v=46';
+} from './layouts.js?v=47';
 
 const LAYOUT_CLASSES = [
     'layout-title',

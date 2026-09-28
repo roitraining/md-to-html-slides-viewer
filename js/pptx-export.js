@@ -3,7 +3,7 @@
    measured boxes are replayed as native text, shapes, and images.
    Colors and fonts come from the theme currently set on <html data-theme>. */
 
-import { renderSlideInto } from './render-slide.js?v=46';
+import { renderSlideInto } from './render-slide.js?v=47';
 
 const SLIDE_W = 13.333;
 const SLIDE_H = 7.5;

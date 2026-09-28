@@ -1,5 +1,5 @@
 /* Feature module */
-import { state, els, api, courseThemeIdentity, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js';
+import { state, els, api, courseThemeIdentity, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js?v=2';
 
 export function initCourse() {
     // ─── Course loading ───────────────────────────────────────────────

@@ -18,7 +18,7 @@
     /* Fixed design canvas (16:9) — JS scales this to fit the stage */
     --slide-design-width: 1280px;
     --slide-design-height: 720px;
-    --slide-design-font: 16px;
+    --slide-design-font: 20px;
     /* Print/PDF page = PowerPoint 16:9 widescreen (1280×720 at 96dpi) */
     --slide-print-width: 13.333in;
     --slide-print-height: 7.5in;

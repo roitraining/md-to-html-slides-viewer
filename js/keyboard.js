@@ -1,5 +1,5 @@
 /* Keyboard shortcuts and hash navigation. */
-import { state, api } from './state.js';
+import { state, api } from './state.js?v=2';
 
 export function initKeyboard() {
     document.addEventListener('keydown', (e) => {
