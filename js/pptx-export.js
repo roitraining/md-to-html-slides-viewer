@@ -103,11 +103,11 @@ function fontFace(style) {
 
 function fontPt(style) {
     const px = parseFloat(style.fontSize);
-    if (!px) return 16;
-    // Use the CSS pixel size as the PowerPoint point size. The print
-    // conversion (px * 0.75) draws the type about a third smaller than
-    // the viewer, which leaves the extra whitespace on the slide.
-    return Math.max(8, Math.round(px * 10) / 10);
+    if (!px) return 12;
+    // Boxes are measured in inches (96 CSS px = 1 in = 72 pt). Using the
+    // pixel number as the point size draws the letters a third larger than
+    // those boxes, so a wrapped bullet runs into the next one.
+    return Math.max(8, Math.round(px * 0.75 * 10) / 10);
 }
 
 function lineSpacingPt(style) {
@@ -307,16 +307,14 @@ function addTextBlock(slide, el, origin) {
     if (!hasVisibleText(runs)) return;
     const box = contentBox(el, origin);
     if (!box) return;
-    // A little extra height so the last line is not clipped. Do not autofit:
-    // PowerPoint's shrink-to-fit makes the type smaller than the viewer.
-    const roomBelow = SLIDE_H - (box.y + box.h);
-    const extraH = Math.min(0.06, Math.max(0, roomBelow));
+    // Keep the measured height. Extra height spills into the next bullet.
+    // Do not autofit: PowerPoint's shrink-to-fit makes the type smaller than the viewer.
     const style = getComputedStyle(el);
     const options = {
         x: box.x,
         y: box.y,
         w: box.w,
-        h: round3(box.h + extraH),
+        h: box.h,
         margin: 0,
         isTextBox: true,
         align: textAlign(el, style),
@@ -328,9 +326,19 @@ function addTextBlock(slide, el, origin) {
     const lineSpacing = lineSpacingPt(style);
     if (lineSpacing) options.lineSpacing = lineSpacing;
     if (el.tagName === 'LI') {
-        const list = getComputedStyle(el).listStyleType;
+        const list = style.listStyleType;
         if (list && list !== 'none') {
-            options.bullet = el.parentElement && el.parentElement.tagName === 'OL' ? { type: 'number' } : true;
+            const parent = el.parentElement;
+            const pad = parent ? (parseFloat(getComputedStyle(parent).paddingLeft) || 0) : 0;
+            // Keep the text column as wide as the measured line. PowerPoint's
+            // own bullet indent would narrow it and wrap an extra line.
+            const indentPt = Math.max(12, Math.round((pad || 32) * 0.75 * 10) / 10);
+            const numbered = parent && parent.tagName === 'OL';
+            options.bullet = numbered ? { type: 'number', indent: indentPt } : { indent: indentPt };
+            const indentIn = indentPt / 72;
+            const x = Math.max(0, options.x - indentIn);
+            options.w = round3(options.w + (options.x - x));
+            options.x = round3(x);
         }
     }
     slide.addText(runs, options);

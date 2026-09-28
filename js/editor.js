@@ -12,7 +12,7 @@ import {
     slideTitle
 } from './editor-model.js?v=1';
 import { loadSlideThemes, knownThemeId, resolveThemeName } from './themes.js';
-import { buildChapterPptx } from './pptx-export.js?v=5';
+import { buildChapterPptx } from './pptx-export.js?v=7';
 
 const THEME_KEY = 'slides-viewer-slide-theme';
 const FONT_SIZE_KEY = 'slides-viewer-font-size';
