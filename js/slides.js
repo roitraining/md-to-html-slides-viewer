@@ -68,7 +68,22 @@ export function initSlides() {
             '',
             `${window.location.pathname}${window.location.search}#slide-${index + 1}`
         );
+
+        syncSlideNav();
     }
+
+    function syncSlideNav() {
+        const count = state.slides.length;
+        const index = state.currentIndex;
+        if (els.prevSlideBtn) els.prevSlideBtn.disabled = count === 0 || index <= 0;
+        if (els.nextSlideBtn) els.nextSlideBtn.disabled = count === 0 || index >= count - 1;
+    }
+
+    els.prevSlideBtn = document.getElementById('prev-slide-btn');
+    els.nextSlideBtn = document.getElementById('next-slide-btn');
+    els.prevSlideBtn?.addEventListener('click', prevSlide);
+    els.nextSlideBtn?.addEventListener('click', nextSlide);
+    syncSlideNav();
 
     api.goToSlide = goToSlide;
     api.prevSlide = prevSlide;

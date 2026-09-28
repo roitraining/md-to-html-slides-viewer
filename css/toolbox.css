@@ -99,6 +99,47 @@ body.is-fullscreen .annotation-dock {
     top: 20px;
 }
 
+/* Phones and tablets never hover, so the dock has to stay tappable. */
+@media (hover: none) {
+    .annotation-dock {
+        opacity: 1;
+    }
+
+    body:not(.dark-theme) .annotation-dock {
+        background-color: rgba(241, 245, 249, 0.92) !important;
+        border-color: rgba(203, 213, 225, 0.95) !important;
+    }
+
+    body.dark-theme .annotation-dock {
+        background-color: rgba(30, 41, 59, 0.92) !important;
+        border-color: rgba(71, 85, 105, 0.95) !important;
+    }
+}
+
+.dock-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.annotation-dock .dock-nav .tool-btn {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.annotation-dock .tool-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.annotation-dock .tool-btn:disabled:hover {
+    background-color: #ffffff;
+}
+
 .annotation-dock .tool-btn {
     width: 40px;
     height: 40px;
