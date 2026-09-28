@@ -2,7 +2,7 @@
 import { bindDom, api } from './state.js?v=2';
 import { initChrome } from './chrome.js?v=50';
 import { initDrawer } from './drawer.js?v=47';
-import { initSlides } from './slides.js?v=48';
+import { initSlides } from './slides.js?v=49';
 import { initImageZoom } from './image-zoom.js?v=4';
 import { initAnnotations } from './annotations.js?v=50';
 import { initPrint } from './print.js?v=47';

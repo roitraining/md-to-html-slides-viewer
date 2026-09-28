@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <!-- Slide Viewer Styling -->
-    <link rel="stylesheet" href="style.css?v=64">
+    <link rel="stylesheet" href="style.css?v=65">
     <!-- Highlight.js CSS for Code Blocks -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
 </head>
@@ -72,6 +72,10 @@
         </button>
         <button id="clear-canvas-btn" class="icon-btn tool-btn" aria-label="Clear Slide" title="Clear Slide (C)" data-tooltip="Clear Slide (C)">🧹</button>
         <button id="delete-all-canvas-btn" class="icon-btn tool-btn" aria-label="Delete All" title="Delete All" data-tooltip="Delete All">🗑️</button>
+        <div class="dock-nav" role="group" aria-label="Slide navigation">
+            <button id="prev-slide-btn" class="icon-btn tool-btn" type="button" aria-label="Previous slide" title="Previous slide" data-tooltip="Previous slide">&lt;</button>
+            <button id="next-slide-btn" class="icon-btn tool-btn" type="button" aria-label="Next slide" title="Next slide" data-tooltip="Next slide">&gt;</button>
+        </div>
     </div>
 
     <!-- Slide Presentation Stage (fixed design canvas, scaled to fit) -->
@@ -189,6 +193,6 @@
     <!-- html2pdf.js for Direct PDF File Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- Slide Viewer App Logic -->
-    <script type="module" src="js/main.js?v=54"></script>
+    <script type="module" src="js/main.js?v=55"></script>
 </body>
 </html>
