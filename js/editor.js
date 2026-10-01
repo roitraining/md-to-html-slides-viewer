@@ -11,6 +11,7 @@ import {
     setSlideImage,
     slideTitle
 } from './editor-model.js?v=1';
+import { LAYOUT_HELP } from './layout-help.js?v=1';
 import { loadSlideThemes, knownThemeId, resolveThemeName } from './themes.js';
 import { buildChapterPptx } from './pptx-export.js?v=7';
 
@@ -412,6 +413,22 @@ function reorderSlides(from, to) {
     doc.slides.splice(to, 0, moved);
     doc.index = to;
     showSlide();
+}
+
+function openLayoutHelp() {
+    const id = els.layoutSelect.value || 'content';
+    const help = LAYOUT_HELP[id] || LAYOUT_HELP.content;
+    els.layoutHelpTitle.textContent = help.title;
+    els.layoutHelpSummary.textContent = help.summary;
+    els.layoutHelpSample.textContent = help.sample;
+    els.layoutHelpNotes.textContent = help.notes || '';
+    els.layoutHelpNotes.hidden = !help.notes;
+    els.layoutHelpDialog.hidden = false;
+    $('layout-help-ok').focus();
+}
+
+function closeLayoutHelp() {
+    if (els.layoutHelpDialog) els.layoutHelpDialog.hidden = true;
 }
 
 function fillLayoutSelect() {
@@ -926,6 +943,12 @@ function bind() {
     els.courseTitleInput = $('course-title-input');
     els.courseThemeSelect = $('course-theme-select');
     els.layoutSelect = $('layout-select');
+    els.layoutHelpBtn = $('layout-help-btn');
+    els.layoutHelpDialog = $('layout-help-dialog');
+    els.layoutHelpTitle = $('layout-help-title');
+    els.layoutHelpSummary = $('layout-help-summary');
+    els.layoutHelpSample = $('layout-help-sample');
+    els.layoutHelpNotes = $('layout-help-notes');
     els.imageSelect = $('image-select');
     els.useImageBtn = $('use-image-btn');
     els.addImageBtn = $('add-image-btn');
@@ -999,6 +1022,12 @@ function bind() {
         refreshDirty();
     });
     els.layoutSelect.addEventListener('change', onLayoutChange);
+    els.layoutHelpBtn.addEventListener('click', openLayoutHelp);
+    $('layout-help-ok').addEventListener('click', closeLayoutHelp);
+    $('layout-help-close').addEventListener('click', closeLayoutHelp);
+    els.layoutHelpDialog.addEventListener('click', (event) => {
+        if (event.target === els.layoutHelpDialog) closeLayoutHelp();
+    });
     els.markdown.addEventListener('input', onPaneInput);
     els.menuToggle.addEventListener('click', toggleDrawer);
     els.pinBtn.addEventListener('click', () => {
@@ -1069,6 +1098,11 @@ function bind() {
     });
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
+            if (els.layoutHelpDialog && !els.layoutHelpDialog.hidden) {
+                event.preventDefault();
+                closeLayoutHelp();
+                return;
+            }
             closeContextMenu();
             return;
         }
@@ -1079,6 +1113,7 @@ function bind() {
             }
             return;
         }
+        if (els.layoutHelpDialog && !els.layoutHelpDialog.hidden) return;
         if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement && document.activeElement.tagName)) {
             return;
         }
