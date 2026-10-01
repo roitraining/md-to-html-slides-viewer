@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=64">
-    <link rel="stylesheet" href="css/editor.css?v=57">
+    <link rel="stylesheet" href="css/editor.css?v=60">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 </head>
 <body class="editor-app">
@@ -89,10 +89,13 @@
                 <option value="">Default</option>
             </select>
         </label>
-        <label class="editor-field">
-            <span class="editor-field-label">Layout</span>
-            <select id="layout-select" class="editor-text-input" disabled></select>
-        </label>
+        <div class="editor-field">
+            <label class="editor-field-label" for="layout-select">Layout</label>
+            <div class="editor-layout-row">
+                <select id="layout-select" class="editor-text-input" disabled></select>
+                <button type="button" id="layout-help-btn" class="icon-btn layout-help-btn" aria-haspopup="dialog" aria-controls="layout-help-dialog" aria-label="Help for the selected layout" title="Help for this layout">?</button>
+            </div>
+        </div>
         <div class="editor-field">
             <span class="editor-field-label">Image</span>
             <div class="editor-image-row">
@@ -130,6 +133,24 @@
         </div>
     </div>
 
+    <div id="layout-help-dialog" class="modal-overlay" hidden>
+        <div class="modal-dialog layout-help-dialog" role="dialog" aria-modal="true" aria-labelledby="layout-help-title">
+            <div class="modal-header">
+                <h2 id="layout-help-title">Layout help</h2>
+                <button type="button" id="layout-help-close" class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="layout-help-summary" class="modal-help"></p>
+                <p class="layout-help-kicker">Example</p>
+                <pre id="layout-help-sample" class="layout-help-sample"></pre>
+                <p id="layout-help-notes" class="modal-help"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="layout-help-ok" class="btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
     <div id="unsaved-dialog" class="modal-overlay" hidden>
         <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="unsaved-title">
             <div class="modal-header">
@@ -149,6 +170,6 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
-    <script type="module" src="js/editor.js?v=58"></script>
+    <script type="module" src="js/editor.js?v=59"></script>
 </body>
 </html>
