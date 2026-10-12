@@ -20,8 +20,8 @@ html[data-theme="holcim-theme"] {
     --slide-num-bg: #041434;
     --slide-num-text: #ffffff;
     --slide-code-bg: rgba(4, 20, 52, 0.04);
-    --slide-image-shadow: 0 4px 12px rgba(4, 20, 52, 0.10);
-    --slide-split-image-shadow: 0 8px 20px rgba(4, 20, 52, 0.14);
+    --slide-image-shadow: none;
+    --slide-split-image-shadow: none;
     --slide-table-header-bg: rgba(4, 20, 52, 0.04);
     --slide-table-stripe: rgba(4, 20, 52, 0.02);
     --slide-print-bg: #ffffff;
@@ -71,7 +71,7 @@ html[data-theme="holcim-theme"] body.dark-theme {
     --slide-num-bg: #00a8d4;
     --slide-num-text: #041434;
     --slide-code-bg: #021028;
-    --slide-image-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+    --slide-image-shadow: none;
     --slide-table-header-bg: rgba(255, 255, 255, 0.06);
     --slide-table-stripe: rgba(255, 255, 255, 0.03);
 }
