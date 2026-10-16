@@ -24,7 +24,7 @@ html[data-theme="roi-theme"] {
     --slide-code-bg: rgba(0, 0, 0, 0.04);
     --slide-image-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     --slide-split-image-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    --slide-table-header-bg: rgba(0, 0, 0, 0.03);
+    --slide-table-header-bg: #003865;
     --slide-table-stripe: rgba(0, 0, 0, 0.015);
     /* Print/PDF stays light even if the player is in dark mode */
     --slide-print-bg: #ffffff;
@@ -52,6 +52,10 @@ html[data-theme="roi-theme"] body.dark-theme {
     --slide-num-text: #ffffff;
     --slide-code-bg: #0d1117;
     --slide-image-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --slide-table-header-bg: rgba(255, 255, 255, 0.05);
+    --slide-table-header-bg: #003865;
     --slide-table-stripe: rgba(255, 255, 255, 0.02);
+}
+
+html[data-theme="roi-theme"] table th {
+    color: #ffffff;
 }

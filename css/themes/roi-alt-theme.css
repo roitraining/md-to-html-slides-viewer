@@ -23,7 +23,7 @@ html[data-theme="roi-alt-theme"] {
     --slide-code-bg: #f2f8ff;
     --slide-image-shadow: 0 10px 24px rgba(8, 36, 69, 0.1);
     --slide-split-image-shadow: 0 14px 32px rgba(8, 36, 69, 0.14);
-    --slide-table-header-bg: #f2f8ff;
+    --slide-table-header-bg: #082445;
     --slide-table-stripe: rgba(30, 113, 214, 0.04);
     --slide-print-bg: #ffffff;
     --slide-print-text: #1c1d1f;
@@ -109,7 +109,7 @@ html[data-theme="roi-alt-theme"] pre {
 }
 
 html[data-theme="roi-alt-theme"] table th {
-    color: var(--roi-alt-navy);
+    color: #ffffff;
 }
 
 /* Cover slides echo the site hero: navy field, contour glow, gradient title. */
@@ -197,7 +197,7 @@ html[data-theme="roi-alt-theme"] body.dark-theme {
     --slide-num-text: #ffffff;
     --slide-code-bg: #04101f;
     --slide-image-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
-    --slide-table-header-bg: rgba(91, 155, 255, 0.12);
+    --slide-table-header-bg: #082445;
     --slide-table-stripe: rgba(255, 255, 255, 0.03);
 }
 
