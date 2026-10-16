@@ -161,6 +161,29 @@
         min-height: 0 !important;
     }
 
+    /* Shrink-to-fit wraps overflowing bodies; keep direct-child layout rules working. */
+    .print-slide-card .slide-body > .print-fit-inner {
+        box-sizing: border-box;
+    }
+
+    .print-slide-card.layout-stacked .slide-body > .print-fit-inner > ul,
+    .print-slide-card.layout-stacked .slide-body > .print-fit-inner > ol,
+    .print-slide-card.layout-stacked .slide-body > .print-fit-inner > blockquote,
+    .print-slide-card.layout-stacked .slide-body > .print-fit-inner > table,
+    .print-slide-card.layout-stacked .slide-body > .print-fit-inner > pre,
+    .print-slide-card.layout-stacked .slide-body > .print-fit-inner > p:not(:has(img)) {
+        flex-shrink: 0 !important;
+    }
+
+    .print-slide-card.layout-two-column .slide-body > .print-fit-inner > .markdown-alert,
+    .print-slide-card.layout-three-column .slide-body > .print-fit-inner > .markdown-alert {
+        flex-shrink: 0 !important;
+        width: 100% !important;
+        margin-top: 14px !important;
+        margin-bottom: 0 !important;
+        box-sizing: border-box !important;
+    }
+
     .print-slide-card.layout-panel-left,
     .print-slide-card.layout-panel-right {
         padding-left: 0 !important;

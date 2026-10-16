@@ -2,6 +2,63 @@
 import { state, els } from './state.js?v=2';
 import { renderSlideInto } from './render-slide.js?v=47';
 
+/**
+ * Shrink a print slide body so its full content fits in the 16:9 viewport.
+ *
+ * Scaling the scroll container itself only shrinks the already-clipped viewport
+ * (empty space below, content still cut off). When overflow is detected, wrap
+ * children in an inner div and scale that wrapper instead.
+ */
+function fitPrintSlideBody(body, { minScale = 0.5 } = {}) {
+    if (!body || body.clientHeight < 2) return;
+    if (body.scrollHeight <= body.clientHeight + 1) return;
+
+    let inner = body.querySelector(':scope > .print-fit-inner');
+    if (!inner) {
+        inner = document.createElement('div');
+        inner.className = 'print-fit-inner';
+        while (body.firstChild) {
+            inner.appendChild(body.firstChild);
+        }
+        body.appendChild(inner);
+    }
+
+    // Body becomes a fixed clip frame; inner holds the full unclipped content.
+    body.style.overflow = 'hidden';
+    inner.style.transformOrigin = '';
+    inner.style.transform = '';
+    inner.style.width = '';
+
+    const available = body.clientHeight;
+
+    const applyScale = (s) => {
+        if (s >= 0.999) {
+            inner.style.transformOrigin = '';
+            inner.style.transform = '';
+            inner.style.width = '';
+            return;
+        }
+        inner.style.transformOrigin = 'top left';
+        inner.style.transform = `scale(${s})`;
+        // Wider layout before scale so reflowed lines still span the card.
+        inner.style.width = `${100 / s}%`;
+    };
+
+    let low = minScale;
+    let high = 1;
+    for (let i = 0; i < 14; i++) {
+        const mid = (low + high) / 2;
+        applyScale(mid);
+        // Layout height is unscaled; visual height is roughly scrollHeight * mid.
+        if (inner.scrollHeight * mid <= available + 1) {
+            low = mid;
+        } else {
+            high = mid;
+        }
+    }
+    applyScale(low);
+}
+
 export function initPrint() {
     // PDF Export Functionality (Native Print PDF)
     if (els.exportPdfBtn) {
@@ -98,6 +155,11 @@ export function initPrint() {
 
         await Promise.all(imagePromises);
         await new Promise(resolve => setTimeout(resolve, 200));
+
+        // Shrink overflowing bodies so each slide fits one 16:9 PDF page.
+        els.printStage.querySelectorAll('.print-slide-card .slide-body').forEach((body) => {
+            fitPrintSlideBody(body);
+        });
 
         if (els.exportPdfBtn) els.exportPdfBtn.textContent = '🖨️';
 
