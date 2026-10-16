@@ -70,10 +70,12 @@ export function initAnnotations() {
     document.addEventListener('fullscreenchange', () => {
         setTimeout(api.scaleSlideToFit, 50);
         setTimeout(api.scaleSlideToFit, 250);
+        setTimeout(syncColorPickers, 50);
     });
     document.addEventListener('webkitfullscreenchange', () => {
         setTimeout(api.scaleSlideToFit, 50);
         setTimeout(api.scaleSlideToFit, 250);
+        setTimeout(syncColorPickers, 50);
     });
 
     if (window.ResizeObserver && els.presentationStage) {
@@ -167,12 +169,42 @@ export function initAnnotations() {
         });
     }
 
+    function placeColorPicker(group, anchor) {
+        if (!group || !anchor) return;
+        const rect = anchor.getBoundingClientRect();
+        group.style.top = `${rect.top + rect.height / 2}px`;
+        group.style.left = `${rect.left - 8}px`;
+        group.style.transform = 'translate(-100%, -50%)';
+    }
+
+    function setPickerOpen(group, open) {
+        if (!group) return;
+        if (typeof group.showPopover === 'function') {
+            const showing = group.matches(':popover-open');
+            if (open) {
+                // The [hidden] rule uses !important, which would hide a shown popover.
+                group.hidden = false;
+                if (!showing) group.showPopover();
+            } else {
+                if (showing) group.hidePopover();
+                group.hidden = true;
+            }
+            return;
+        }
+        group.hidden = !open;
+    }
+
     function syncColorPickers() {
-        if (penColors) penColors.hidden = currentTool !== 'pen';
-        if (highlightColors) highlightColors.hidden = currentTool !== 'highlighter';
+        setPickerOpen(penColors, currentTool === 'pen');
+        setPickerOpen(highlightColors, currentTool === 'highlighter');
+        if (currentTool === 'pen') placeColorPicker(penColors, els.penBtn);
+        if (currentTool === 'highlighter') placeColorPicker(highlightColors, els.highlighterBtn);
         markSelectedSwatch(penColors, penColor);
         markSelectedSwatch(highlightColors, highlightColor);
     }
+
+    window.addEventListener('resize', syncColorPickers);
+    document.getElementById('annotation-dock')?.addEventListener('scroll', syncColorPickers, { passive: true });
 
     function bindColorPicker(group, choose) {
         if (!group) return;
