@@ -178,6 +178,7 @@ function updateFontSize() {
     }
     localStorage.setItem(FONT_SIZE_KEY, state.currentFontSize);
     syncFontControls();
+    fitFooterCourseTitle();
 }
 
 function stepFontSize(delta) {
@@ -229,6 +230,57 @@ function applyDocumentTheme() {
     syncCourseThemeControl();
 }
 
+/**
+ * Shrink (or restore) footer course title font so the full string fits in the
+ * allotted footer cell (up to two wrapped lines). Short titles keep the CSS max.
+ */
+function fitTextToBox(el, { minPx = 9, maxLines = 2 } = {}) {
+    if (!el || !el.clientWidth || !el.clientHeight) return;
+
+    el.style.fontSize = '';
+    const maxPx = parseFloat(getComputedStyle(el).fontSize);
+    if (!maxPx || Number.isNaN(maxPx)) return;
+
+    const cellHeight = el.clientHeight;
+
+    // height:auto so scrollHeight is content size, not the fixed 48px cell.
+    const overflows = () => {
+        el.style.height = 'auto';
+        const cs = getComputedStyle(el);
+        let lineHeight = parseFloat(cs.lineHeight);
+        if (!lineHeight || Number.isNaN(lineHeight) || cs.lineHeight === 'normal') {
+            lineHeight = parseFloat(cs.fontSize) * 1.2;
+        }
+        const contentHeight = el.scrollHeight;
+        el.style.height = '';
+        const allowed = Math.min(cellHeight, lineHeight * maxLines) + 1;
+        return contentHeight > allowed;
+    };
+
+    el.style.fontSize = `${maxPx}px`;
+    if (!overflows()) {
+        el.style.fontSize = '';
+        return;
+    }
+
+    let low = minPx;
+    let high = maxPx;
+    for (let i = 0; i < 14; i++) {
+        const mid = (low + high) / 2;
+        el.style.fontSize = `${mid}px`;
+        if (overflows()) {
+            high = mid;
+        } else {
+            low = mid;
+        }
+    }
+    el.style.fontSize = `${low}px`;
+}
+
+function fitFooterCourseTitle() {
+    fitTextToBox(els.footerTitle);
+}
+
 function scaleSlideToFit() {
     if (!els.stage || !els.shell || !els.card) return;
     const stageStyle = getComputedStyle(els.stage);
@@ -241,6 +293,7 @@ function scaleSlideToFit() {
     els.shell.style.width = `${SLIDE_DESIGN_WIDTH * scale}px`;
     els.shell.style.height = `${SLIDE_DESIGN_HEIGHT * scale}px`;
     els.card.style.transform = `scale(${scale})`;
+    fitFooterCourseTitle();
 }
 
 function renderPreview() {
@@ -996,7 +1049,10 @@ function bind() {
         els.fontSizeIncrease.addEventListener('click', () => stepFontSize(FONT_SIZE_STEP));
     }
 
-    els.themeSelect.addEventListener('change', () => applyTheme(els.themeSelect.value));
+    els.themeSelect.addEventListener('change', () => {
+        applyTheme(els.themeSelect.value);
+        fitFooterCourseTitle();
+    });
     els.openFolderBtn.addEventListener('click', () => {
         openFolder().catch((err) => setStatus(err.message || String(err), true));
     });
@@ -1019,8 +1075,13 @@ function bind() {
     els.courseThemeSelect.addEventListener('change', () => {
         doc.courseTheme = els.courseThemeSelect.value;
         applyTheme(doc.courseTheme || 'roi-theme', { persist: false });
+        fitFooterCourseTitle();
         refreshDirty();
     });
+    if (els.footerTitle && typeof ResizeObserver !== 'undefined') {
+        const footerTitleObserver = new ResizeObserver(() => fitFooterCourseTitle());
+        footerTitleObserver.observe(els.footerTitle);
+    }
     els.layoutSelect.addEventListener('change', onLayoutChange);
     els.layoutHelpBtn.addEventListener('click', openLayoutHelp);
     $('layout-help-ok').addEventListener('click', closeLayoutHelp);

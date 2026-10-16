@@ -146,18 +146,34 @@ export function initChrome() {
     }
 
     /**
-     * Shrink (or restore) footer course title font so the full string fits
-     * in the allotted footer cell — long titles scale down, short ones use the CSS max.
+     * Shrink (or restore) footer course title font so the full string fits in the
+     * allotted footer cell (up to two wrapped lines). Short titles keep the CSS max.
      */
-    function fitTextToWidth(el, { minPx = 9 } = {}) {
-        if (!el || !el.clientWidth) return;
+    function fitTextToBox(el, { minPx = 9, maxLines = 2 } = {}) {
+        if (!el || !el.clientWidth || !el.clientHeight) return;
 
         el.style.fontSize = '';
         const maxPx = parseFloat(getComputedStyle(el).fontSize);
         if (!maxPx || Number.isNaN(maxPx)) return;
 
+        const cellHeight = el.clientHeight;
+
+        // height:auto so scrollHeight is content size, not the fixed 48px cell.
+        const overflows = () => {
+            el.style.height = 'auto';
+            const cs = getComputedStyle(el);
+            let lineHeight = parseFloat(cs.lineHeight);
+            if (!lineHeight || Number.isNaN(lineHeight) || cs.lineHeight === 'normal') {
+                lineHeight = parseFloat(cs.fontSize) * 1.2;
+            }
+            const contentHeight = el.scrollHeight;
+            el.style.height = '';
+            const allowed = Math.min(cellHeight, lineHeight * maxLines) + 1;
+            return contentHeight > allowed;
+        };
+
         el.style.fontSize = `${maxPx}px`;
-        if (el.scrollWidth <= el.clientWidth) {
+        if (!overflows()) {
             el.style.fontSize = '';
             return;
         }
@@ -167,7 +183,7 @@ export function initChrome() {
         for (let i = 0; i < 14; i++) {
             const mid = (low + high) / 2;
             el.style.fontSize = `${mid}px`;
-            if (el.scrollWidth > el.clientWidth) {
+            if (overflows()) {
                 high = mid;
             } else {
                 low = mid;
@@ -177,7 +193,7 @@ export function initChrome() {
     }
 
     function fitFooterCourseTitle() {
-        fitTextToWidth(els.footerCourseTitle);
+        fitTextToBox(els.footerCourseTitle);
     }
 
     if (els.footerCourseTitle && typeof ResizeObserver !== 'undefined') {

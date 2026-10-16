@@ -251,7 +251,7 @@ body.is-fullscreen .slide-card {
 }
 
 .footer-course {
-    font-size: 0.9rem; /* max size; JS may shrink to fit long titles */
+    font-size: 0.9rem; /* max size; JS may shrink so long titles fit in up to two lines */
     font-weight: 600;
     color: var(--slide-text);
 }

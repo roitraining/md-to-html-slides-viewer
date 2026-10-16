@@ -157,7 +157,9 @@ body.is-fullscreen .slide-card {
 
 .two-column-wrapper .column ul,
 .two-column-wrapper .column ol {
-    padding-left: 20px;
+    /* Match slide-skin list gutter so outside markers are not clipped by
+       .slide-body overflow (especially the leftmost column). */
+    padding-left: 32px;
     margin-top: 0;
 }
 
@@ -191,7 +193,9 @@ body.is-fullscreen .slide-card {
 
 .three-column-wrapper .column ul,
 .three-column-wrapper .column ol {
-    padding-left: 20px;
+    /* Match slide-skin list gutter so outside markers are not clipped by
+       .slide-body overflow (especially the leftmost column). */
+    padding-left: 32px;
     margin-top: 0;
 }
 
@@ -589,11 +593,14 @@ body.is-fullscreen .slide-card {
 
 .footer-course {
     flex: 1.2;
-    min-width: 0; /* allow flex item to shrink so fit-to-width can measure */
+    min-width: 0; /* allow flex item to shrink so fit-to-box can measure */
     padding: 0 16px;
-    justify-content: center;
+    /* Grid so text wraps and stays centered (flex + raw text does not wrap well) */
+    display: grid;
+    align-content: center;
+    align-items: center;
     text-align: center;
-    white-space: nowrap;
+    line-height: 1.2;
     overflow: hidden;
 }
 
