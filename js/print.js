@@ -1,6 +1,6 @@
 /* Feature module */
 import { state, els } from './state.js?v=2';
-import { renderSlideInto } from './render-slide.js?v=47';
+import { renderSlideInto } from './render-slide.js?v=49';
 
 /**
  * Shrink a print slide body so its full content fits in the 16:9 viewport.

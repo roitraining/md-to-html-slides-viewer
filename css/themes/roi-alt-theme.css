@@ -176,7 +176,7 @@ html[data-theme="roi-alt-theme"] .layout-title .footer-copyright {
     color: rgba(255, 255, 255, 0.68);
 }
 
-html[data-theme="roi-alt-theme"] .layout-title .roi-logo-img {
+html[data-theme="roi-alt-theme"] .layout-title .roi-logo-color {
     background: #ffffff;
     border-radius: 8px;
     padding: 3px 8px;

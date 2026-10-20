@@ -172,6 +172,11 @@ export function initImageZoom() {
 
         const images = els.slideBody.querySelectorAll('img');
         images.forEach((img) => {
+            // Cover wordmarks are brand marks, not diagrams. A zoom control
+            // sits on the image and reads as a gray plate on a dark title.
+            if (img.dataset.roiWordmark === 'true' || img.classList.contains('roi-logo-on-dark')) {
+                return;
+            }
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'image-zoom-btn';

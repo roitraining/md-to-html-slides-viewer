@@ -627,6 +627,27 @@ body.is-fullscreen .slide-card {
     display: block;
 }
 
+/* Shown on dark title covers (ROI Alt, Demo, Demo 2). Light covers keep the color mark. */
+.roi-logo-white {
+    display: none;
+}
+
+html[data-theme] .layout-title.logo-on-dark .slide-body img.roi-logo-on-dark,
+html[data-theme] .layout-title.logo-on-dark .footer-logo .roi-logo-white {
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+html[data-theme] .layout-title.logo-on-dark .footer-logo .roi-logo-color {
+    display: none;
+}
+
+html[data-theme] .layout-title.logo-on-dark .footer-logo .roi-logo-white {
+    display: block;
+}
+
 .footer-number {
     min-width: 80px;
     width: auto;

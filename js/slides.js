@@ -1,6 +1,6 @@
 /* Render the current slide onto the stage. */
 import { state, els, api } from './state.js?v=2';
-import { renderSlideInto } from './render-slide.js?v=47';
+import { renderSlideInto } from './render-slide.js?v=49';
 
 export function initSlides() {
     function goToSlide(index) {

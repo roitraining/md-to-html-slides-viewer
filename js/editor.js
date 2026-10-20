@@ -1,6 +1,6 @@
 /* Visual editor: local course folder, live preview, Markdown pane, save in place. */
 import { state, SLIDE_DESIGN_WIDTH, SLIDE_DESIGN_HEIGHT, SLIDE_DESIGN_FONT_PX } from './state.js?v=2';
-import { renderSlideInto } from './render-slide.js?v=47';
+import { renderSlideInto } from './render-slide.js?v=49';
 import {
     LAYOUT_OPTIONS,
     NEW_SLIDE_MARKDOWN,
@@ -13,7 +13,7 @@ import {
 } from './editor-model.js?v=1';
 import { LAYOUT_HELP } from './layout-help.js?v=1';
 import { loadSlideThemes, knownThemeId, resolveThemeName } from './themes.js';
-import { buildChapterPptx } from './pptx-export.js?v=7';
+import { buildChapterPptx } from './pptx-export.js?v=9';
 
 const THEME_KEY = 'slides-viewer-slide-theme';
 const FONT_SIZE_KEY = 'slides-viewer-font-size';
@@ -193,6 +193,11 @@ function applyTheme(name, { persist = true } = {}) {
         els.themeSelect.value = theme;
     }
     if (persist) localStorage.setItem(THEME_KEY, theme);
+    renderPreview();
+    els.slideList?.querySelectorAll('.editor-slide-btn').forEach((button) => {
+        const index = parseInt(button.dataset.index, 10);
+        if (!Number.isNaN(index)) renderThumb(index, button);
+    });
 }
 
 let themesReady = false;

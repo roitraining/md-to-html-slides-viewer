@@ -1,11 +1,11 @@
 /* Slide viewer entry point. Classic scripts (marked, highlight.js) load first in index.html. */
 import { bindDom, api } from './state.js?v=2';
-import { initChrome } from './chrome.js?v=50';
-import { initDrawer } from './drawer.js?v=47';
-import { initSlides } from './slides.js?v=49';
-import { initImageZoom } from './image-zoom.js?v=4';
+import { initChrome } from './chrome.js?v=51';
+import { initDrawer } from './drawer.js?v=49';
+import { initSlides } from './slides.js?v=51';
+import { initImageZoom } from './image-zoom.js?v=5';
 import { initAnnotations } from './annotations.js?v=52';
-import { initPrint } from './print.js?v=49';
+import { initPrint } from './print.js?v=51';
 import { initCourse } from './course.js?v=2';
 import { initKeyboard } from './keyboard.js?v=2';
 

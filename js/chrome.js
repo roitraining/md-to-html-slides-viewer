@@ -17,6 +17,8 @@ export function initChrome() {
             els.slideThemeSelect.value = theme;
         }
         if (persist) localStorage.setItem(SLIDE_THEME_KEY, theme);
+        if (state.slides.length) api.renderSlide?.(state.currentIndex);
+        api.invalidateThumbnails?.();
     }
 
     const themeParam = new URLSearchParams(window.location.search).get('theme');

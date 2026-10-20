@@ -3,7 +3,7 @@
    measured boxes are replayed as native text, shapes, and images.
    Colors and fonts come from the theme currently set on <html data-theme>. */
 
-import { renderSlideInto } from './render-slide.js?v=47';
+import { renderSlideInto } from './render-slide.js?v=49';
 
 const SLIDE_W = 13.333;
 const SLIDE_H = 7.5;
@@ -443,7 +443,8 @@ function footerMarkup(courseTitle, index, count) {
             All rights reserved. Not to be reproduced without prior written consent.
         </div>
         <div class="footer-cell footer-logo">
-            <img src="images/roi-logo-with-name.png" alt="ROI Training" class="roi-logo-img">
+            <img src="images/roi-logo-with-name.png" alt="ROI Training" class="roi-logo-img roi-logo-color">
+            <img src="images/roi-logo-with-name-white.png" alt="ROI Training" class="roi-logo-img roi-logo-white">
         </div>
         <div class="footer-cell footer-number"></div>
     `;

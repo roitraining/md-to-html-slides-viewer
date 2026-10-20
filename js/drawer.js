@@ -1,6 +1,6 @@
 /* Feature module */
 import { state, els, api } from './state.js?v=2';
-import { renderSlideInto } from './render-slide.js?v=47';
+import { renderSlideInto } from './render-slide.js?v=49';
 
 export function initDrawer() {
     // Side Menu Drawer interactions (open / pin / close)
@@ -261,6 +261,16 @@ export function initDrawer() {
     }
 
 
+    function invalidateThumbnails() {
+        els.slideList.querySelectorAll('.slide-thumb-canvas').forEach((canvas) => {
+            delete canvas.dataset.rendered;
+        });
+        if (drawerViewMode !== 'thumbs') return;
+        ensureThumbObserver();
+        observeThumbnails();
+    }
+
     api.buildSlideDrawer = buildSlideDrawer;
     api.scaleAllThumbnails = scaleAllThumbnails;
+    api.invalidateThumbnails = invalidateThumbnails;
 }
