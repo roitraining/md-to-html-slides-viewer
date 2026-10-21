@@ -23,26 +23,31 @@ export function initSlides() {
         }
     }
 
-    // Render Slide Content
+    // Render Slide Content. Clamp so a leftover index from a longer chapter
+    // cannot throw while the new chapter is still settling on slide 1.
     function renderSlide(index) {
-        const slideMarkdown = state.slides[index];
+        if (!state.slides.length) return;
+        const safeIndex = Math.max(0, Math.min(index, state.slides.length - 1));
+        const slideMarkdown = state.slides[safeIndex];
+        if (typeof slideMarkdown !== 'string') return;
+        state.currentIndex = safeIndex;
 
         // Re-trigger fade animation
         els.slideCard.classList.remove('slide-card');
         void els.slideCard.offsetWidth; // Trigger reflow
         els.slideCard.classList.add('slide-card');
 
-        renderSlideInto(els.slideCard, els.slideBody, slideMarkdown, index);
+        renderSlideInto(els.slideCard, els.slideBody, slideMarkdown, safeIndex);
 
         // Apply current font scaling
         api.updateFontSize?.();
         api.syncImageZoom?.();
     
         // Update ROI Slide Footer Counter (e.g. 1 of 12)
-        els.footerSlideNumber.textContent = `${index + 1} of ${state.slides.length}`;
+        els.footerSlideNumber.textContent = `${safeIndex + 1} of ${state.slides.length}`;
     
         // Update Progress Bar
-        const progressPercent = ((index + 1) / state.slides.length) * 100;
+        const progressPercent = ((safeIndex + 1) / state.slides.length) * 100;
         els.progressBar.style.width = `${progressPercent}%`;
     
         setTimeout(() => api.redrawCurrentSlideAnnotations?.(), 50);
@@ -51,7 +56,7 @@ export function initSlides() {
         // Update Active Item in Side Drawer
         const drawerLinks = els.slideList.querySelectorAll('a');
         drawerLinks.forEach((link, idx) => {
-            if (idx === index) {
+            if (idx === safeIndex) {
                 link.classList.add('active');
                 // Keep the active slide visible when the drawer is docked
                 if (document.body.classList.contains('drawer-pinned') || els.sideMenu.classList.contains('open')) {
@@ -66,7 +71,7 @@ export function initSlides() {
         history.replaceState(
             null,
             '',
-            `${window.location.pathname}${window.location.search}#slide-${index + 1}`
+            `${window.location.pathname}${window.location.search}#slide-${safeIndex + 1}`
         );
 
         syncSlideNav();

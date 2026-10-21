@@ -119,8 +119,8 @@ export function initPrint() {
                     All rights reserved. Not to be reproduced without prior written consent.
                 </div>
                 <div class="footer-cell footer-logo">
-                    <img src="images/roi-logo.png" alt="ROI Training" class="roi-logo-img">
-                    ROI Training, Inc.
+                    <img src="images/roi-logo-with-name.png" alt="ROI Training" class="roi-logo-img roi-logo-color">
+                    <img src="images/roi-logo-with-name-white.png" alt="ROI Training" class="roi-logo-img roi-logo-white">
                 </div>
                 <div class="footer-cell footer-number">${index + 1} of ${state.slides.length}</div>
             `;

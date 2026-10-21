@@ -155,6 +155,17 @@
         print-color-adjust: exact !important;
     }
 
+    /* Dark covers use the transparent white wordmark. The print plate above
+       would turn that clear background into a white rectangle. */
+    html[data-theme] .print-slide-card.layout-title.logo-on-dark img.roi-logo-on-dark,
+    html[data-theme] .print-slide-card.layout-title.logo-on-dark .footer-logo img {
+        background: transparent !important;
+        background-color: transparent !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+
     .print-slide-card .slide-body {
         flex: 1 !important;
         overflow: hidden !important;

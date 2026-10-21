@@ -2,11 +2,11 @@
 import { bindDom, api } from './state.js?v=2';
 import { initChrome } from './chrome.js?v=51';
 import { initDrawer } from './drawer.js?v=49';
-import { initSlides } from './slides.js?v=51';
+import { initSlides } from './slides.js?v=52';
 import { initImageZoom } from './image-zoom.js?v=5';
 import { initAnnotations } from './annotations.js?v=52';
-import { initPrint } from './print.js?v=51';
-import { initCourse } from './course.js?v=2';
+import { initPrint } from './print.js?v=52';
+import { initCourse } from './course.js?v=3';
 import { initKeyboard } from './keyboard.js?v=2';
 
 function showStartError(err) {

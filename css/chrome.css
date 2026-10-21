@@ -47,6 +47,7 @@ body.dark-theme .progress-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     height: 60px;
     z-index: 900;
     transition: display 0.2s;
@@ -80,15 +81,16 @@ body.dark-theme .hamburger:hover {
 }
 
 .toolbar-title-group {
-    flex: 1;
+    flex: 1 1 auto;
     min-width: 0;
-    margin-left: 12px;
     display: flex;
     align-items: center;
     gap: 12px;
+    overflow: hidden;
 }
 
 .toolbar-title {
+    flex: 1 1 0;
     font-size: 18px;
     font-weight: 700;
     min-width: 0;
@@ -106,8 +108,10 @@ body.dark-theme .toolbar-title {
     display: flex;
     align-items: center;
     gap: 6px;
-    flex-shrink: 0;
-    max-width: 42%;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: min(18rem, 52%);
+    overflow: hidden;
 }
 
 .chapter-select-wrap[hidden] {
@@ -115,6 +119,7 @@ body.dark-theme .toolbar-title {
 }
 
 .chapter-select-label {
+    flex: 0 0 auto;
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
@@ -124,7 +129,10 @@ body.dark-theme .toolbar-title {
 }
 
 .chapter-select {
-    max-width: 220px;
+    flex: 1 1 auto;
+    width: 9.5rem;
+    min-width: 0;
+    max-width: 100%;
     padding: 5px 8px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -138,6 +146,7 @@ body.dark-theme .toolbar-title {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex: 0 0 auto;
 }
 
 .theme-select-wrap {

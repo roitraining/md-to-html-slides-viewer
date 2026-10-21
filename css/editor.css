@@ -52,9 +52,8 @@ body.editor-app .toolbar-action:disabled:hover {
 }
 
 body.editor-app .toolbar-title-group {
-    margin-left: 4px;
     flex: 1 1 auto;
-    min-width: min-content;
+    min-width: 0;
 }
 
 body.editor-app .toolbar-title {
@@ -63,8 +62,9 @@ body.editor-app .toolbar-title {
 }
 
 body.editor-app .chapter-select-wrap {
-    max-width: none;
-    flex-shrink: 0;
+    max-width: min(18rem, 52%);
+    flex: 0 1 auto;
+    min-width: 0;
 }
 
 body.editor-app .toolbar-controls {

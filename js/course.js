@@ -198,11 +198,17 @@ export function initCourse() {
             .filter((slide) => slide.length > 0);
 
         if (state.slides.length === 0) {
+            state.currentIndex = 0;
             els.slideBody.innerHTML = '<div class="error">No slides found in the specified Markdown file.</div>';
             updateChapterSelector();
             syncShareLinkButton();
             return;
         }
+
+        // Point at the destination slide before any render. Applying the course
+        // theme re-renders state.currentIndex immediately, and that index still
+        // belongs to the previous chapter until we replace it.
+        state.currentIndex = resolveInitialSlideIndex(respectHash);
 
         const commentMatch = markdownText.match(
             /<!--\s*(?:course-title|course_title|course|footer-title|footer_title):\s*(.*?)\s*-->/i
@@ -233,6 +239,10 @@ export function initCourse() {
         updateBrowserCourseQuery(state.currentShareUrl);
 
         // Chapter switches start at slide 1; deep links / refresh still honor #slide-N.
+        api.goToSlide(state.currentIndex);
+    }
+
+    function resolveInitialSlideIndex(respectHash) {
         let initialIndex = 0;
         if (respectHash) {
             const hash = window.location.hash;
@@ -243,7 +253,8 @@ export function initCourse() {
                 }
             }
         }
-        api.goToSlide(initialIndex);
+        if (!state.slides.length) return 0;
+        return Math.max(0, Math.min(initialIndex, state.slides.length - 1));
     }
 
     async function fetchText(url) {
