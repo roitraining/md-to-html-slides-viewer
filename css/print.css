@@ -120,6 +120,34 @@
         color: #f8f9fa !important;
     }
 
+    /* PDF writers clip or draw stray boxes on background-clip:text gradients.
+       Use solid accent colors on dark cover slides when printing. */
+    html[data-theme="roi-alt-theme"] .print-slide-card.layout-title .slide-body h1 + h1 {
+        background: none !important;
+        -webkit-background-clip: border-box !important;
+        background-clip: border-box !important;
+        -webkit-text-fill-color: #c9a0ff !important;
+        color: #c9a0ff !important;
+    }
+
+    html[data-theme="roi-alt-theme"] .print-slide-card.layout-title .slide-body h2,
+    html[data-theme="roi-alt-theme"] .print-slide-card.layout-title .slide-body h3,
+    html[data-theme="roi-alt-theme"] .print-slide-card.layout-title .slide-body p {
+        background: none !important;
+        -webkit-background-clip: border-box !important;
+        background-clip: border-box !important;
+        -webkit-text-fill-color: #b9d4ff !important;
+        color: #b9d4ff !important;
+    }
+
+    html[data-theme="demo-2-theme"] .print-slide-card.layout-title .slide-body h1 + h1 {
+        background: none !important;
+        -webkit-background-clip: border-box !important;
+        background-clip: border-box !important;
+        -webkit-text-fill-color: #9fd9b8 !important;
+        color: #9fd9b8 !important;
+    }
+
     .print-slide-card .slide-top-bar {
         background: var(--slide-top-bar, var(--slide-print-accent)) !important;
         border-radius: 0 !important;
