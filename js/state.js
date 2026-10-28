@@ -15,6 +15,7 @@ export const state = {
     currentShareUrl: null,
     openModalOpen: false,
     slideAnnotations: {},
+    hiddenSlides: new Set(),
     // Set when the viewer picks a theme from the toolbar for the open course.
     themeChosenForCourse: null
 };
@@ -58,6 +59,7 @@ export function bindDom() {
     els.slideScaleShell = document.getElementById('slide-scale-shell');
     els.pinMenuBtn = document.getElementById('pin-menu');
     els.drawerViewToggle = document.getElementById('drawer-view-toggle');
+    els.showAllSlidesBtn = document.getElementById('show-all-slides-btn');
     els.chapterSelectWrap = document.getElementById('chapter-select-wrap');
     els.chapterSelect = document.getElementById('chapter-select');
     els.openCourseModal = document.getElementById('open-course-modal');

@@ -172,6 +172,65 @@ export function initDrawer() {
         });
     }
 
+    if (els.showAllSlidesBtn) {
+        els.showAllSlidesBtn.addEventListener('click', () => {
+            if (!state.hiddenSlides || state.hiddenSlides.size === 0) return;
+            state.hiddenSlides.clear();
+            api.saveHiddenSlidesToStorage?.();
+            syncHiddenSlidesUi();
+            api.syncSlidePresentationState?.();
+        });
+    }
+
+    function syncHiddenSlidesUi() {
+        const items = els.slideList ? els.slideList.querySelectorAll(':scope > li') : [];
+        const total = state.slides.length;
+        const hiddenCount = state.hiddenSlides ? state.hiddenSlides.size : 0;
+        const onlyOneVisibleLeft = total - hiddenCount <= 1;
+
+        items.forEach((li, index) => {
+            const isHidden = state.hiddenSlides && state.hiddenSlides.has(index);
+            li.classList.toggle('is-hidden', !!isHidden);
+            const btn = li.querySelector(':scope > .slide-hide-btn');
+            if (btn) {
+                btn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
+                const disableHide = !isHidden && onlyOneVisibleLeft;
+                btn.disabled = disableHide;
+                const actionLabel = isHidden
+                    ? 'Click to show slide'
+                    : disableHide
+                        ? 'At least one slide must remain visible'
+                        : 'Click to hide slide';
+                btn.title = actionLabel;
+                btn.setAttribute('aria-label', `${actionLabel} (Slide ${index + 1})`);
+            }
+        });
+
+        if (els.showAllSlidesBtn) {
+            if (hiddenCount > 0) {
+                els.showAllSlidesBtn.hidden = false;
+                els.showAllSlidesBtn.textContent = `Show all (${hiddenCount})`;
+                els.showAllSlidesBtn.title = `Unhide ${hiddenCount} hidden slide${hiddenCount === 1 ? '' : 's'}`;
+            } else {
+                els.showAllSlidesBtn.hidden = true;
+            }
+        }
+    }
+
+    function toggleSlideHidden(index) {
+        if (!state.hiddenSlides) state.hiddenSlides = new Set();
+        if (state.hiddenSlides.has(index)) {
+            state.hiddenSlides.delete(index);
+        } else {
+            // Keep at least one slide visible
+            if (state.slides.length - state.hiddenSlides.size <= 1) return;
+            state.hiddenSlides.add(index);
+        }
+        api.saveHiddenSlidesToStorage?.();
+        syncHiddenSlidesUi();
+        api.syncSlidePresentationState?.();
+    }
+
     if (typeof ResizeObserver !== 'undefined') {
         const thumbScaleObserver = new ResizeObserver(() => {
             if (drawerViewMode === 'thumbs') scaleAllThumbnails();
@@ -248,10 +307,31 @@ export function initDrawer() {
                     els.sideMenu.classList.remove('open');
                 }
             });
+
+            const hideBtn = document.createElement('button');
+            hideBtn.type = 'button';
+            hideBtn.className = 'slide-hide-btn';
+            hideBtn.innerHTML =
+                '<svg class="icon-eye" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                    '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>' +
+                    '<circle cx="12" cy="12" r="3"/>' +
+                '</svg>' +
+                '<svg class="icon-eye-off" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                    '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>' +
+                    '<line x1="1" y1="1" x2="23" y2="23"/>' +
+                '</svg>';
+            hideBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleSlideHidden(index);
+            });
         
             li.appendChild(a);
+            li.appendChild(hideBtn);
             els.slideList.appendChild(li);
         });
+
+        syncHiddenSlidesUi();
 
         if (drawerViewMode === 'thumbs') {
             ensureThumbObserver();
@@ -273,4 +353,5 @@ export function initDrawer() {
     api.buildSlideDrawer = buildSlideDrawer;
     api.scaleAllThumbnails = scaleAllThumbnails;
     api.invalidateThumbnails = invalidateThumbnails;
+    api.syncHiddenSlidesUi = syncHiddenSlidesUi;
 }

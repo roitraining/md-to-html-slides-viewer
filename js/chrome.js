@@ -250,12 +250,16 @@ export function initChrome() {
         }
     }
 
-    document.addEventListener('fullscreenchange', () => {
-        const isFS = !!document.fullscreenElement;
+    function handleFullscreenChange() {
+        const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
         document.body.classList.toggle('is-fullscreen', isFS);
+        api.syncSlidePresentationState?.();
         setTimeout(api.scaleSlideToFit, 50);
         setTimeout(api.scaleSlideToFit, 250);
-    });
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 
     api.scaleSlideToFit = scaleSlideToFit;
     api.updateFontSize = updateFontSize;

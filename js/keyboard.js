@@ -36,11 +36,13 @@ export function initKeyboard() {
                 break;
             case 'Home':
                 e.preventDefault();
-                api.goToSlide?.(0);
+                if (api.firstSlide) api.firstSlide();
+                else api.goToSlide?.(0);
                 break;
             case 'End':
                 e.preventDefault();
-                api.goToSlide?.(state.slides.length - 1);
+                if (api.lastSlide) api.lastSlide();
+                else api.goToSlide?.(state.slides.length - 1);
                 break;
             case 'f':
             case 'F':
