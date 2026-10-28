@@ -239,6 +239,9 @@ export function initCourse() {
             return;
         }
 
+        reloadAnnotationsForCourse();
+        reloadHiddenSlidesForCourse();
+
         // Point at the destination slide before any render. Applying the course
         // theme re-renders state.currentIndex immediately, and that index still
         // belongs to the previous chapter until we replace it.
@@ -266,15 +269,14 @@ export function initCourse() {
             requestAnimationFrame(() => api.fitFooterCourseTitle?.());
         }
 
-        reloadAnnotationsForCourse();
-        reloadHiddenSlidesForCourse();
         api.buildSlideDrawer(customCourseTitle);
         updateChapterSelector();
         syncShareLinkButton();
         updateBrowserCourseQuery(state.currentShareUrl);
 
-        // Chapter switches start at slide 1; deep links / refresh still honor #slide-N.
-        api.goToSlide(state.currentIndex);
+        // Chapter switches start at slide 1 (or first visible slide); deep links / refresh still honor #slide-N.
+        const hasExplicitHash = respectHash && /^#(?:slide-)?\d+/i.test(window.location.hash || '');
+        api.goToSlide(state.currentIndex, { allowHiddenInWindowed: hasExplicitHash });
     }
 
     function resolveInitialSlideIndex(respectHash) {

@@ -261,7 +261,7 @@ export function initDrawer() {
         
             // If no explicit course-title comment was provided, fallback to Slide 1 heading
             if (!customCourseTitle && index === 0 && title !== `Slide 1`) {
-                els.courseTitle.textContent = title;
+                if (els.courseTitle) els.courseTitle.textContent = title;
                 if (els.footerCourseTitle) {
                     els.footerCourseTitle.textContent = title;
                     requestAnimationFrame(() => api.fitFooterCourseTitle?.());
