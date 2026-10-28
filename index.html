@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <!-- Slide Viewer Styling -->
-    <link rel="stylesheet" href="style.css?v=77">
+    <link rel="stylesheet" href="style.css?v=80">
     <!-- Highlight.js CSS for Code Blocks -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
 </head>
@@ -123,8 +123,9 @@
     <!-- Slide Drawer / Table of Contents -->
     <nav id="side-menu" class="side-menu" aria-label="Slide list">
         <div class="menu-header">
-            <h2>Course Slides</h2>
+            <h2>Slides</h2>
             <div class="menu-header-actions">
+                <button type="button" id="show-all-slides-btn" class="show-all-slides-btn" hidden title="Unhide all slides">Show all</button>
                 <button id="drawer-view-toggle" class="drawer-view-btn" aria-label="Show slide thumbnails" aria-pressed="false" title="Show thumbnails">
                     <svg class="icon-view-thumbs" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor">
                         <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
@@ -195,6 +196,6 @@
     <!-- html2pdf.js for Direct PDF File Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <!-- Slide Viewer App Logic -->
-    <script type="module" src="js/main.js?v=62"></script>
+    <script type="module" src="js/main.js?v=65"></script>
 </body>
 </html>

@@ -151,6 +151,40 @@ export function initCourse() {
         localStorage.setItem(key, JSON.stringify(state.slideAnnotations));
     }
 
+    function reloadHiddenSlidesForCourse() {
+        state.hiddenSlides = new Set();
+        const key = `slides-hidden-${state.courseUrl || 'default'}`;
+        const saved = localStorage.getItem(key);
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed)) {
+                    const max = state.slides.length;
+                    const valid = parsed
+                        .map((idx) => parseInt(idx, 10))
+                        .filter((idx) => Number.isInteger(idx) && idx >= 0 && idx < max);
+                    valid.forEach((idx) => state.hiddenSlides.add(idx));
+                    // Never allow all slides to be hidden simultaneously
+                    if (max > 0 && state.hiddenSlides.size >= max) {
+                        state.hiddenSlides.delete(0);
+                    }
+                }
+            } catch (_) {
+                state.hiddenSlides = new Set();
+            }
+        }
+    }
+
+    function saveHiddenSlidesToStorage() {
+        const key = `slides-hidden-${state.courseUrl || 'default'}`;
+        const list = Array.from(state.hiddenSlides).sort((a, b) => a - b);
+        if (list.length === 0) {
+            localStorage.removeItem(key);
+        } else {
+            localStorage.setItem(key, JSON.stringify(list));
+        }
+    }
+
     function updateChapterSelector() {
         if (!els.chapterSelect || !els.chapterSelectWrap) return;
         els.chapterSelect.innerHTML = '';
@@ -205,6 +239,9 @@ export function initCourse() {
             return;
         }
 
+        reloadAnnotationsForCourse();
+        reloadHiddenSlidesForCourse();
+
         // Point at the destination slide before any render. Applying the course
         // theme re-renders state.currentIndex immediately, and that index still
         // belongs to the previous chapter until we replace it.
@@ -232,14 +269,14 @@ export function initCourse() {
             requestAnimationFrame(() => api.fitFooterCourseTitle?.());
         }
 
-        reloadAnnotationsForCourse();
         api.buildSlideDrawer(customCourseTitle);
         updateChapterSelector();
         syncShareLinkButton();
         updateBrowserCourseQuery(state.currentShareUrl);
 
-        // Chapter switches start at slide 1; deep links / refresh still honor #slide-N.
-        api.goToSlide(state.currentIndex);
+        // Chapter switches start at slide 1 (or first visible slide); deep links / refresh still honor #slide-N.
+        const hasExplicitHash = respectHash && /^#(?:slide-)?\d+/i.test(window.location.hash || '');
+        api.goToSlide(state.currentIndex, { allowHiddenInWindowed: hasExplicitHash });
     }
 
     function resolveInitialSlideIndex(respectHash) {
@@ -1042,4 +1079,6 @@ export function initCourse() {
     api.applyCourseMarkdown = applyCourseMarkdown;
     api.saveAnnotationsToStorage = saveAnnotationsToStorage;
     api.reloadAnnotationsForCourse = reloadAnnotationsForCourse;
+    api.saveHiddenSlidesToStorage = saveHiddenSlidesToStorage;
+    api.reloadHiddenSlidesForCourse = reloadHiddenSlidesForCourse;
 }

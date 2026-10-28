@@ -2,7 +2,7 @@
    tokens, chrome, toolbox, slide layout, theme, shared slide skin, print.
    Theme pickers are built from the css/themes imports below. */
 @import url('css/tokens.css?v=2');
-@import url('css/chrome.css?v=64');
+@import url('css/chrome.css?v=67');
 @import url('css/toolbox.css?v=61');
 @import url('css/slide-layout.css?v=46');
 @import url('css/themes/roi-theme.css');
