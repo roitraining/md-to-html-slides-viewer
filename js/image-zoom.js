@@ -41,10 +41,10 @@ export function initImageZoom() {
     let generation = 0;
     let layoutFrame = 0;
 
-    function placeAtTopRight(btn, rect) {
-        let x = rect.right - BUTTON_INSET - BUTTON_PX;
+    function placeAtTopLeft(btn, rect) {
+        let x = rect.left + BUTTON_INSET;
         let y = rect.top + BUTTON_INSET;
-        if (x < rect.left) x = rect.left;
+        if (x + BUTTON_PX > rect.right) x = Math.max(rect.left, rect.right - BUTTON_PX);
         if (y + BUTTON_PX > rect.bottom) y = Math.max(rect.top, rect.bottom - BUTTON_PX);
         btn.hidden = false;
         btn.style.left = `${x}px`;
@@ -127,7 +127,7 @@ export function initImageZoom() {
                 restore.hidden = true;
                 return;
             }
-            placeAtTopRight(restore, frameRect);
+            placeAtTopLeft(restore, frameRect);
             return;
         }
 
@@ -150,7 +150,7 @@ export function initImageZoom() {
                 btn.hidden = true;
                 return;
             }
-            placeAtTopRight(btn, {
+            placeAtTopLeft(btn, {
                 left: overlapLeft,
                 top: overlapTop,
                 right: overlapRight,
