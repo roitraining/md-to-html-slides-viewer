@@ -191,6 +191,7 @@ export function initCourse() {
 
         if (!state.courseChapters || state.courseChapters.length <= 1) {
             els.chapterSelectWrap.hidden = true;
+            syncPhoneChapterButton();
             return;
         }
 
@@ -202,6 +203,79 @@ export function initCourse() {
             els.chapterSelect.appendChild(opt);
         });
         els.chapterSelectWrap.hidden = false;
+        syncPhoneChapterButton();
+    }
+
+    function syncPhoneChapterButton() {
+        const btn = document.getElementById('phone-chapter-btn');
+        if (!btn) return;
+        const chapters = state.courseChapters || [];
+        btn.hidden = chapters.length <= 1;
+        if (btn.hidden) closePhoneChapterPicker();
+    }
+
+    function closePhoneChapterPicker() {
+        const picker = document.getElementById('phone-chapter-picker');
+        const btn = document.getElementById('phone-chapter-btn');
+        if (picker) {
+            picker.hidden = true;
+            picker.replaceChildren();
+        }
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+
+    function openPhoneChapterPicker() {
+        const btn = document.getElementById('phone-chapter-btn');
+        const picker = document.getElementById('phone-chapter-picker');
+        const chapters = state.courseChapters || [];
+        if (!btn || !picker || chapters.length <= 1) return;
+
+        picker.replaceChildren();
+        chapters.forEach((ch) => {
+            const item = document.createElement('button');
+            item.type = 'button';
+            item.className = 'phone-chapter-option';
+            item.setAttribute('role', 'option');
+            item.textContent = ch.label;
+            if (ch.id === state.currentChapterId) item.setAttribute('aria-current', 'true');
+            item.addEventListener('click', () => {
+                closePhoneChapterPicker();
+                if (!els.chapterSelect || ch.id === state.currentChapterId) return;
+                els.chapterSelect.value = ch.id;
+                els.chapterSelect.dispatchEvent(new Event('change'));
+            });
+            picker.appendChild(item);
+        });
+
+        const rect = btn.getBoundingClientRect();
+        const margin = 8;
+        picker.hidden = false;
+        picker.style.left = `${Math.max(margin, Math.min(rect.left, window.innerWidth - 280 - margin))}px`;
+        picker.style.bottom = `${Math.max(margin, window.innerHeight - rect.top + margin)}px`;
+        btn.setAttribute('aria-expanded', 'true');
+    }
+
+    function initPhoneChapterPicker() {
+        const btn = document.getElementById('phone-chapter-btn');
+        const picker = document.getElementById('phone-chapter-picker');
+        if (!btn || !picker) return;
+
+        btn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            if (picker.hidden) openPhoneChapterPicker();
+            else closePhoneChapterPicker();
+        });
+
+        document.addEventListener('pointerdown', (event) => {
+            if (picker.hidden) return;
+            const target = event.target;
+            if (target instanceof Node && (picker.contains(target) || btn.contains(target))) return;
+            closePhoneChapterPicker();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closePhoneChapterPicker();
+        });
     }
 
     function applyCourseMarkdown(markdownText, options = {}) {
@@ -1072,6 +1146,8 @@ export function initCourse() {
             </div>`;
         }
     }
+
+    initPhoneChapterPicker();
 
     api.openOpenModal = openOpenModal;
     api.closeOpenModal = closeOpenModal;

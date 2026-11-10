@@ -118,6 +118,11 @@ function initPhoneSwipe() {
             tracking = false;
             return;
         }
+        const chapterPicker = document.getElementById('phone-chapter-picker');
+        if (chapterPicker && !chapterPicker.hidden) {
+            tracking = false;
+            return;
+        }
         const menu = document.getElementById('side-menu');
         if (menu && menu.classList.contains('open')) {
             tracking = false;
