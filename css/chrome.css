@@ -1180,49 +1180,23 @@ body:has(#flipchart-sheet:not([hidden])) .image-zoom-controls {
     max-height: none;
 }
 
-/* Phone reading: slide list and chapter menu only. iPad portrait is 768px, so it stays on the full toolbar. */
-@media (max-width: 700px) {
-    body {
-        height: 100dvh;
-    }
+/* Phone reading. Class is set from the user agent, so landscape width does not bring the toolbar back. iPad is not a phone. */
+html.is-phone body {
+    height: 100dvh;
+}
 
-    .toolbar-title,
-    .toolbar-controls {
-        display: none !important;
-    }
+html.is-phone .toolbar,
+html.is-phone .progress-bar-container {
+    display: none !important;
+}
 
-    .toolbar {
-        height: auto;
-        justify-content: flex-start;
-        gap: 8px;
-        padding: 8px 12px;
-        padding-top: max(8px, env(safe-area-inset-top));
-        padding-left: max(8px, env(safe-area-inset-left));
-        padding-right: max(8px, env(safe-area-inset-right));
-    }
+html.is-phone .presentation-stage {
+    padding: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
 
-    .toolbar-title-group {
-        flex: 1 1 auto;
-    }
-
-    .chapter-select-wrap {
-        flex: 1 1 auto;
-        max-width: none;
-    }
-
-    .presentation-stage {
-        padding: 6px 8px;
-        padding-bottom: max(6px, env(safe-area-inset-bottom));
-        padding-left: max(8px, env(safe-area-inset-left));
-        padding-right: max(8px, env(safe-area-inset-right));
-    }
-
-    /* A pinned drawer would cover most of a phone. Keep the list as an overlay. */
-    body.drawer-pinned {
-        padding-left: 0;
-    }
-
-    .pin-btn {
-        display: none !important;
-    }
+html.is-phone body.drawer-pinned {
+    padding-left: 0;
 }

@@ -108,7 +108,7 @@ body.is-fullscreen .annotation-dock {
 }
 
 /* Phones and tablets never hover, so the dock has to stay tappable. */
-@media (hover: none) and (min-width: 701px) {
+@media (hover: none) {
     .annotation-dock {
         opacity: 1;
     }
@@ -124,10 +124,8 @@ body.is-fullscreen .annotation-dock {
     }
 }
 
-@media (max-width: 700px) {
-    .annotation-dock {
-        display: none !important;
-    }
+html.is-phone .annotation-dock {
+    display: none !important;
 }
 
 .dock-nav {

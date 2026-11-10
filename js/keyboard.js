@@ -78,6 +78,7 @@ export function initKeyboard() {
     });
 
     initPhoneSwipe();
+    initPhoneFullscreen();
 
     window.addEventListener('popstate', () => {
         const hash = window.location.hash;
@@ -142,4 +143,18 @@ function initPhoneSwipe() {
     stage.addEventListener('touchcancel', () => {
         tracking = false;
     }, { passive: true });
+}
+
+function initPhoneFullscreen() {
+    if (!document.documentElement.classList.contains('is-phone')) return;
+
+    const enter = () => {
+        if (document.fullscreenElement || document.webkitFullscreenElement) return;
+        const root = document.documentElement;
+        const request = root.requestFullscreen || root.webkitRequestFullscreen;
+        if (!request) return;
+        Promise.resolve(request.call(root)).catch(() => {});
+    };
+
+    document.addEventListener('touchend', enter, { capture: true });
 }
