@@ -18,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Roboto:wght@400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <!-- Slide Viewer Styling -->
-    <link rel="stylesheet" href="style.css?v=82">
+    <link rel="stylesheet" href="style.css?v=83">
     <!-- Highlight.js CSS for Code Blocks -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
 </head>
@@ -30,7 +30,13 @@
 
     <!-- Header Toolbar (Hidden in Fullscreen Mode) -->
     <header class="toolbar">
-        <button id="menu-toggle" class="hamburger" aria-label="Open Slide List" title="Slide Drawer (☰)">&#9776;</button>
+        <button id="menu-toggle" class="hamburger" aria-label="Open Slide List" title="Slide list">
+            <span class="hamburger-bars" aria-hidden="true">&#9776;</span>
+            <svg class="tray-expander" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <rect x="3" y="4" width="7" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M14.5 7.5 19 12l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
         <div class="toolbar-title-group">
             <div id="course-title" class="toolbar-title">ROI Training Presentation</div>
             <label class="chapter-select-wrap" id="chapter-select-wrap" hidden>

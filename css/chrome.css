@@ -70,6 +70,13 @@ body.is-fullscreen .progress-bar-container {
     padding: 6px 10px;
     border-radius: 6px;
     transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tray-expander {
+    display: none;
 }
 
 .hamburger:hover {
@@ -1185,16 +1192,58 @@ html.is-phone body {
     height: 100dvh;
 }
 
-html.is-phone .toolbar,
+html.is-phone .toolbar-title,
+html.is-phone .toolbar-controls,
 html.is-phone .progress-bar-container {
     display: none !important;
 }
 
+html.is-phone .hamburger-bars {
+    display: none;
+}
+
+html.is-phone .tray-expander {
+    display: block;
+}
+
+html.is-phone .toolbar,
+html.is-phone:fullscreen .toolbar,
+html.is-phone body.is-fullscreen .toolbar {
+    display: flex !important;
+    height: auto;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
+}
+
+html.is-phone .toolbar-title-group {
+    flex: 1 1 auto;
+}
+
+html.is-phone .chapter-select-wrap {
+    flex: 1 1 auto;
+    max-width: none;
+}
+
+html.is-phone .chapter-select {
+    width: 100%;
+    min-height: 36px;
+    font-size: 16px;
+}
+
+html.is-phone:fullscreen .side-menu,
+html.is-phone body.is-fullscreen .side-menu {
+    display: flex !important;
+}
+
 html.is-phone .presentation-stage {
-    padding: 0;
+    padding: 8px 8px 0;
     padding-bottom: env(safe-area-inset-bottom);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
 }
 
 html.is-phone body.drawer-pinned {
