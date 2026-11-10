@@ -7,7 +7,7 @@ import { initImageZoom } from './image-zoom.js?v=6';
 import { initAnnotations } from './annotations.js?v=52';
 import { initPrint } from './print.js?v=52';
 import { initCourse } from './course.js?v=6';
-import { initKeyboard } from './keyboard.js?v=4';
+import { initKeyboard } from './keyboard.js?v=5';
 
 function showStartError(err) {
     console.error(err);

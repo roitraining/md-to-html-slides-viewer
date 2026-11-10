@@ -77,6 +77,8 @@ export function initKeyboard() {
         }
     });
 
+    initPhoneSwipe();
+
     window.addEventListener('popstate', () => {
         const hash = window.location.hash;
         if (hash) {
@@ -89,4 +91,55 @@ export function initKeyboard() {
             }
         }
     });
+}
+
+const SWIPE_MIN_PX = 40;
+
+function initPhoneSwipe() {
+    const stage = document.getElementById('presentation-stage');
+    if (!stage) return;
+
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+
+    stage.addEventListener('touchstart', (event) => {
+        if (event.touches.length !== 1) {
+            tracking = false;
+            return;
+        }
+        const target = event.target;
+        if (target && target.closest && target.closest('button, a, input, select, textarea')) {
+            tracking = false;
+            return;
+        }
+        if (state.openModalOpen) {
+            tracking = false;
+            return;
+        }
+        const menu = document.getElementById('side-menu');
+        if (menu && menu.classList.contains('open')) {
+            tracking = false;
+            return;
+        }
+        startX = event.touches[0].clientX;
+        startY = event.touches[0].clientY;
+        tracking = true;
+    }, { passive: true });
+
+    stage.addEventListener('touchend', (event) => {
+        if (!tracking) return;
+        tracking = false;
+        const touch = event.changedTouches[0];
+        if (!touch) return;
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
+        if (Math.abs(dx) < SWIPE_MIN_PX || Math.abs(dx) <= Math.abs(dy)) return;
+        if (dx < 0) api.nextSlide?.();
+        else api.prevSlide?.();
+    }, { passive: true });
+
+    stage.addEventListener('touchcancel', () => {
+        tracking = false;
+    }, { passive: true });
 }
