@@ -592,7 +592,7 @@ body.is-fullscreen .slide-card {
 }
 
 .footer-course {
-    flex: 1.2;
+    flex: 1 1 auto;
     min-width: 0; /* allow flex item to shrink so fit-to-box can measure */
     padding: 0 16px;
     /* Grid so text wraps and stays centered (flex + raw text does not wrap well) */
@@ -605,7 +605,7 @@ body.is-fullscreen .slide-card {
 }
 
 .footer-copyright {
-    flex: 2.2;
+    flex: 0 0 436px;
     padding: 0 12px;
     justify-content: center;
     text-align: center;
@@ -613,7 +613,7 @@ body.is-fullscreen .slide-card {
 }
 
 .footer-logo {
-    flex: 1.4;
+    flex: 0 0 196px;
     justify-content: center;
     gap: 8px;
     padding: 0 12px;
@@ -649,13 +649,13 @@ html[data-theme] .layout-title.logo-on-dark .footer-logo .roi-logo-white {
 }
 
 .footer-number {
-    min-width: 80px;
-    width: auto;
+    /* Fixed box. A content-sized badge changed width with the digits and
+       wrapped the course title. 112px fits "100 of 100" at the footer size. */
+    flex: 0 0 112px;
+    width: 112px;
+    min-width: 112px;
     padding: 0 12px;
-    flex-shrink: 0;
     justify-content: center;
     white-space: nowrap;
-    /* Equal digit widths so "18 of 60" and "20 of 60" take the same box.
-       A proportional "1" was narrowing this cell and wrapping the course title. */
     font-variant-numeric: tabular-nums;
 }
