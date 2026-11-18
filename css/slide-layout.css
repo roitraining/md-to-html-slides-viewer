@@ -655,4 +655,7 @@ html[data-theme] .layout-title.logo-on-dark .footer-logo .roi-logo-white {
     flex-shrink: 0;
     justify-content: center;
     white-space: nowrap;
+    /* Equal digit widths so "18 of 60" and "20 of 60" take the same box.
+       A proportional "1" was narrowing this cell and wrapping the course title. */
+    font-variant-numeric: tabular-nums;
 }
