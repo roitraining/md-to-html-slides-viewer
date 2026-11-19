@@ -124,6 +124,10 @@ body.is-fullscreen .annotation-dock {
     }
 }
 
+html.is-phone .annotation-dock {
+    display: none !important;
+}
+
 .dock-nav {
     display: flex;
     flex-direction: column;
